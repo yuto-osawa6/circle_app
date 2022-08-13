@@ -1,55 +1,58 @@
 
+
+import 'package:circle_app/ui/common/footer/footer.dart';
+import 'package:circle_app/ui/page/calendar/calendar.dart';
+import 'package:circle_app/ui/page/groupfrends/groupfrends.dart';
+import 'package:circle_app/ui/page/home/home.dart';
+import 'package:circle_app/ui/page/talk/talk.dart';
+import 'package:circle_app/ui/page/timeline/timeline.dart';
+import 'package:circle_app/view_model/navigate_view_model.dart';
 import 'package:flutter/material.dart';
-// import 'package:english_words/english_words.dart';
-// import 'package:flutter/material.dart';
-// import 'package:yochan/TestPage1.dart';
-// import 'package:yochan/TestPage2.dart';
-// import 'package:yochan/TestPage3.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void main(){
-  runApp(MyWidget());
-}
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext){
-//     return MaterialApp(
-//       title: "",
-//       theme: ThemeData(
-//         primaryColor:Colors.blue
-//       ),
-//       home:  MyHomePage(title:"Flutter"),
-//     );
-//   }
-// }
-
-class MyWidget extends StatelessWidget {
+class MainPage extends HookConsumerWidget {
+  MainPage({Key? key}) : super(key: key);
+  final _pages = <Widget>[
+    Home(),
+    GroupFrends(),
+    Talk(),
+    TimeLine(),
+    Calendar(),
+  ];
   @override
-  Widget build(BuildContext context) {
-  return MaterialApp(
-      title: "",
-      theme: ThemeData(
-        primaryColor:Colors.blue
-      ),
-      home:  MyHomePage(title:"FlutterApp"),
-    );
-  }
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+  //   final clicks = useState(0);
+  //   void _onTapItem(int index) {
+  //     clicks.value = index;
+  // }
+  // riverpodに変更
+  // state（状態）
+    final _NavigateActionState = ref.watch(NavigateActionProvider);
+    // provider（状態の操作）
+    final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-  @override
-  State<MyHomePage> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
+    //  final counter = useState(0);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // appBar: Header(),
+      body: _pages[_NavigateActionState.page],
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       Text(
+      //         AppLocalizations.of(context)!.hello("kazutxt"),
+      //       ),
+      //       Text(
+      //         AppLocalizations.of(context)!.allow,
+      //       ),
+      //       Text(
+      //         AppLocalizations.of(context)!.deny,
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      bottomNavigationBar: Footer(),
     );
   }
 }
