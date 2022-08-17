@@ -1,18 +1,14 @@
 {
-  "@@locale":"en",
+  "@@locale": "en",
   "hello": "Hello {name}",
-  "@hello": {
-      "description": "welcome message",
-      "placeholders":{
-      "name":{
-        "description" : "username",
-        "example" : "kazutxt"
-      }
-    }
-  },
   "login": "Login",
   "info": "Info",
   "allow": "ALLOW!",
   "deny": "DENY!",
-  "deny2": "DENY!2"
+  "deny2": "DENY!23",
+
+  "appName": "Circle",
+
+  "email": "Email",
+  "password": "Password"
 }

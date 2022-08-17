@@ -1,8 +1,15 @@
 
 {
   "@@locale": "ja",
-  "hello": "ようこそ {name}",
-  "login": "ログイン",
-  "info": "情報",
-  "allow": "許可"
+  "hello": "Hello {name}",
+  "login": "Login",
+  "info": "Info",
+  "allow": "ALLOW!",
+  "deny": "DENY!",
+  "deny2": "DENY!23",
+
+  "appName": "Circle",
+
+  "email": "メールアドレス",
+  "password": "パスワード"
 }

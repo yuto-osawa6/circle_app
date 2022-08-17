@@ -39,11 +39,11 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // Text(
+            //   // AppLocalizations.of(context)!.auth.hashCode
+            // ),
             Text(
-              AppLocalizations.of(context)!.hello("kazutxt"),
-            ),
-            Text(
-              AppLocalizations.of(context)!.allow,
+              AppLocalizations.of(context)!.deny,
             ),
             Text(
               AppLocalizations.of(context)!.deny,
