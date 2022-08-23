@@ -12,12 +12,15 @@
 //     );
 //   }
 // }
+// import 'dart:html';
+
 import 'package:circle_app/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -38,6 +41,8 @@ class _MyAuthPageState extends State<MyAuthPage> {
   String loginUserPassword = "";
   // 登録・ログインに関する情報を表示
   String infoText = "";
+  // open password
+  bool openEye = false;
 
   @override
   Widget build(BuildContext context) {
@@ -151,71 +156,181 @@ class SignInPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref){
     // 入力されたメールアドレス
-  final newUserEmail = useState("");
-  // 入力されたパスワード
-  final newUserPassword = useState("");
-  // 入力されたメールアドレス（ログイン）
-  final loginUserEmail = useState("");
-  // 入力されたパスワード（ログイン）
-  final loginUserPassword = useState("");
-  // 登録・ログインに関する情報を表示
-  final infoText = useState("");
+    final newUserEmail = useState("");
+    // 入力されたパスワード
+    final newUserPassword = useState("");
+    // 入力されたメールアドレス（ログイン）
+    final loginUserEmail = useState("");
+    // 入力されたパスワード（ログイン）
+    final loginUserPassword = useState("");
+    // 登録・ログインに関する情報を表示
+    final infoText = useState("");
+    // open password
+    final openEye = useState<bool>(true);
 
-  void changeEmailText(String value){
-    newUserPassword.value = value;
-  }
-  void changePasswordText(String value){
-    newUserEmail.value = value;
-  }
+    void changeEmailText(String value){
+      newUserPassword.value = value;
+    }
+    void changePasswordText(String value){
+      newUserEmail.value = value;
+    }
+    void clickOpenEye (){
+      // print(openEye);
+      openEye == true? openEye.value = false : openEye.value =true;
+      newUserEmail.value = "aaa";
+      // openEye.value = value;
+    }
+    // print(openEye);a
+    print(newUserEmail);
+    print(newUserPassword);
+    // print(newUserPassword.value);
+    // print(AppLocalizations.of(context));
     return Scaffold(
       backgroundColor:Colors.grey[200],
       body: Center(
-        child: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
           // color: Colors.blue,
           // padding: const EdgeInsets.all(0.200),
           // backgroundColor:,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height:100),
+              // SizedBox(height:100),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.center,
                 child:Text(
+                  // "aa",
                 AppLocalizations.of(context)!.appName,
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-                textAlign: TextAlign.left
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30),
+                // textAlign: TextAlign.left
                 )
               ),
+              SizedBox(height:50),
               // メールアドレス入力
-              TextFormField(
-                // padding: const EdgeInsets.all(50.50),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText:  AppLocalizations.of(context)!.email,
-                  suffixIcon: Icon(Icons.ac_unit, color: Colors.amber,),
-                  // enabledBorder: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(30),
-                  //   borderSide: BorderSide(
-                  //   color: Colors.amber,
-                  //   )
-                  // ),
-                  // labelText: 'メールアドレス',
-                  // focusedBorder: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(30),
-                  //   borderSide: BorderSide(
-                  //   color: Colors.black12,
-                  //   )
-                  // ),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 25.0),
+                child:Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(50, 0, 0, 0), //色
+                        spreadRadius: 1, 
+                        blurRadius: 10, 
+                        offset: Offset(5, 10),
+                      ),
+                    ],
+                  ),
+                  // color: Colors.red[200],
+                  child:Padding(
+                    padding:const EdgeInsets.symmetric(horizontal: 0.0),
+                    child:TextFormField(
+                      decoration: InputDecoration(
+                        // text:"aaa";
+                        border: InputBorder.none,
+                        hintText:  AppLocalizations.of(context)!.email,
+                        prefixIcon: Icon(Icons.email, color: Colors.amber,),
+                      ),
+                      onChanged: (String value) {
+                        changeEmailText(value);
+                      },
+                    ),
+                  )
                 ),
-                onChanged: (String value) {
-                  changeEmailText(value);
-                },
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText:  AppLocalizations.of(context)!.password),
-                obscureText: true,
-                onChanged: (String value) {
-                  changePasswordText(value);
-                },
+              SizedBox(height:25),
+              Container(
+                padding:const EdgeInsets.symmetric(horizontal: 25.0),
+                child:Container(
+                  // padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(50, 0, 0, 0), //色
+                        spreadRadius: 1, 
+                        blurRadius: 10, 
+                        offset: Offset(5, 10),
+                      ),
+                    ],
+                  ),
+                  // color: Colors.red[200],
+                  child:Padding(
+                    padding:const EdgeInsets.symmetric(horizontal: 0.0),
+                    child:TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText:  AppLocalizations.of(context)!.password,
+                        prefixIcon: Icon(Icons.key, color: Colors.amber,),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            openEye==true?Icons.visibility:Icons.visibility_off,
+                            color: Colors.grey
+                          ),
+                          onPressed:(){
+                            clickOpenEye();
+                          }
+                        ),
+                        // onPressed: () {},
+                      ),
+                      onChanged: (String value) {
+                        changePasswordText(value);
+                      },
+                    ),
+                  )
+                ),
+              ),
+              SizedBox(height:25),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child:Container(
+                  padding: EdgeInsets.all(15),
+                  // color: Colors.red,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(50, 0, 0, 0), //色
+                        spreadRadius: 1, 
+                        blurRadius: 10, 
+                        offset: Offset(5, 10),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.signUp,
+                      style: TextStyle(color: Colors.amber),
+                    ),
+                  ),
+                )
+              ),
+              SizedBox(height:50),
+              Container(
+                child:Text(
+                  textAlign:TextAlign.center,
+                  style:TextStyle(fontSize: 20),
+                  AppLocalizations.of(context)!.or,
+                )
+              ),
+              SizedBox(height:50),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // alignment: WrapAlignment.spaceAround,
+                  children:<Widget>[
+                    Icon(FontAwesomeIcons.google),
+                    Icon(FontAwesomeIcons.twitter),
+                    Icon(FontAwesomeIcons.facebook),
+                    Icon(FontAwesomeIcons.apple),
+                  ],
+                ),
               ),
             ]
           )

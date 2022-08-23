@@ -11,5 +11,9 @@
   "appName": "Circle",
 
   "email": "メールアドレス",
-  "password": "パスワード"
+  "password": "パスワード",
+  "or" : "or",
+  "login" : "Login",
+  "signUp": "Sign up",
+  "signIn": "Sign in"
 }

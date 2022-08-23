@@ -1,7 +1,6 @@
 {
   "@@locale": "en",
   "hello": "Hello {name}",
-  "login": "Login",
   "info": "Info",
   "allow": "ALLOW!",
   "deny": "DENY!",
@@ -10,5 +9,9 @@
   "appName": "Circle",
 
   "email": "Email",
-  "password": "Password"
+  "password": "Password",
+  "or" : "or",
+  "login" : "Login",
+  "signUp": "Sign up",
+  "signIn": "Sign in"
 }
