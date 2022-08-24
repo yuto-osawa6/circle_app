@@ -15,6 +15,7 @@
 // import 'dart:html';
 
 import 'package:circle_app/firebase_options.dart';
+import 'package:circle_app/service/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -166,23 +167,62 @@ class SignInPage extends HookConsumerWidget {
     // 登録・ログインに関する情報を表示
     final infoText = useState("");
     // open password
-    final openEye = useState<bool>(true);
+    final openEye = useState<bool>(false);
 
     void changeEmailText(String value){
-      newUserPassword.value = value;
-    }
-    void changePasswordText(String value){
       newUserEmail.value = value;
     }
-    void clickOpenEye (){
-      // print(openEye);
-      openEye == true? openEye.value = false : openEye.value =true;
-      newUserEmail.value = "aaa";
-      // openEye.value = value;
+    void changePasswordText(String value){
+      newUserPassword.value = value;
     }
-    // print(openEye);a
-    print(newUserEmail);
-    print(newUserPassword);
+    void clickOpenEye (){
+      openEye.value == true?openEye.value = false:openEye.value =true;
+      newUserEmail.value = "aaa";
+    }
+    void handleSignUp ()async {
+      print("aaa");
+      print(newUserEmail.value);
+      print(newUserPassword.value);
+      try
+        {
+          // メール/パスワードでログイン
+          final FirebaseAuth auth = FirebaseAuth.instance;
+          final UserCredential result =
+              // await auth.signInWithEmailAndPassword(
+              await auth.createUserWithEmailAndPassword(
+            email: newUserEmail.value,
+            password: newUserPassword.value,
+          );
+          // print(result.user!.getIdToken());
+          // auth.signOut();
+          String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+          print(idToken);
+          // final result = await ApiClientCreateUser.fetchApiCreateUser();
+
+          // final apiClient = ApiClientCreateUser();
+          // print(await apiClient.fetchApiCreateUser(idToken));
+
+          // dynamic fetchUsers() async {
+          //   return await apiClient.fetchApiCreateUser();
+          // }
+          // ログインに成功した場合
+          // final User user = result.user!;
+          // setState(() {
+          //   infoText = "ログインOK：${user.email}";
+          // });
+          print("aaa3");
+        } catch (e) {
+          print(e);
+          print("aaa2");
+          // ログインに失敗した場合
+          // setState(() {
+          //   infoText = "ログインNG：${e.toString()}";
+          // });
+        }
+    };
+    // print(openEye);
+    // print(newUserEmail);
+    // print(newUserPassword);
     // print(newUserPassword.value);
     // print(AppLocalizations.of(context));
     return Scaffold(
@@ -190,20 +230,14 @@ class SignInPage extends HookConsumerWidget {
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(20.0),
-          // color: Colors.blue,
-          // padding: const EdgeInsets.all(0.200),
-          // backgroundColor:,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // SizedBox(height:100),
               Align(
                 alignment: Alignment.center,
                 child:Text(
-                  // "aa",
                 AppLocalizations.of(context)!.appName,
                 style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30),
-                // textAlign: TextAlign.left
                 )
               ),
               SizedBox(height:50),
@@ -223,12 +257,10 @@ class SignInPage extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  // color: Colors.red[200],
                   child:Padding(
                     padding:const EdgeInsets.symmetric(horizontal: 0.0),
                     child:TextFormField(
                       decoration: InputDecoration(
-                        // text:"aaa";
                         border: InputBorder.none,
                         hintText:  AppLocalizations.of(context)!.email,
                         prefixIcon: Icon(Icons.email, color: Colors.amber,),
@@ -244,7 +276,6 @@ class SignInPage extends HookConsumerWidget {
               Container(
                 padding:const EdgeInsets.symmetric(horizontal: 25.0),
                 child:Container(
-                  // padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -257,25 +288,23 @@ class SignInPage extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  // color: Colors.red[200],
                   child:Padding(
                     padding:const EdgeInsets.symmetric(horizontal: 0.0),
                     child:TextFormField(
-                      obscureText: true,
+                      obscureText: openEye.value?false:true,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText:  AppLocalizations.of(context)!.password,
                         prefixIcon: Icon(Icons.key, color: Colors.amber,),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            openEye==true?Icons.visibility:Icons.visibility_off,
+                            openEye.value==true?Icons.visibility:Icons.visibility_off,
                             color: Colors.grey
                           ),
                           onPressed:(){
                             clickOpenEye();
                           }
                         ),
-                        // onPressed: () {},
                       ),
                       onChanged: (String value) {
                         changePasswordText(value);
@@ -285,30 +314,34 @@ class SignInPage extends HookConsumerWidget {
                 ),
               ),
               SizedBox(height:25),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child:Container(
-                  padding: EdgeInsets.all(15),
-                  // color: Colors.red,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(50, 0, 0, 0), //色
-                        spreadRadius: 1, 
-                        blurRadius: 10, 
-                        offset: Offset(5, 10),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.signUp,
-                      style: TextStyle(color: Colors.amber),
+              GestureDetector(
+                onTap: (){
+                    handleSignUp();
+                  },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child:Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(50, 0, 0, 0), //色
+                          spreadRadius: 1, 
+                          blurRadius: 10, 
+                          offset: Offset(5, 10),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child:Text(
+                        AppLocalizations.of(context)!.signUp,
+                        style: TextStyle(color: Colors.amber),
+                      )
                     ),
                   ),
-                )
+                ),
               ),
               SizedBox(height:50),
               Container(
@@ -323,22 +356,77 @@ class SignInPage extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  // alignment: WrapAlignment.spaceAround,
                   children:<Widget>[
-                    Icon(FontAwesomeIcons.google),
-                    Icon(FontAwesomeIcons.twitter),
-                    Icon(FontAwesomeIcons.facebook),
-                    Icon(FontAwesomeIcons.apple),
+                    Container(
+                      padding:const EdgeInsets.all(10.10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(50, 0, 0, 0), //色
+                            spreadRadius: 1, 
+                            blurRadius: 10, 
+                            offset: Offset(5, 10),
+                          ),
+                        ],
+                      ),
+                      child: Icon(FontAwesomeIcons.google),
+                    ),
+                    Container(
+                      padding:const EdgeInsets.all(10.10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(50, 0, 0, 0), //色
+                            spreadRadius: 1, 
+                            blurRadius: 10, 
+                            offset: Offset(5, 10),
+                          ),
+                        ],
+                      ),
+                      child: Icon(FontAwesomeIcons.twitter),
+                    ),
+                    Container(
+                      padding:const EdgeInsets.all(10.10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(50, 0, 0, 0), //色
+                            spreadRadius: 1, 
+                            blurRadius: 10, 
+                            offset: Offset(5, 10),
+                          ),
+                        ],
+                      ),
+                      child: Icon(FontAwesomeIcons.facebook),
+                    ),
+                    Container(
+                      padding:const EdgeInsets.all(10.10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(50, 0, 0, 0), //色
+                            spreadRadius: 1, 
+                            blurRadius: 10, 
+                            offset: Offset(5, 10),
+                          ),
+                        ],
+                      ),
+                      child: Icon(FontAwesomeIcons.apple),
+                    ),
                   ],
                 ),
               ),
             ]
           )
-          // child: Container(
-          //   color: Color.fromARGB(255, 21, 64, 99),
-          //   width: 10.0,
-          //   height: 10.0,
-          // )
+
         ),
       ),
     );
