@@ -45,8 +45,8 @@ class SignInPage extends HookConsumerWidget {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
           final UserCredential result =
-              // await auth.signInWithEmailAndPassword(
-              await auth.createUserWithEmailAndPassword(
+              await auth.signInWithEmailAndPassword(
+              // await auth.createUserWithEmailAndPassword(
             email: newUserEmail.value,
             password: newUserPassword.value,
           );
@@ -54,6 +54,16 @@ class SignInPage extends HookConsumerWidget {
           // auth.signOut();
           String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           print(idToken);
+          print("aaab");
+          print(result.user!.emailVerified);
+          print("bbbb");
+
+          result.user!.sendEmailVerification();
+          // if(result.user!.emailVerified){
+
+          // }else{
+
+          // }
           // final result = await ApiClientCreateUser.fetchApiCreateUser();
 
           // final apiClient = ApiClientCreateUser();

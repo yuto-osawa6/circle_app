@@ -12,7 +12,7 @@
 
   "email": "メールアドレス",
   "password": "パスワード",
-  "or" : "or",
+  "or" : "または",
   "login" : "Login",
   "signUp": "Sign up",
   "signIn": "Sign in"
