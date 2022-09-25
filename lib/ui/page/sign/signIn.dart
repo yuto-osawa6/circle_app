@@ -59,6 +59,7 @@ class SignInPage extends HookConsumerWidget {
           print("bbbb");
 
           result.user!.sendEmailVerification();
+          // result.user.email
           // if(result.user!.emailVerified){
 
           // }else{
