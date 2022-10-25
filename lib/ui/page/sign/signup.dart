@@ -10,7 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
-class SignInPage extends HookConsumerWidget {
+class SignUpPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref){
     // 入力されたメールアドレス
@@ -45,22 +45,20 @@ class SignInPage extends HookConsumerWidget {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
           final UserCredential result =
-              await auth.signInWithEmailAndPassword(
-              // await auth.createUserWithEmailAndPassword(
+              await auth.createUserWithEmailAndPassword(
             email: newUserEmail.value,
             password: newUserPassword.value,
           );
-          // print(result.user!.getIdToken());
-          // auth.signOut();
           String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           print(idToken);
           print("aaab");
           print(result.user!.emailVerified);
           print("bbbb");
           if(result.user!.emailVerified){
-
+            print("bbbb2");
           }else{
-            
+            print("bbbb5");
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
           }
           // final result = await ApiClientCreateUser.fetchApiCreateUser();
 

@@ -63,6 +63,7 @@ class CircleWidget extends StatelessWidget {
         primaryColor:Colors.blue
       ),
       // home:  HomePage(title:"FlutterApp2"),
+      
       home:  MainPage(),
       // locale: Locale('en')
     );
