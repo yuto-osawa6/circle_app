@@ -1,5 +1,9 @@
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/service/user_service.dart';
+import 'package:circle_app/utils/method/errorHandleSnack.dart';
+import 'package:circle_app/utils/method/getLanguage.dart';
+import 'package:circle_app/utils/method/judgeLocate.dart';
+import 'package:circle_app/view_model/signup/signup_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,81 +17,105 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref){
-    // 入力されたメールアドレス
-    final newUserEmail = useState("");
-    // 入力されたパスワード
-    final newUserPassword = useState("");
-    // 入力されたメールアドレス（ログイン）
-    final loginUserEmail = useState("");
-    // 入力されたパスワード（ログイン）
-    final loginUserPassword = useState("");
-    // 登録・ログインに関する情報を表示
-    final infoText = useState("");
-    // open password
-    final openEye = useState<bool>(false);
+    // // 入力されたメールアドレス
+    // final newUserEmail = useState("");
+    // // 入力されたパスワード
+    // final newUserPassword = useState("");
+    // // 入力されたメールアドレス（ログイン）
+    // final loginUserEmail = useState("");
+    // // 入力されたパスワード（ログイン）
+    // final loginUserPassword = useState("");
+    // // 登録・ログインに関する情報を表示
+    // final infoText = useState("");
+    // // open password
+    // final openEye = useState<bool>(false);
 
-    void changeEmailText(String value){
-      newUserEmail.value = value;
-    }
-    void changePasswordText(String value){
-      newUserPassword.value = value;
-    }
-    void clickOpenEye (){
-      openEye.value == true?openEye.value = false:openEye.value =true;
-      newUserEmail.value = "aaa";
-    }
-    void handleSignUp ()async {
-      print("aaa");
-      print(newUserEmail.value);
-      print(newUserPassword.value);
-      try
-        {
-          // メール/パスワードでログイン
-          final FirebaseAuth auth = FirebaseAuth.instance;
-          final UserCredential result =
-              await auth.createUserWithEmailAndPassword(
-            email: newUserEmail.value,
-            password: newUserPassword.value,
-          );
-          String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-          print(idToken);
-          print("aaab");
-          print(result.user!.emailVerified);
-          print("bbbb");
-          if(result.user!.emailVerified){
-            print("bbbb2");
-          }else{
-            print("bbbb5");
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
-          }
-          // final result = await ApiClientCreateUser.fetchApiCreateUser();
+    // void changeEmailText(String value){
+    //   newUserEmail.value = value;
+    // }
+    // void changePasswordText(String value){
+    //   newUserPassword.value = value;
+    // }
+    // void clickOpenEye (){
+    //   openEye.value == true?openEye.value = false:openEye.value =true;
+    //   newUserEmail.value = "aaa";
+    // }
+    // void errorHandle (String text){
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    // }
+    // void handleSignUp ()async {
+    //   print("aaa");
+    //   print(newUserEmail.value);
+    //   print(newUserPassword.value);
+    //   try
+    //     {
+    //       // メール/パスワードでログイン
+    //       final FirebaseAuth auth = FirebaseAuth.instance;
+    //       final UserCredential result =
+    //           await auth.createUserWithEmailAndPassword(
+    //         email: newUserEmail.value,
+    //         password: newUserPassword.value,
+    //       );
+    //       String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    //       print(idToken);
+    //       print("aaab");
+    //       print(result.user!.emailVerified);
+    //       print("bbbb");
+    //       if(result.user!.emailVerified){
+    //         print("bbbb2");
+    //       }else{
+    //         print("bbbb5");
+    //         errorHandleSnack(context,"mailアドレスを認証してください。");
+    //         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
+    //       }
+    //       // final result = await ApiClientCreateUser.fetchApiCreateUser();
 
-          // final apiClient = ApiClientCreateUser();
-          // print(await apiClient.fetchApiCreateUser(idToken));
+    //       // final apiClient = ApiClientCreateUser();
+    //       // print(await apiClient.fetchApiCreateUser(idToken));
 
-          // dynamic fetchUsers() async {
-          //   return await apiClient.fetchApiCreateUser();
-          // }
-          // ログインに成功した場合
-          // final User user = result.user!;
-          // setState(() {
-          //   infoText = "ログインOK：${user.email}";
-          // });
-          print("aaa3");
-        } catch (e) {
-          print(e);
-          print("aaa2");
-          // ログインに失敗した場合
-          // setState(() {
-          //   infoText = "ログインNG：${e.toString()}";
-          // });
-        }
-    };
+    //       // dynamic fetchUsers() async {
+    //       //   return await apiClient.fetchApiCreateUser();
+    //       // }
+    //       // ログインに成功した場合
+    //       // final User user = result.user!;
+    //       // setState(() {
+    //       //   infoText = "ログインOK：${user.email}";
+    //       // });
+    //       print("aaa3");
+    //     } on FirebaseAuthException catch (e) {
+    //       print(e.code);
+    //       print(e.message);
+    //       print("aaa245");
+    //       print(AppLocalizations);
+    //       // Locale locale = Localizations.localeOf(context);
+
+    //       // // 言語コード取得
+    //       // String languageCode = locale.languageCode;
+    //       print("aaa23");
+    //       print(jugdeLocate(context));  // ja
+    //       print("aaa2");
+    //       errorHandleSnack(context,e.message.toString());
+    //       // result = FirebaseAuthExceptionHandler.handleException(error);
+    //       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    //       // errorHandleSnack(context,"mailアドレスを認証してください。3");
+    //       // errorHandleSnack(context,"mailアドレスを認証してください。4");
+    //       // ログインに失敗した場合
+    //       // setState(() {
+    //       //   infoText = "ログインNG：${e.toString()}";
+    //       // });
+    //     }
+    // };
+    // ^^^^^^^^^^^^^^^^^^^^^^
     // print(openEye);
     // print(newUserEmail);
     // print(newUserPassword);
     // print(newUserPassword.value);
     // print(AppLocalizations.of(context));
+
+    // state（状態）
+    final _SignState = ref.watch(SignProvider);
+    // provider（状態の操作）
+    final _SignNotifier = ref.watch(SignProvider.notifier);
     return Scaffold(
       backgroundColor:Colors.grey[200],
       body: Center(
@@ -129,7 +157,8 @@ class SignUpPage extends HookConsumerWidget {
                         prefixIcon: Icon(Icons.email, color: Colors.amber,),
                       ),
                       onChanged: (String value) {
-                        changeEmailText(value);
+                        // changeEmailText(value);
+                        _SignNotifier.changeEmailText(value);
                       },
                     ),
                   )
@@ -154,23 +183,23 @@ class SignUpPage extends HookConsumerWidget {
                   child:Padding(
                     padding:const EdgeInsets.symmetric(horizontal: 0.0),
                     child:TextFormField(
-                      obscureText: openEye.value?false:true,
+                      obscureText: _SignState.openEye?false:true,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText:  AppLocalizations.of(context)!.password,
                         prefixIcon: Icon(Icons.key, color: Colors.amber,),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            openEye.value==true?Icons.visibility:Icons.visibility_off,
+                            _SignState.openEye==true?Icons.visibility:Icons.visibility_off,
                             color: Colors.grey
                           ),
                           onPressed:(){
-                            clickOpenEye();
+                            _SignNotifier.clickOpenEye();
                           }
                         ),
                       ),
                       onChanged: (String value) {
-                        changePasswordText(value);
+                        _SignNotifier.changePasswordText(value);
                       },
                     ),
                   )
@@ -179,7 +208,7 @@ class SignUpPage extends HookConsumerWidget {
               SizedBox(height:25),
               GestureDetector(
                 onTap: (){
-                    handleSignUp();
+                    _SignNotifier.handleSignUp(context);
                   },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),

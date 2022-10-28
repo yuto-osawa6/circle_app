@@ -15,5 +15,7 @@
   "or" : "または",
   "login" : "Login",
   "signUp": "Sign up",
-  "signIn": "Sign in"
+  "signIn": "Sign in",
+
+  "eScheckEmail" : "メールアドレスを認証してください。"
 }
