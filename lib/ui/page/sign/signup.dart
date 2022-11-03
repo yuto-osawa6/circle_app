@@ -205,6 +205,47 @@ class SignUpPage extends HookConsumerWidget {
                   )
                 ),
               ),
+              // SizedBox(height:25),
+              // Container(
+              //   padding:const EdgeInsets.symmetric(horizontal: 25.0),
+              //   child:Container(
+              //     decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(12),
+              //       boxShadow: [
+              //         BoxShadow(
+              //           color: Color.fromARGB(50, 0, 0, 0), //色
+              //           spreadRadius: 1, 
+              //           blurRadius: 10, 
+              //           offset: Offset(5, 10),
+              //         ),
+              //       ],
+              //     ),
+              //     child:Padding(
+              //       padding:const EdgeInsets.symmetric(horizontal: 0.0),
+              //       child:TextFormField(
+              //         obscureText: _SignState.openEye2?false:true,
+              //         decoration: InputDecoration(
+              //           border: InputBorder.none,
+              //           hintText:  AppLocalizations.of(context)!.password,
+              //           prefixIcon: Icon(Icons.key, color: Colors.amber,),
+              //           suffixIcon: IconButton(
+              //             icon: Icon(
+              //               _SignState.openEye2==true?Icons.visibility:Icons.visibility_off,
+              //               color: Colors.grey
+              //             ),
+              //             onPressed:(){
+              //               _SignNotifier.clickOpenEye();
+              //             }
+              //           ),
+              //         ),
+              //         onChanged: (String value) {
+              //           _SignNotifier.changePasswordText2(value);
+              //         },
+              //       ),
+              //     )
+              //   ),
+              // ),
               SizedBox(height:25),
               GestureDetector(
                 onTap: (){

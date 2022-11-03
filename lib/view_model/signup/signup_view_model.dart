@@ -2,6 +2,7 @@
 
 import 'package:circle_app/model/state/sign_model.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
+import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
 import 'package:circle_app/utils/method/judgeLocate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //   // }
 
 // }
+var acs = ActionCodeSettings(
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be whitelisted in the Firebase Console.
+    url: 'https://www.example.com/finishSignUp?cartId=1234',
+    // This must be true
+    handleCodeInApp: true,
+    iOSBundleId: 'com.example.ios',
+    androidPackageName: 'com.example.android',
+    // installIfNotAvailable
+    androidInstallApp: true,
+    // minimumVersion
+    // androidMinimumVersion: '12'
+    );
 
 class SignUpNotifier extends StateNotifier<SignModel> {
   // 初期値の指定
@@ -60,6 +74,10 @@ class SignUpNotifier extends StateNotifier<SignModel> {
       // newUserPassword.value = value;
       state = state.copyWith(newUserPassword: value);
     }
+    void changePasswordText2(String value){
+      // newUserPassword.value = value;
+      state = state.copyWith(newUserPassword2: value);
+    }
     void clickOpenEye (){
       // openEye.value == true?openEye.value = false:openEye.value =true;
       // newUserEmail.value = "aaa";
@@ -74,23 +92,30 @@ class SignUpNotifier extends StateNotifier<SignModel> {
         {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
+        //   auth.sendSignInLinkToEmail(
+        //      email: state.newUserEmail,
+        //      actionCodeSettings: 
+        //   //   password: state.newUserPassword,
+        //   )
+        // .catchError((onError) => print('Error sending email verification $onError'))
+        // .then((value) => print('Successfully sent email verification'));
           final UserCredential result =
               await auth.createUserWithEmailAndPassword(
             email: state.newUserEmail,
             password: state.newUserPassword,
           );
-          String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-          print(idToken);
+          // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+          // print(idToken);
           print("aaab");
-          print(result.user!.emailVerified);
-          print("bbbb");
-          if(result.user!.emailVerified){
-            print("bbbb2");
-          }else{
-            print("bbbb5");
-            errorHandleSnack(context,"mailアドレスを認証してください。");
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
-          }
+          // print(result.user!.emailVerified);
+          // print("bbbb");
+          // if(result.user!.emailVerified){
+          //   print("bbbb2");
+          // }else{
+          //   print("bbbb5");
+          //   errorHandleSnack(context,"mailアドレスを認証してください。");
+          //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
+          // }
           // final result = await ApiClientCreateUser.fetchApiCreateUser();
 
           // final apiClient = ApiClientCreateUser();
@@ -105,27 +130,69 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           //   infoText = "ログインOK：${user.email}";
           // });
           print("aaa3");
+        // } on FirebaseAuthException catch (e) {
+        } catch (e) {
+          print(e);
+          // emailが既に登録されていて、認証がまだの場合。
+          // if(e.code == "email-already-in-use"){
+          //   print("yいえじあ");
+          // }
+          // try {
+          //   if(e.code == "email-already-in-use"){
+          //     final FirebaseAuth auth = FirebaseAuth.instance;
+          //     final UserCredential result =
+          //       await auth.signInWithEmailAndPassword(
+          //     email: state.newUserEmail,
+          //     password: state.newUserPassword,
+          //   );
+          //     if(result.user!.emailVerified){
+          //     }else{
+          //       // errorHandleSnack(context,"mailアドレスを認証してください。");
+          //       result.user!.delete();
+          //       handleSignUp(context);
+          //       print("削除した");
+          //       return;
+          //     }
+          //   }
+          // }on FirebaseAuthException catch (e) {
+          //   FirebaseAuthError("email-already-in-use",context);
+          //   return;
+          // }
+
+          // print(e.code);
+          // FirebaseAuthError(e.code,context);
+        }
+    }
+
+    void handleConfirmEmail (BuildContext context)async {
+      try
+        {
+          // メール/パスワードでログイン
+          final FirebaseAuth auth = FirebaseAuth.instance;
+          // auth.sendSignInLinkToEmail(auth,email)
+          // final UserCredential result =
+          //     await auth.createUserWithEmailAndPassword(
+          //   email: state.newUserEmail,
+          //   password: state.newUserPassword,
+          // );
+          // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+          // print(idToken);
+          print("aaab");
+          // print(result.user!.emailVerified);
+          print("bbbb");
+          // if(result.user!.emailVerified){
+            print("bbbb2");
+          // }else{
+          //   print("bbbb5");
+          //   errorHandleSnack(context,"mailアドレスを認証してください。");
+          //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
+          // }
+
         } on FirebaseAuthException catch (e) {
           print(e.code);
           print(e.message);
-          print("aaa245");
-          // print(AppLocalizations);
-          // Locale locale = Localizations.localeOf(context);
-
-          // // 言語コード取得
-          // String languageCode = locale.languageCode;
-          print("aaa23");
           print(jugdeLocate(context));  // ja
-          print("aaa267");
           errorHandleSnack(context,e.message.toString());
-          // result = FirebaseAuthExceptionHandler.handleException(error);
-          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
-          // errorHandleSnack(context,"mailアドレスを認証してください。3");
-          // errorHandleSnack(context,"mailアドレスを認証してください。4");
-          // ログインに失敗した場合
-          // setState(() {
-          //   infoText = "ログインNG：${e.toString()}";
-          // });
         }
     }
 

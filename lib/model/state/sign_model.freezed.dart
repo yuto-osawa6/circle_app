@@ -18,10 +18,12 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SignModel {
   String get newUserEmail => throw _privateConstructorUsedError;
   String get newUserPassword => throw _privateConstructorUsedError;
+  String get newUserPassword2 => throw _privateConstructorUsedError;
   String get loginUserEmail => throw _privateConstructorUsedError;
   String get loginUserPassword => throw _privateConstructorUsedError;
   String get infoText => throw _privateConstructorUsedError;
   bool get openEye => throw _privateConstructorUsedError;
+  bool get openEye2 => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SignModelCopyWith<SignModel> get copyWith =>
@@ -35,10 +37,12 @@ abstract class $SignModelCopyWith<$Res> {
   $Res call(
       {String newUserEmail,
       String newUserPassword,
+      String newUserPassword2,
       String loginUserEmail,
       String loginUserPassword,
       String infoText,
-      bool openEye});
+      bool openEye,
+      bool openEye2});
 }
 
 /// @nodoc
@@ -53,10 +57,12 @@ class _$SignModelCopyWithImpl<$Res> implements $SignModelCopyWith<$Res> {
   $Res call({
     Object? newUserEmail = freezed,
     Object? newUserPassword = freezed,
+    Object? newUserPassword2 = freezed,
     Object? loginUserEmail = freezed,
     Object? loginUserPassword = freezed,
     Object? infoText = freezed,
     Object? openEye = freezed,
+    Object? openEye2 = freezed,
   }) {
     return _then(_value.copyWith(
       newUserEmail: newUserEmail == freezed
@@ -66,6 +72,10 @@ class _$SignModelCopyWithImpl<$Res> implements $SignModelCopyWith<$Res> {
       newUserPassword: newUserPassword == freezed
           ? _value.newUserPassword
           : newUserPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      newUserPassword2: newUserPassword2 == freezed
+          ? _value.newUserPassword2
+          : newUserPassword2 // ignore: cast_nullable_to_non_nullable
               as String,
       loginUserEmail: loginUserEmail == freezed
           ? _value.loginUserEmail
@@ -83,6 +93,10 @@ class _$SignModelCopyWithImpl<$Res> implements $SignModelCopyWith<$Res> {
           ? _value.openEye
           : openEye // ignore: cast_nullable_to_non_nullable
               as bool,
+      openEye2: openEye2 == freezed
+          ? _value.openEye2
+          : openEye2 // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -96,10 +110,12 @@ abstract class _$$_SignModelCopyWith<$Res> implements $SignModelCopyWith<$Res> {
   $Res call(
       {String newUserEmail,
       String newUserPassword,
+      String newUserPassword2,
       String loginUserEmail,
       String loginUserPassword,
       String infoText,
-      bool openEye});
+      bool openEye,
+      bool openEye2});
 }
 
 /// @nodoc
@@ -116,10 +132,12 @@ class __$$_SignModelCopyWithImpl<$Res> extends _$SignModelCopyWithImpl<$Res>
   $Res call({
     Object? newUserEmail = freezed,
     Object? newUserPassword = freezed,
+    Object? newUserPassword2 = freezed,
     Object? loginUserEmail = freezed,
     Object? loginUserPassword = freezed,
     Object? infoText = freezed,
     Object? openEye = freezed,
+    Object? openEye2 = freezed,
   }) {
     return _then(_$_SignModel(
       newUserEmail: newUserEmail == freezed
@@ -129,6 +147,10 @@ class __$$_SignModelCopyWithImpl<$Res> extends _$SignModelCopyWithImpl<$Res>
       newUserPassword: newUserPassword == freezed
           ? _value.newUserPassword
           : newUserPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      newUserPassword2: newUserPassword2 == freezed
+          ? _value.newUserPassword2
+          : newUserPassword2 // ignore: cast_nullable_to_non_nullable
               as String,
       loginUserEmail: loginUserEmail == freezed
           ? _value.loginUserEmail
@@ -146,6 +168,10 @@ class __$$_SignModelCopyWithImpl<$Res> extends _$SignModelCopyWithImpl<$Res>
           ? _value.openEye
           : openEye // ignore: cast_nullable_to_non_nullable
               as bool,
+      openEye2: openEye2 == freezed
+          ? _value.openEye2
+          : openEye2 // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -156,10 +182,12 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
   _$_SignModel(
       {this.newUserEmail = "",
       this.newUserPassword = "",
+      this.newUserPassword2 = "",
       this.loginUserEmail = "",
       this.loginUserPassword = "",
       this.infoText = "",
-      this.openEye = false});
+      this.openEye = false,
+      this.openEye2 = false});
 
   @override
   @JsonKey()
@@ -167,6 +195,9 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
   @override
   @JsonKey()
   final String newUserPassword;
+  @override
+  @JsonKey()
+  final String newUserPassword2;
   @override
   @JsonKey()
   final String loginUserEmail;
@@ -179,10 +210,13 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
   @override
   @JsonKey()
   final bool openEye;
+  @override
+  @JsonKey()
+  final bool openEye2;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SignModel(newUserEmail: $newUserEmail, newUserPassword: $newUserPassword, loginUserEmail: $loginUserEmail, loginUserPassword: $loginUserPassword, infoText: $infoText, openEye: $openEye)';
+    return 'SignModel(newUserEmail: $newUserEmail, newUserPassword: $newUserPassword, newUserPassword2: $newUserPassword2, loginUserEmail: $loginUserEmail, loginUserPassword: $loginUserPassword, infoText: $infoText, openEye: $openEye, openEye2: $openEye2)';
   }
 
   @override
@@ -192,10 +226,12 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
       ..add(DiagnosticsProperty('type', 'SignModel'))
       ..add(DiagnosticsProperty('newUserEmail', newUserEmail))
       ..add(DiagnosticsProperty('newUserPassword', newUserPassword))
+      ..add(DiagnosticsProperty('newUserPassword2', newUserPassword2))
       ..add(DiagnosticsProperty('loginUserEmail', loginUserEmail))
       ..add(DiagnosticsProperty('loginUserPassword', loginUserPassword))
       ..add(DiagnosticsProperty('infoText', infoText))
-      ..add(DiagnosticsProperty('openEye', openEye));
+      ..add(DiagnosticsProperty('openEye', openEye))
+      ..add(DiagnosticsProperty('openEye2', openEye2));
   }
 
   @override
@@ -208,11 +244,14 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
             const DeepCollectionEquality()
                 .equals(other.newUserPassword, newUserPassword) &&
             const DeepCollectionEquality()
+                .equals(other.newUserPassword2, newUserPassword2) &&
+            const DeepCollectionEquality()
                 .equals(other.loginUserEmail, loginUserEmail) &&
             const DeepCollectionEquality()
                 .equals(other.loginUserPassword, loginUserPassword) &&
             const DeepCollectionEquality().equals(other.infoText, infoText) &&
-            const DeepCollectionEquality().equals(other.openEye, openEye));
+            const DeepCollectionEquality().equals(other.openEye, openEye) &&
+            const DeepCollectionEquality().equals(other.openEye2, openEye2));
   }
 
   @override
@@ -220,10 +259,12 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
       runtimeType,
       const DeepCollectionEquality().hash(newUserEmail),
       const DeepCollectionEquality().hash(newUserPassword),
+      const DeepCollectionEquality().hash(newUserPassword2),
       const DeepCollectionEquality().hash(loginUserEmail),
       const DeepCollectionEquality().hash(loginUserPassword),
       const DeepCollectionEquality().hash(infoText),
-      const DeepCollectionEquality().hash(openEye));
+      const DeepCollectionEquality().hash(openEye),
+      const DeepCollectionEquality().hash(openEye2));
 
   @JsonKey(ignore: true)
   @override
@@ -235,15 +276,19 @@ abstract class _SignModel implements SignModel {
   factory _SignModel(
       {final String newUserEmail,
       final String newUserPassword,
+      final String newUserPassword2,
       final String loginUserEmail,
       final String loginUserPassword,
       final String infoText,
-      final bool openEye}) = _$_SignModel;
+      final bool openEye,
+      final bool openEye2}) = _$_SignModel;
 
   @override
   String get newUserEmail;
   @override
   String get newUserPassword;
+  @override
+  String get newUserPassword2;
   @override
   String get loginUserEmail;
   @override
@@ -252,6 +297,8 @@ abstract class _SignModel implements SignModel {
   String get infoText;
   @override
   bool get openEye;
+  @override
+  bool get openEye2;
   @override
   @JsonKey(ignore: true)
   _$$_SignModelCopyWith<_$_SignModel> get copyWith =>
