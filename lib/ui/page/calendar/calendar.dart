@@ -36,15 +36,18 @@ class Calendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      // locale: Locale("en"),
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SignUpPage(),
+    return 
+    // MaterialApp(
+      // localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // supportedLocales: AppLocalizations.supportedLocales,
+      // // locale: Locale("en"),
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
+      // home: 
+      Scaffold(
+      body:SignUpPage(),
     );
   }
   // State<TimeLine> createState() => _TimeLineState();

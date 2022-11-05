@@ -36,19 +36,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //   // }
 
 // }
-var acs = ActionCodeSettings(
-    // URL you want to redirect back to. The domain (www.example.com) for this
-    // URL must be whitelisted in the Firebase Console.
-    url: 'https://www.example.com/finishSignUp?cartId=1234',
-    // This must be true
-    handleCodeInApp: true,
-    iOSBundleId: 'com.example.ios',
-    androidPackageName: 'com.example.android',
-    // installIfNotAvailable
-    androidInstallApp: true,
-    // minimumVersion
-    // androidMinimumVersion: '12'
-    );
+
 
 class SignUpNotifier extends StateNotifier<SignModel> {
   // 初期値の指定
@@ -84,19 +72,35 @@ class SignUpNotifier extends StateNotifier<SignModel> {
       state = state.copyWith(openEye: state.openEye == true?false:true);
     }
 
+    final acs = ActionCodeSettings(
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be whitelisted in the Firebase Console.
+    url: 'https://www.example.com/finishSignUp?cartId=1234',
+    // This must be true
+    handleCodeInApp: true,
+    // iOSBundleId: 'com.example.ios',
+    // androidPackageName: 'com.example.android',
+    // installIfNotAvailable
+    androidInstallApp: true,
+    // minimumVersion
+    // androidMinimumVersion: '12'
+    );
+
     void handleSignUp (BuildContext context)async {
       print("aaa");
       print(state.newUserEmail);
       print(state.newUserPassword);
+      Navigator.pushNamed(context, '/email');
+      return;
       try
         {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
-        //   auth.sendSignInLinkToEmail(
-        //      email: state.newUserEmail,
-        //      actionCodeSettings: 
-        //   //   password: state.newUserPassword,
-        //   )
+          // auth.sendSignInLinkToEmail(
+          //    email: state.newUserEmail,
+          //    actionCodeSettings: acs
+          // //   password: state.newUserPassword,
+          // );
         // .catchError((onError) => print('Error sending email verification $onError'))
         // .then((value) => print('Successfully sent email verification'));
           final UserCredential result =
@@ -104,18 +108,19 @@ class SignUpNotifier extends StateNotifier<SignModel> {
             email: state.newUserEmail,
             password: state.newUserPassword,
           );
-          // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+          String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           // print(idToken);
           print("aaab");
           // print(result.user!.emailVerified);
           // print("bbbb");
-          // if(result.user!.emailVerified){
-          //   print("bbbb2");
-          // }else{
-          //   print("bbbb5");
-          //   errorHandleSnack(context,"mailアドレスを認証してください。");
-          //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
-          // }
+          if(result.user!.emailVerified){
+            print("y-ev");
+          }else{
+            print("n-ev");
+            // errorHandleSnack(context,"mailアドレスを認証してください。");
+            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
+            // Navigator.pushNamed(context, '/email_vertification');
+          }
           // final result = await ApiClientCreateUser.fetchApiCreateUser();
 
           // final apiClient = ApiClientCreateUser();
@@ -130,8 +135,8 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           //   infoText = "ログインOK：${user.email}";
           // });
           print("aaa3");
-        // } on FirebaseAuthException catch (e) {
-        } catch (e) {
+        } on FirebaseAuthException catch (e) {
+        // } catch (e) {
           print(e);
           // emailが既に登録されていて、認証がまだの場合。
           // if(e.code == "email-already-in-use"){
@@ -160,7 +165,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // }
 
           // print(e.code);
-          // FirebaseAuthError(e.code,context);
+          FirebaseAuthError(e.code,context);
         }
     }
 

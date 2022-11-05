@@ -1,5 +1,6 @@
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/ui/page/main.dart';
+import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:circle_app/ui/common/footer/footer.dart';
@@ -46,6 +47,11 @@ class CircleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (context) => MainPage(),
+        '/email': (context) => EmailVerificationPage(),
+      },
       localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
       supportedLocales: AppLocalizations.supportedLocales,   
       // localizationsDelegates: [
@@ -64,7 +70,7 @@ class CircleWidget extends StatelessWidget {
       ),
       // home:  HomePage(title:"FlutterApp2"),
       
-      home:  MainPage(),
+      // home:  MainPage(),
       // locale: Locale('en')
     );
   }
