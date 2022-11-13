@@ -87,11 +87,11 @@ class SignUpNotifier extends StateNotifier<SignModel> {
     );
 
     void handleSignUp (BuildContext context)async {
-      print("aaa");
-      print(state.newUserEmail);
-      print(state.newUserPassword);
-      Navigator.pushNamed(context, '/email');
-      return;
+      // print("aaa");
+      // print(state.newUserEmail);
+      // print(state.newUserPassword);
+      // Navigator.pushNamed(context, '/email');
+      // return;
       try
         {
           // メール/パスワードでログイン
@@ -111,16 +111,17 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           // print(idToken);
           print("aaab");
+          Navigator.pushNamed(context, '/email');
           // print(result.user!.emailVerified);
           // print("bbbb");
-          if(result.user!.emailVerified){
-            print("y-ev");
-          }else{
-            print("n-ev");
-            // errorHandleSnack(context,"mailアドレスを認証してください。");
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
-            // Navigator.pushNamed(context, '/email_vertification');
-          }
+          // if(result.user!.emailVerified){
+          //   print("y-ev");
+          // }else{
+          //   print("n-ev");
+          //   // errorHandleSnack(context,"mailアドレスを認証してください。");
+          //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
+          //   // Navigator.pushNamed(context, '/email_vertification');
+          // }
           // final result = await ApiClientCreateUser.fetchApiCreateUser();
 
           // final apiClient = ApiClientCreateUser();
