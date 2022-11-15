@@ -195,7 +195,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // }
 
         } on FirebaseAuthException catch (e) {
-          print(e.code);
+          // print(e.code);
           print(e.message);
           print(jugdeLocate(context));  // ja
           errorHandleSnack(context,e.message.toString());
