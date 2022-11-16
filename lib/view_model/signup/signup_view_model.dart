@@ -78,8 +78,8 @@ class SignUpNotifier extends StateNotifier<SignModel> {
     url: 'https://www.example.com/finishSignUp?cartId=1234',
     // This must be true
     handleCodeInApp: true,
-    // iOSBundleId: 'com.example.ios',
-    // androidPackageName: 'com.example.android',
+    iOSBundleId: 'com.example.ios',
+    androidPackageName: 'com.example.android',
     // installIfNotAvailable
     androidInstallApp: true,
     // minimumVersion
@@ -96,22 +96,25 @@ class SignUpNotifier extends StateNotifier<SignModel> {
         {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
-          // auth.sendSignInLinkToEmail(
-          //    email: state.newUserEmail,
-          //    actionCodeSettings: acs
-          // //   password: state.newUserPassword,
-          // );
+          auth.sendSignInLinkToEmail(
+             email: state.newUserEmail,
+             actionCodeSettings: acs
+          //   password: state.newUserPassword,
+          );
         // .catchError((onError) => print('Error sending email verification $onError'))
         // .then((value) => print('Successfully sent email verification'));
-          final UserCredential result =
-              await auth.createUserWithEmailAndPassword(
-            email: state.newUserEmail,
-            password: state.newUserPassword,
-          );
-          String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-          // print(idToken);
-          print("aaab");
-          Navigator.pushNamed(context, '/email');
+
+
+          // final UserCredential result =
+          //     await auth.createUserWithEmailAndPassword(
+          //   email: state.newUserEmail,
+          //   password: state.newUserPassword,
+          // );
+          // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+          // // print(idToken);
+          // print("aaab");
+          // Navigator.pushNamed(context, '/email');
+
           // print(result.user!.emailVerified);
           // print("bbbb");
           // if(result.user!.emailVerified){
