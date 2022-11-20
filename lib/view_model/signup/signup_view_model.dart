@@ -77,6 +77,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
     // URL must be whitelisted in the Firebase Console.
     url: 'https://www.example.com/finishSignUp?cartId=1234',
     // This must be true
+    
     handleCodeInApp: true,
     iOSBundleId: 'com.example.ios',
     androidPackageName: 'com.example.android',
