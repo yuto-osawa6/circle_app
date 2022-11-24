@@ -72,22 +72,38 @@ class SignUpNotifier extends StateNotifier<SignModel> {
       state = state.copyWith(openEye: state.openEye == true?false:true);
     }
 
-    final acs = ActionCodeSettings(
+    // final acs = ActionCodeSettings(
+    // // URL you want to redirect back to. The domain (www.example.com) for this
+    // // URL must be whitelisted in the Firebase Console.
+    // url: 'https://www.example.com/finishSignUp?cartId=1234',
+    // // This must be true
+    
+    // handleCodeInApp: true,
+    // iOSBundleId: 'com.example.ios',
+    // androidPackageName: 'com.example.android',
+    // // installIfNotAvailable
+    // androidInstallApp: true,
+    // // minimumVersion
+    // // androidMinimumVersion: '12'
+    // );
+
+
+    void handleSignUp (BuildContext context)async {
+      var acs = ActionCodeSettings(
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
-    url: 'https://www.example.com/finishSignUp?cartId=1234',
+    url: 'https://circle-c701a.firebaseapp.com/',
     // This must be true
-    
     handleCodeInApp: true,
-    iOSBundleId: 'com.example.ios',
-    androidPackageName: 'com.example.android',
+    // iOSBundleId: 'com.circle-c701a.ios',
+    // androidPackageName: 'com.circle-c701a.android',
+    iOSBundleId: 'com.circle.circle_app.ios',
+    androidPackageName: 'com.circle.circle_app.android',
     // installIfNotAvailable
     androidInstallApp: true,
     // minimumVersion
     // androidMinimumVersion: '12'
     );
-
-    void handleSignUp (BuildContext context)async {
       // print("aaa");
       // print(state.newUserEmail);
       // print(state.newUserPassword);
@@ -98,12 +114,12 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
           auth.sendSignInLinkToEmail(
-             email: state.newUserEmail,
-             actionCodeSettings: acs
+            // email: state.newUserEmail,
+            email: 'ここ',
+            actionCodeSettings: acs
           //   password: state.newUserPassword,
-          );
-        // .catchError((onError) => print('Error sending email verification $onError'))
-        // .then((value) => print('Successfully sent email verification'));
+          ).catchError((onError) => print('Error sending email verification $onError'))
+        .then((value) => print('Successfully sent email verification'));
 
 
           // final UserCredential result =
