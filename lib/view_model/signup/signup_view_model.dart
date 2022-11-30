@@ -119,7 +119,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
             actionCodeSettings: acs
           //   password: state.newUserPassword,
           ).catchError((onError) => print('Error sending email verification $onError'))
-        .then((value) => print('Successfully sent email verification'));
+        .then((value) => print('Successfully sent email verificatio'));
 
 
           // final UserCredential result =
