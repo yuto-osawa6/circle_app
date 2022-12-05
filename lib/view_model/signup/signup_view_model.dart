@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:logger/logger.dart';
+
 // class SignUpNotifier extends StateNotifier {
 //   // 初期値の指定
 //   SignUpNotifier() : super();
@@ -53,6 +55,10 @@ class SignUpNotifier extends StateNotifier<SignModel> {
   //   final infoText = useState("");
   //   // open password
   //   final openEye = useState<bool>(false);
+  var logger = Logger(
+  printer: PrettyPrinter(),
+);
+
 
     void changeEmailText(String value){
       // state.newUserEmail = value;
@@ -89,36 +95,66 @@ class SignUpNotifier extends StateNotifier<SignModel> {
 
 
     void handleSignUp (BuildContext context)async {
-      var acs = ActionCodeSettings(
+    //   var acs = ActionCodeSettings(
+    // // URL you want to redirect back to. The domain (www.example.com) for this
+    // // URL must be whitelisted in the Firebase Console.
+    // url: 'https://circle-c701a.firebaseapp.com/',
+    // // This must be true
+    // handleCodeInApp: true,
+    // // iOSBundleId: 'com.circle-c701a.ios',
+    // // androidPackageName: 'com.circle-c701a.android',
+    // iOSBundleId: 'com.circle.circle_app.ios',
+    // androidPackageName: 'com.circle.circle_app.android',
+    // // installIfNotAvailable
+    // androidInstallApp: true,
+    // // minimumVersion
+    // androidMinimumVersion: '12'
+    // );
+    var acs = ActionCodeSettings(
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
-    url: 'https://circle-c701a.firebaseapp.com/',
+    url: 'https://anime-tier.com/',
     // This must be true
     handleCodeInApp: true,
-    // iOSBundleId: 'com.circle-c701a.ios',
-    // androidPackageName: 'com.circle-c701a.android',
-    iOSBundleId: 'com.circle.circle_app.ios',
-    androidPackageName: 'com.circle.circle_app.android',
-    // installIfNotAvailable
-    androidInstallApp: true,
-    // minimumVersion
+    // iOSBundleId: 'circle-c701a.appspot.com',
+    // androidPackageName: 'circle-c701a.appspot.com',
+    // // installIfNotAvailable
+    // androidInstallApp: true,
+    // // minimumVersion
     // androidMinimumVersion: '12'
     );
-      // print("aaa");
-      // print(state.newUserEmail);
-      // print(state.newUserPassword);
-      // Navigator.pushNamed(context, '/email');
-      // return;
+
+  //   var actionCodeSettings =  ActionCodeSettings(
+  // url: 'https://www.example.com/?email=' + firebase.auth().currentUser.email,
+  // iOS: {
+  //   bundleId: 'com.example.ios'
+  // },
+  // android: {
+  //   packageName: 'com.example.android',
+  //   installApp: true,
+  //   minimumVersion: '12'
+  // },
+  // handleCodeInApp: true,
+  // // When multiple custom dynamic link domains are defined, specify which
+  // // one to use.
+  // dynamicLinkDomain: "example.page.link"
+  //   );
+
       try
         {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
-          auth.sendSignInLinkToEmail(
-            // email: state.newUserEmail,
-            email: 'ここ',
+
+          await auth.sendSignInLinkToEmail(
+            email: state.newUserEmail,
+
             actionCodeSettings: acs
           //   password: state.newUserPassword,
-          ).catchError((onError) => print('Error sending email verification $onError'))
+          )
+          // var emailAuth = 'someemail@domain.com';
+          // final aa = auth.sendSignInLinkToEmail(
+          //         email: emailAuth, actionCodeSettings: acs);
+          .catchError((onError) => print('Error sending email verification $onError'))
         .then((value) => print('Successfully sent email verificatio'));
 
 
@@ -159,6 +195,12 @@ class SignUpNotifier extends StateNotifier<SignModel> {
         } on FirebaseAuthException catch (e) {
         // } catch (e) {
           print(e);
+          logger.i(e);
+          
+          debugPrint(e.email);
+          // developer.log()
+          // print(e.);
+
           // emailが既に登録されていて、認証がまだの場合。
           // if(e.code == "email-already-in-use"){
           //   print("yいえじあ");
