@@ -110,12 +110,16 @@ class SignUpNotifier extends StateNotifier<SignModel> {
     // // minimumVersion
     // androidMinimumVersion: '12'
     // );
-    var acs = ActionCodeSettings(
+    var acs2 = ActionCodeSettings(
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
-    url: 'https://anime-tier.com/',
+    // url: 'https://circle071a.page.link',
+    url: 'https://www.example.com/finishSignUp?cartId=1234',
+    // url: 'https://circle-c701a.firebaseapp.com',
+
     // This must be true
     handleCodeInApp: true,
+    // dynamicLinkDomain:"circle071a.page.link",
     // iOSBundleId: 'circle-c701a.appspot.com',
     // androidPackageName: 'circle-c701a.appspot.com',
     // // installIfNotAvailable
@@ -148,14 +152,14 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           await auth.sendSignInLinkToEmail(
             email: state.newUserEmail,
 
-            actionCodeSettings: acs
+            actionCodeSettings: acs2
           //   password: state.newUserPassword,
-          )
+          );
           // var emailAuth = 'someemail@domain.com';
           // final aa = auth.sendSignInLinkToEmail(
           //         email: emailAuth, actionCodeSettings: acs);
-          .catchError((onError) => print('Error sending email verification $onError'))
-        .then((value) => print('Successfully sent email verificatio'));
+        //   .catchError((onError) => print('Error sending email verification $onError'))
+        // .then((value) => print('Successfully sent email verificatio'));
 
 
           // final UserCredential result =
