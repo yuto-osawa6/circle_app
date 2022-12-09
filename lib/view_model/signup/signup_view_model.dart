@@ -113,10 +113,10 @@ class SignUpNotifier extends StateNotifier<SignModel> {
     var acs2 = ActionCodeSettings(
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
-    // url: 'https://circle071a.page.link',
-    url: 'https://www.example.com/finishSignUp?cartId=1234',
+    url: 'https://circle071a.page.link/eNh4',
+    // url: 'https://www.example.com/finishSignUp?cartId=1234',
     // url: 'https://circle-c701a.firebaseapp.com',
-
+    androidPackageName: 'com.circle.circle_app',
     // This must be true
     handleCodeInApp: true,
     // dynamicLinkDomain:"circle071a.page.link",
@@ -151,7 +151,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
 
           await auth.sendSignInLinkToEmail(
             email: state.newUserEmail,
-
+      
             actionCodeSettings: acs2
           //   password: state.newUserPassword,
           );
