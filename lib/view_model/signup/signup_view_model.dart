@@ -151,7 +151,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
 
           await auth.sendSignInLinkToEmail(
             email: state.newUserEmail,
-      
+
             actionCodeSettings: acs2
           //   password: state.newUserPassword,
           );
