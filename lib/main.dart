@@ -1,6 +1,8 @@
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
+import 'package:circle_app/view_model/signup/signup_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:circle_app/ui/common/footer/footer.dart';
@@ -48,6 +50,7 @@ Future<void> main() async {
   runApp(ProviderScope(child:CircleWidget()));
 }
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
 // class CircleWidget extends StatelessWidget {
 class CircleWidget extends HookConsumerWidget {
   
@@ -62,18 +65,120 @@ class CircleWidget extends HookConsumerWidget {
   //   // await _initEmail();
   //   await _initDynamicLink();
   // }
-  Future<void> _initAsync() async {
-    // await _initAuth();
-    // await _initEmail();
-    print("abcd00");
-    await _initDynamicLink();
+  // Future<void> _initAsync() async {
+  //   // await _initAuth();
+  //   // await _initEmail();
+  //   print("abcd00");
+  //   await _initDynamicLink();
+  // }
+  // Future<void> _initDynamicLink() async {
+  //   print("abcd");
+  //   // リンクからアプリへ遷移するとき、アプリが開いていると発動
+  //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+  //     // Navigator.pushNamed(context, dynamicLinkData.link.path);
+  //     print("abcd2");
+  //     print(dynamicLinkData);
+  //     print("abcd23");
+  //     _verifyDynamicLink(dynamicLinkData);
+  //   }).onError((error) {
+  // // Handle errors
+  //   print("abcd3");
+  //   });
+  //   // FirebaseDynamicLinks.instance.onLink(
+  //   //     onSuccess: _verifyDynamicLink,
+  //   //     onError: (OnLinkErrorException e) async {
+  //   //       // ScaffoldSnackBar.of(context)
+  //   //       //     .show('Error signing in with email link $e');
+  //   //     });
+
+  //   // リンクからアプリへ遷移するとき、アプリが開いていないと発動
+  //   FirebaseDynamicLinks.instance.getInitialLink().then(
+  //         _verifyDynamicLink,
+  //       );
+  // }
+  /// メールリンクの検証にのみ利用
+  // Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
+  //   print("abcd5");
+  //   print(_data); 
+  //   print("abcd56");
+  //      // // すでにSigninしている場合はスキップ
+  //   // if (user != null) return;
+  //   // // メールアドレスの入力がない場合はスキップ
+  //   // if (email == null) return;
+
+  //   final String? _deepLink = _data?.link.toString();
+  //   if (_deepLink == null) return;
+
+  //   // // リンク（＝URL）が、メールリンクかどうか検証
+  //   if (_auth.isSignInWithEmailLink(_deepLink)) {
+  //     // メールリンクに含まれる認証情報でサインイン
+  //     // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）
+  //     _auth.signInWithEmailLink(email: email!, emailLink: _deepLink).then(
+  //       (value) {
+  //         ScaffoldSnackBar.of(context)
+  //             .show('Successfully signed in! by: ${value.user!.email!}');
+  //       },
+  //     ).catchError(
+  //       (onError) {
+  //         ScaffoldSnackBar.of(context)
+  //             .show('Error signing in with email link $onError');
+  //       },
+  //     );
+  //   }
+  // }
+  Widget build(BuildContext context, WidgetRef ref) {
+    // state（状態）
+    final _SignUpState = ref.watch(SignProvider);
+    // provider（状態の操作）
+    final _SignUpNotifier = ref.watch(SignProvider.notifier);
+    Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
+      try{
+    print("abcd5");
+    print(_data); 
+    print("abcd56");
+       // // すでにSigninしている場合はスキップ
+    // if (user != null) return;
+    // // メールアドレスの入力がない場合はスキップ
+    // if (email == null) return;
+
+    final String? _deepLink = _data?.link.toString();
+    print(_deepLink);
+    if (_deepLink == null) return;
+
+    // // リンク（＝URL）が、メールリンクかどうか検証
+    if (_auth.isSignInWithEmailLink(_deepLink)) {
+      var emailAuth = _SignUpState.newUserEmail;
+      print("ajgiefjaioefj");
+      // メールリンクに含まれる認証情報でサインイン
+      // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）
+      _auth.signInWithEmailLink(email: emailAuth, emailLink: _deepLink).then(
+        (value) {
+          // ScaffoldSnackBar.of(context)
+          //     .show('Successfully signed in! by: ${value.user!.email!}');
+        },
+      ).catchError(
+        (onError) {
+           print("ajgiefjaioefj3");
+          print(onError);
+           print("ajgiefjaioefj3");
+          // ScaffoldSnackBar.of(context)
+          //     .show('Error signing in with email link $onError');
+        },
+      );
+    }
+    }catch(e){
+
+    }
   }
-  Future<void> _initDynamicLink() async {
+     Future<void> _initDynamicLink() async {
     print("abcd");
     // リンクからアプリへ遷移するとき、アプリが開いていると発動
     FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
       // Navigator.pushNamed(context, dynamicLinkData.link.path);
       print("abcd2");
+      print(dynamicLinkData);
+      print("abcd23");
+      _verifyDynamicLink(dynamicLinkData);
     }).onError((error) {
   // Handle errors
     print("abcd3");
@@ -90,38 +195,17 @@ class CircleWidget extends HookConsumerWidget {
           _verifyDynamicLink,
         );
   }
-  /// メールリンクの検証にのみ利用
-  Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
-    print("abcd5");
-    // // すでにSigninしている場合はスキップ
-    // if (user != null) return;
-    // // メールアドレスの入力がない場合はスキップ
-    // if (email == null) return;
-
-    final String? _deepLink = _data?.link.toString();
-    // if (_deepLink == null) return;
-
-    // // リンク（＝URL）が、メールリンクかどうか検証
-    // if (_auth.isSignInWithEmailLink(_deepLink)) {
-    //   // メールリンクに含まれる認証情報でサインイン
-    //   // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）
-    //   _auth.signInWithEmailLink(email: email!, emailLink: _deepLink).then(
-    //     (value) {
-    //       ScaffoldSnackBar.of(context)
-    //           .show('Successfully signed in! by: ${value.user!.email!}');
-    //     },
-    //   ).catchError(
-    //     (onError) {
-    //       ScaffoldSnackBar.of(context)
-    //           .show('Error signing in with email link $onError');
-    //     },
-    //   );
-    // }
+  
+  Future<void> _initAsync() async {
+    // await _initAuth();
+    // await _initEmail();
+    print("abcd00");
+    await _initDynamicLink();
   }
-  Widget build(BuildContext context, WidgetRef ref) {
   useEffect((){
     _initAsync();
   },[]);
+  print("abcd001");
     return MaterialApp(
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
