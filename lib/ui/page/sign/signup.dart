@@ -121,142 +121,24 @@ class SignUpPage extends HookConsumerWidget {
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child:Text(
-                AppLocalizations.of(context)!.appName,
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30),
-                )
-              ),
-              SizedBox(height:50),
-              // メールアドレス入力
-              Container(
-                padding:const EdgeInsets.symmetric(horizontal: 25.0),
-                child:Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(50, 0, 0, 0), //色
-                        spreadRadius: 1, 
-                        blurRadius: 10, 
-                        offset: Offset(5, 10),
-                      ),
-                    ],
-                  ),
-                  child:Padding(
-                    padding:const EdgeInsets.symmetric(horizontal: 0.0),
-                    child:TextFormField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText:  AppLocalizations.of(context)!.email,
-                        prefixIcon: Icon(Icons.email, color: Colors.amber,),
-                      ),
-                      onChanged: (String value) {
-                        // changeEmailText(value);
-                        _SignNotifier.changeEmailText(value);
-                      },
-                    ),
+          child:SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.center,
+                  child:Text(
+                  AppLocalizations.of(context)!.appName,
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30),
                   )
                 ),
-              ),
-              SizedBox(height:25),
-              Container(
-                padding:const EdgeInsets.symmetric(horizontal: 25.0),
-                child:Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(50, 0, 0, 0), //色
-                        spreadRadius: 1, 
-                        blurRadius: 10, 
-                        offset: Offset(5, 10),
-                      ),
-                    ],
-                  ),
-                  child:Padding(
-                    padding:const EdgeInsets.symmetric(horizontal: 0.0),
-                    child:TextFormField(
-                      obscureText: _SignState.openEye?false:true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText:  AppLocalizations.of(context)!.password,
-                        prefixIcon: Icon(Icons.key, color: Colors.amber,),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _SignState.openEye==true?Icons.visibility:Icons.visibility_off,
-                            color: Colors.grey
-                          ),
-                          onPressed:(){
-                            _SignNotifier.clickOpenEye();
-                          }
-                        ),
-                      ),
-                      onChanged: (String value) {
-                        _SignNotifier.changePasswordText(value);
-                      },
-                    ),
-                  )
-                ),
-              ),
-              // SizedBox(height:25),
-              // Container(
-              //   padding:const EdgeInsets.symmetric(horizontal: 25.0),
-              //   child:Container(
-              //     decoration: BoxDecoration(
-              //       color: Colors.white,
-              //       borderRadius: BorderRadius.circular(12),
-              //       boxShadow: [
-              //         BoxShadow(
-              //           color: Color.fromARGB(50, 0, 0, 0), //色
-              //           spreadRadius: 1, 
-              //           blurRadius: 10, 
-              //           offset: Offset(5, 10),
-              //         ),
-              //       ],
-              //     ),
-              //     child:Padding(
-              //       padding:const EdgeInsets.symmetric(horizontal: 0.0),
-              //       child:TextFormField(
-              //         obscureText: _SignState.openEye2?false:true,
-              //         decoration: InputDecoration(
-              //           border: InputBorder.none,
-              //           hintText:  AppLocalizations.of(context)!.password,
-              //           prefixIcon: Icon(Icons.key, color: Colors.amber,),
-              //           suffixIcon: IconButton(
-              //             icon: Icon(
-              //               _SignState.openEye2==true?Icons.visibility:Icons.visibility_off,
-              //               color: Colors.grey
-              //             ),
-              //             onPressed:(){
-              //               _SignNotifier.clickOpenEye();
-              //             }
-              //           ),
-              //         ),
-              //         onChanged: (String value) {
-              //           _SignNotifier.changePasswordText2(value);
-              //         },
-              //       ),
-              //     )
-              //   ),
-              // ),
-              SizedBox(height:25),
-              GestureDetector(
-                onTap: (){
-                    _SignNotifier.handleSignUp(context);
-                  },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                SizedBox(height:50),
+                // メールアドレス入力
+                Container(
+                  padding:const EdgeInsets.symmetric(horizontal: 25.0),
                   child:Container(
-                    padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -267,99 +149,219 @@ class SignUpPage extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    child: Center(
-                      child:Text(
-                        AppLocalizations.of(context)!.signUp,
-                        style: TextStyle(color: Colors.amber),
-                      )
+                    child:Padding(
+                      padding:const EdgeInsets.symmetric(horizontal: 0.0),
+                      child:TextFormField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText:  AppLocalizations.of(context)!.email,
+                          prefixIcon: Icon(Icons.email, color: Colors.amber,),
+                        ),
+                        onChanged: (String value) {
+                          // changeEmailText(value);
+                          _SignNotifier.changeEmailText(value);
+                        },
+                      ),
+                    )
+                  ),
+                ),
+                SizedBox(height:25),
+                Container(
+                  padding:const EdgeInsets.symmetric(horizontal: 25.0),
+                  child:Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(50, 0, 0, 0), //色
+                          spreadRadius: 1, 
+                          blurRadius: 10, 
+                          offset: Offset(5, 10),
+                        ),
+                      ],
+                    ),
+                    child:Padding(
+                      padding:const EdgeInsets.symmetric(horizontal: 0.0),
+                      child:TextFormField(
+                        obscureText: _SignState.openEye?false:true,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText:  AppLocalizations.of(context)!.password,
+                          prefixIcon: Icon(Icons.key, color: Colors.amber,),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _SignState.openEye==true?Icons.visibility:Icons.visibility_off,
+                              color: Colors.grey
+                            ),
+                            onPressed:(){
+                              _SignNotifier.clickOpenEye();
+                            }
+                          ),
+                        ),
+                        onChanged: (String value) {
+                          _SignNotifier.changePasswordText(value);
+                        },
+                      ),
+                    )
+                  ),
+                ),
+                // SizedBox(height:25),
+                // Container(
+                //   padding:const EdgeInsets.symmetric(horizontal: 25.0),
+                //   child:Container(
+                //     decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(12),
+                //       boxShadow: [
+                //         BoxShadow(
+                //           color: Color.fromARGB(50, 0, 0, 0), //色
+                //           spreadRadius: 1, 
+                //           blurRadius: 10, 
+                //           offset: Offset(5, 10),
+                //         ),
+                //       ],
+                //     ),
+                //     child:Padding(
+                //       padding:const EdgeInsets.symmetric(horizontal: 0.0),
+                //       child:TextFormField(
+                //         obscureText: _SignState.openEye2?false:true,
+                //         decoration: InputDecoration(
+                //           border: InputBorder.none,
+                //           hintText:  AppLocalizations.of(context)!.password,
+                //           prefixIcon: Icon(Icons.key, color: Colors.amber,),
+                //           suffixIcon: IconButton(
+                //             icon: Icon(
+                //               _SignState.openEye2==true?Icons.visibility:Icons.visibility_off,
+                //               color: Colors.grey
+                //             ),
+                //             onPressed:(){
+                //               _SignNotifier.clickOpenEye();
+                //             }
+                //           ),
+                //         ),
+                //         onChanged: (String value) {
+                //           _SignNotifier.changePasswordText2(value);
+                //         },
+                //       ),
+                //     )
+                //   ),
+                // ),
+                // SingleChildScrollView(),
+                SizedBox(height:25),
+                GestureDetector(
+                  onTap: (){
+                      _SignNotifier.handleSignUp(context);
+                    },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child:Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(50, 0, 0, 0), //色
+                            spreadRadius: 1, 
+                            blurRadius: 10, 
+                            offset: Offset(5, 10),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child:Text(
+                          AppLocalizations.of(context)!.signUp,
+                          style: TextStyle(color: Colors.amber),
+                        )
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height:50),
-              Container(
-                child:Text(
-                  textAlign:TextAlign.center,
-                  style:TextStyle(fontSize: 20),
-                  AppLocalizations.of(context)!.or,
-                )
-              ),
-              SizedBox(height:50),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child:Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children:<Widget>[
-                    Container(
-                      padding:const EdgeInsets.all(10.10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(50, 0, 0, 0), //色
-                            spreadRadius: 1, 
-                            blurRadius: 10, 
-                            offset: Offset(5, 10),
-                          ),
-                        ],
-                      ),
-                      child: Icon(FontAwesomeIcons.google),
-                    ),
-                    Container(
-                      padding:const EdgeInsets.all(10.10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(50, 0, 0, 0), //色
-                            spreadRadius: 1, 
-                            blurRadius: 10, 
-                            offset: Offset(5, 10),
-                          ),
-                        ],
-                      ),
-                      child: Icon(FontAwesomeIcons.twitter),
-                    ),
-                    Container(
-                      padding:const EdgeInsets.all(10.10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(50, 0, 0, 0), //色
-                            spreadRadius: 1, 
-                            blurRadius: 10, 
-                            offset: Offset(5, 10),
-                          ),
-                        ],
-                      ),
-                      child: Icon(FontAwesomeIcons.facebook),
-                    ),
-                    Container(
-                      padding:const EdgeInsets.all(10.10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(50, 0, 0, 0), //色
-                            spreadRadius: 1, 
-                            blurRadius: 10, 
-                            offset: Offset(5, 10),
-                          ),
-                        ],
-                      ),
-                      child: Icon(FontAwesomeIcons.apple),
-                    ),
-                  ],
+                SizedBox(height:50),
+                Container(
+                  child:Text(
+                    textAlign:TextAlign.center,
+                    style:TextStyle(fontSize: 20),
+                    AppLocalizations.of(context)!.or,
+                  )
                 ),
-              ),
-            ]
-          )
-
+                SizedBox(height:50),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child:Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children:<Widget>[
+                      Container(
+                        padding:const EdgeInsets.all(10.10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(50, 0, 0, 0), //色
+                              spreadRadius: 1, 
+                              blurRadius: 10, 
+                              offset: Offset(5, 10),
+                            ),
+                          ],
+                        ),
+                        child: Icon(FontAwesomeIcons.google),
+                      ),
+                      Container(
+                        padding:const EdgeInsets.all(10.10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(50, 0, 0, 0), //色
+                              spreadRadius: 1, 
+                              blurRadius: 10, 
+                              offset: Offset(5, 10),
+                            ),
+                          ],
+                        ),
+                        child: Icon(FontAwesomeIcons.twitter),
+                      ),
+                      Container(
+                        padding:const EdgeInsets.all(10.10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(50, 0, 0, 0), //色
+                              spreadRadius: 1, 
+                              blurRadius: 10, 
+                              offset: Offset(5, 10),
+                            ),
+                          ],
+                        ),
+                        child: Icon(FontAwesomeIcons.facebook),
+                      ),
+                      Container(
+                        padding:const EdgeInsets.all(10.10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(50, 0, 0, 0), //色
+                              spreadRadius: 1, 
+                              blurRadius: 10, 
+                              offset: Offset(5, 10),
+                            ),
+                          ],
+                        ),
+                        child: Icon(FontAwesomeIcons.apple),
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+            )
+          ),
         ),
       ),
     );

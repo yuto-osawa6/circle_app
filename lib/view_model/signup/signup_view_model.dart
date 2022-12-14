@@ -170,7 +170,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           // // print(idToken);
           // print("aaab");
-          // Navigator.pushNamed(context, '/email');
+          Navigator.pushNamed(context, '/email');
 
           // print(result.user!.emailVerified);
           // print("bbbb");
@@ -199,9 +199,9 @@ class SignUpNotifier extends StateNotifier<SignModel> {
         } on FirebaseAuthException catch (e) {
         // } catch (e) {
           print(e);
-          logger.i(e);
+          // logger.i(e);
           
-          debugPrint(e.email);
+          // debugPrint(e.email);
           // developer.log()
           // print(e.);
 
