@@ -19,9 +19,24 @@ class EmailVerificationPage extends HookConsumerWidget {
         // home:
         Scaffold(
           appBar: AppBar(
-          title:const Text("Talk"),
+          // title:const Text("Talk"),
         ),
           backgroundColor:Colors.grey[200],
+          body: Container(
+            child: Column(
+              children: <Widget>[
+                Align(
+                  // padding: const EdgeInsets.all(20.0),
+                  alignment: Alignment.center,
+                  child:Text(
+                  // AppLocalizations.of(context)!.appName,
+                  "afefafe",
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30),
+                  )
+                ),
+              ]
+            ),
+          ),
         )
       // )
     );
