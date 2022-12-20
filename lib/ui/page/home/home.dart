@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:circle_app/model/task.dart';
 import 'package:circle_app/service/task_service.dart';
+import 'package:circle_app/utils/method/getLanguage.dart';
+import 'package:circle_app/utils/style/fontstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -28,15 +30,30 @@ class _HomeState extends State<Home> {
     print("aaa");
     // print("aa");
   }
+  
   // print()
   Widget build(BuildContext context) {
-    // print(fetchSentence);
+     Locale locale = Localizations.localeOf(context);
+
+  print(locale); 
+  // var descTextStyle = TextStyle(
+  //     // color: Colors.black,
+  //     fontWeight: FontWeight.w700,
+  //     fontFamily: getJugdeLanguage(context),
+  //     // fontFamily: "NotoSansJP",
+
+  //     // letterSpacing: 0.5,
+  //     // fontSize: 50.0,
+  //   );
+    print(getJugdeLanguage(context));
     // print("aaaaa");
     return Scaffold(
       appBar: AppBar(
         title:const Text("Home"),
       ),
-      body: Center(
+      body: DefaultTextStyle.merge(
+        style: descTextStyle,
+        child:Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -78,7 +95,7 @@ class _HomeState extends State<Home> {
             
           ],
         ),
-      ),
+      ),)
     );
   }
 }

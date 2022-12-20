@@ -1,6 +1,7 @@
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
+import 'package:circle_app/utils/method/getLanguage.dart';
 import 'package:circle_app/view_model/signup/signup_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -128,6 +129,9 @@ class CircleWidget extends HookConsumerWidget {
   //   }
   // }
   Widget build(BuildContext context, WidgetRef ref) {
+    //  Locale locale = Localizations.localeOf(context);
+
+  // print(locale); 
     // state（状態）
     final _SignUpState = ref.watch(SignProvider);
     // provider（状態の操作）
@@ -207,6 +211,11 @@ class CircleWidget extends HookConsumerWidget {
     _initAsync();
   },[]);
   print("abcd001");
+  // Locale locale = Localizations.localeOf(context);
+
+  // print(locale); 
+  // print(getLanguage(context));
+
     return MaterialApp(
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
@@ -228,7 +237,7 @@ class CircleWidget extends HookConsumerWidget {
       title: "",
       theme: ThemeData(
         primaryColor:Colors.blue,
-        fontFamily:"NotoSansJP",
+        // fontFamily:getLanguage(context)=="en"?"NotoSansJP":"NotoSansJP",
         // textTheme: const TextTheme(
         //   bodyText2: TextStyle(fontSize: 16)
         // ),

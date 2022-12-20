@@ -6,6 +6,7 @@ import 'package:circle_app/ui/page/groupfrends/groupfrends.dart';
 import 'package:circle_app/ui/page/home/home.dart';
 import 'package:circle_app/ui/page/talk/talk.dart';
 import 'package:circle_app/ui/page/timeline/timeline.dart';
+import 'package:circle_app/utils/method/getLanguage.dart';
 import 'package:circle_app/view_model/navigate_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -32,10 +33,26 @@ class MainPage extends HookConsumerWidget {
     // provider（状態の操作）
     final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
 
+    var descTextStyle = TextStyle(
+      // color: Colors.black,
+      fontWeight: FontWeight.w700,
+      // fontFamily: getJugdeLanguage(context),
+      fontFamily: "NotoSansJP",
+
+      // letterSpacing: 0.5,
+      // fontSize: 50.0,
+    );
+
     //  final counter = useState(0);
     return Scaffold(
       // appBar: Header(),
-      body: _pages[_NavigateActionState.page],
+      // body: _pages[_NavigateActionState.page],
+      body: DefaultTextStyle.merge(
+            style: descTextStyle,
+            // child: Center(
+              child: _pages[_NavigateActionState.page],
+              // )
+            ),
       // body: Center(
       //   child: Column(
       //     mainAxisAlignment: MainAxisAlignment.center,
