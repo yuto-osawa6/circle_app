@@ -55,6 +55,7 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   logger: ^1.1.0
   firebase_dynamic_links: ^4.3.11
+  google_fonts: ^3.0.1
   # json_serializable: ^6.3.1
 
 dev_dependencies:
@@ -109,6 +110,22 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+    - family: NotoSansJP
+      fonts:
+        - asset: assets/fonts/NotoSansJP/NotoSansJP-Regular.otf
+        - asset: assets/fonts/NotoSansJP/NotoSansJP-Bold.otf
+          weight: 700 # assets/fonts/OpenSans-Bold.ttfのウェイトを指定
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto/Roboto-Bold.ttf
+          weight: 700
+    - family: Noto_Serif_JP
+      fonts:
+        - asset: assets/fonts/Noto_Serif_JP/NotoSerifJP-Regular.otf
+        - asset: assets/fonts/Noto_Serif_JP/NotoSerifJP-Bold.otf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

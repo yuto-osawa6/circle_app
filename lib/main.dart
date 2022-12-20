@@ -20,6 +20,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:google_fonts/google_fonts.dart';
 // void main() async {
 //   await dotenv.load(fileName: "assets/.env.development");
 //   // await dotenv.load(fileName: ".env.development");
@@ -226,7 +227,14 @@ class CircleWidget extends HookConsumerWidget {
       // ],
       title: "",
       theme: ThemeData(
-        primaryColor:Colors.blue
+        primaryColor:Colors.blue,
+        fontFamily:"NotoSansJP",
+        // textTheme: const TextTheme(
+        //   bodyText2: TextStyle(fontSize: 16)
+        // ),
+        // textTheme: GoogleFonts.sawarabiMinchoTextTheme(
+        //   Theme.of(context).textTheme,
+        // ),
       ),
       // home:  HomePage(title:"FlutterApp2"),
       

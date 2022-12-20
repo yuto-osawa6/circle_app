@@ -25,15 +25,32 @@ class EmailVerificationPage extends HookConsumerWidget {
           body: Container(
             child: Column(
               children: <Widget>[
-                Align(
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        // BoxShadow(
+                        //   color: Color.fromARGB(50, 0, 0, 0), //色
+                        //   spreadRadius: 1, 
+                        //   blurRadius: 10, 
+                        //   offset: Offset(5, 10),
+                        // ),
+                      ],
+                    ),
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.all(20.0),
+                  child:Align(
                   // padding: const EdgeInsets.all(20.0),
                   alignment: Alignment.center,
-                  child:Text(
-                  // AppLocalizations.of(context)!.appName,
-                  "afefafe",
-                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30),
-                  )
+                    child:Text(
+                    // AppLocalizations.of(context)!.appName,
+                    "認証メールを送信しました。!adftfg",
+                    style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30,fontFamily: "Noto_Sans_JP"),
+                    )
+                  ),
                 ),
+                
               ]
             ),
           ),

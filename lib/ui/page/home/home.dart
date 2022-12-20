@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
@@ -48,6 +49,33 @@ class _HomeState extends State<Home> {
             Text(
               AppLocalizations.of(context)!.deny,
             ),
+            Text(
+              "認証あいあいげういあふぇ",
+              style: TextStyle(
+                // fontFamily: 'NotoSansJP',
+                // fontWeight: FontWeight.w700
+              ),
+            ),
+            Text(
+              "認証あいあいげういあふぇ",
+              style: TextStyle(
+                // fontFamily: 'Noto_Serif_JP',
+                // fontWeight: FontWeight.w700
+              ),
+            ),
+            
+            // Text(
+            //   "認証あいあいげういあふぇういあふぇ",
+            //   // style: TextStyle(
+            //   //   fontFamily: 'Murecho',
+            //   // ),
+            //   style: GoogleFonts.notoSansJavanese( // フォントをdotGothic16に指定(
+            //   // textStyle: TextStyle(
+            //   //   fontSize: 50,
+            //   //   ),
+            //   )
+            // ),
+            
           ],
         ),
       ),
