@@ -17,5 +17,10 @@
   "signUp": "Sign up",
   "signIn": "Sign in",
 
-  "eScheckEmail" : "メールアドレスを認証してください。"
+  "eScheckEmail" : "メールアドレスを認証してください。",
+
+  "authenticationMail" : "認証メールを送信しました。",
+  "authenticationMailAdress" : "送信したメールアドレス",
+  "authenticationMailMessage" : "受信したメールの認証リンクを押すと認証が完了します。",
+  "authenticationCompleted" : "認証が完了しました。"
 }
