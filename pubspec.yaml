@@ -114,8 +114,16 @@ flutter:
     - family: NotoSansJP
       fonts:
         - asset: assets/fonts/NotoSansJP/NotoSansJP-Regular.otf
+        - asset: assets/fonts/NotoSansJP/NotoSansJP-Thin.otf
+          weight: 100 # asset
+        - asset: assets/fonts/NotoSansJP/NotoSansJP-Light.otf
+          weight: 300 # asset
+        - asset: assets/fonts/NotoSansJP/NotoSansJP-Medium.otf
+          weight: 500 # asset
         - asset: assets/fonts/NotoSansJP/NotoSansJP-Bold.otf
-          weight: 700 # assets/fonts/OpenSans-Bold.ttfのウェイトを指定
+          weight: 700 # asset
+        - asset: assets/fonts/NotoSansJP/NotoSansJP-Black.otf
+          weight: 900 # assets/fonts/OpenSans-Bold.ttfのウェイトを指定
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto/Roboto-Regular.ttf

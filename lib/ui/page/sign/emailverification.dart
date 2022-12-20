@@ -1,5 +1,6 @@
 
 import 'package:circle_app/utils/style/fontstyle.dart';
+import 'package:circle_app/view_model/signup/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,6 +15,9 @@ class EmailVerificationPage extends HookConsumerWidget {
   }
   @override
   Widget build(BuildContext context, WidgetRef ref){
+    final _SignUpState = ref.watch(SignProvider);
+    // provider（状態の操作）
+    final _SignUpNotifier = ref.watch(SignProvider.notifier);
     return(
       // MaterialApp(
       // // MaterialApp(
@@ -46,52 +50,76 @@ class EmailVerificationPage extends HookConsumerWidget {
                   padding: const EdgeInsets.all(20.0),
                   margin: const EdgeInsets.all(20.0),
                   child:Align(
-                  // padding: const EdgeInsets.all(20.0),
                   alignment: Alignment.center,
-                    // child:Row(
-                    //   // crossAxisAlignment: CrossAxisAlignment.stretch, // この行を追記
-                    //   // mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     Icon(Icons.check_circle,color: Colors.green[400]!),
-                    //     // padding: const EdgeInsets.all(20.0),
-                    //     SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     Text(AppLocalizations.of(context)!.authenticationMail,style: TextStyle(fontSize: 30),overflow: TextOverflow.ellipsis,maxLines: 20,),
-                    //     // Text("afeeoafjeoiajfaoiあjふぃえおじゃおいえじおfじゃいえkどあじょふぃえじゃいおふぇじおあじえじゃいおjふぇいおあjふぃおえじゃいfじぇあいふぃあけじゃいおふぇかじおえふぁ",overflow: TextOverflow.clip),
-                    //   ],
-                    // ),
                     child:RichText(
                       text: TextSpan(
                         children: [
                           WidgetSpan(
-                            // alignment: ui.PlaceholderAlignment.middle, 
-                            child: Icon(Icons.check_circle,color: Colors.green[400]!),
+                            child: Icon(Icons.done,color: Colors.green[400]!,size:18),
                           ),
                           WidgetSpan(
-                            // alignment: ui.PlaceholderAlignment.middle, 
                             child: SizedBox(
-                              width: 10,
+                              width: 5,
                             ),
                           ),
-                          // SizedBox(
-                          //   width: 10,
-                          // ),
                           TextSpan(
                             text:AppLocalizations.of(context)!.authenticationMail,
-                            style: TextStyle(color: Colors.black,fontSize: 16),
+                            style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
                     )
-                    // child:Text(
-                    // // AppLocalizations.of(context)!.appName,
-                    // AppLocalizations.of(context)!.authenticationMail,
-                    // // style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30,fontFamily: "Noto_Sans_JP"),
-                    // )
                   ),
                 ),
-                
+                Expanded(
+                  child:Container(
+                    
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        // borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          // BoxShadow(
+                          //   color: Color.fromARGB(50, 0, 0, 0), //色
+                          //   spreadRadius: 1, 
+                          //   blurRadius: 10, 
+                          //   offset: Offset(5, 10),
+                          // ),
+                        ],
+                      ),
+                    padding: const EdgeInsets.all(20.0),
+                    // height: ,
+                    // margin: const EdgeInsets.all(10.0),
+                    child:Align(
+                    alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.authenticationMailMessage,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Align(
+                            child: Column(
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.authenticationMailAdress,
+                                style: TextStyle(fontSize: 16,color: Colors.grey[700]),
+                              ),
+                              Text(
+                                _SignUpState.newUserEmail,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ]
+                            ),
+                            
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
               ]
             ),
           ),

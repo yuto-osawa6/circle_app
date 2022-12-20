@@ -20,5 +20,6 @@
   "authenticationMail" : "A verification email has been sent.",
   "authenticationMailAdress" : "Send the email address",
   "authenticationMailMessage" : "Click the verification link in the received email to complete the verification.",
+  
   "authenticationCompleted" : "Authentication completed"
 }
