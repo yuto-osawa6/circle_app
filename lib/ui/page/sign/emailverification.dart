@@ -18,6 +18,7 @@ class EmailVerificationPage extends HookConsumerWidget {
     final _SignUpState = ref.watch(SignProvider);
     // provider（状態の操作）
     final _SignUpNotifier = ref.watch(SignProvider.notifier);
+    print(_SignUpState);
     return(
       // MaterialApp(
       // // MaterialApp(

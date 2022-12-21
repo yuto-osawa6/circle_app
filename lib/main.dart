@@ -1,3 +1,4 @@
+import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
@@ -134,17 +135,36 @@ class CircleWidget extends HookConsumerWidget {
   // print(locale); 
     // state（状態）
     final _SignUpState = ref.watch(SignProvider);
-    // provider（状態の操作）
     final _SignUpNotifier = ref.watch(SignProvider.notifier);
+
+    final _UserState = ref.watch(UserProvider);
+    final _UserNotifier = ref.watch(UserProvider.notifier);
+
+
     Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
       try{
     print("abcd5");
-    print(_data); 
+    print(_data?.link.queryParameters["continueUrl"].toString()); 
+    print("abcd568");
+    print(_data?.link.queryParametersAll.values); 
+    print("abcd568");
+    print(_data?.link); 
+
+    final url = _data?.link.queryParameters["continueUrl"].toString();
+    // check-1 (あとでerrorをthrowさせるかどうか) 
+    if(url == null) return;
+    final uri = Uri.parse(url);
+    String? email = uri.queryParameters['email'];
+    print(url);
+    print(uri);
+    print(email);
     print("abcd56");
        // // すでにSigninしている場合はスキップ
     // if (user != null) return;
     // // メールアドレスの入力がない場合はスキップ
-    // if (email == null) return;
+    // check-1 (あとでerrorをthrowさせるかどうか) 
+    if (email == null) return;
+    
 
     final String? _deepLink = _data?.link.toString();
     print(_deepLink);
@@ -154,9 +174,12 @@ class CircleWidget extends HookConsumerWidget {
     if (_auth.isSignInWithEmailLink(_deepLink)) {
       var emailAuth = _SignUpState.newUserEmail;
       print("ajgiefjaioefj");
+      print(emailAuth);
+      print(_SignUpState);
+      print("ajgiefjaioefj33");
       // メールリンクに含まれる認証情報でサインイン
       // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）
-      _auth.signInWithEmailLink(email: emailAuth, emailLink: _deepLink).then(
+      _auth.signInWithEmailLink(email: email, emailLink: _deepLink).then(
         (value) {
           // ScaffoldSnackBar.of(context)
           //     .show('Successfully signed in! by: ${value.user!.email!}');
@@ -200,11 +223,31 @@ class CircleWidget extends HookConsumerWidget {
           _verifyDynamicLink,
         );
   }
+   Future<void> _initAuth() async {
+    // _auth.userChanges().listen(
+    //       (event) => setState(() => user = event),
+    //     );
+    FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User? user) {
+    if (user != null) {
+      print("eiajfeioajioejfaoiejfakldjfiea");
+      print(user.uid);
+      print("eiajfeioajioejfaoiejfakldjfiea");
+      print(user);
+      print("eiajfeioajioejfaoiejfakldjfiea");
+      // check -1 user email!のところ、エラー回避するかどうか
+      _UserNotifier.setCurrentUserEmail(user.email!);
+
+    }
+  });
+  }
   
   Future<void> _initAsync() async {
     // await _initAuth();
     // await _initEmail();
     print("abcd00");
+    await _initAuth();
     await _initDynamicLink();
   }
   useEffect((){
@@ -215,7 +258,7 @@ class CircleWidget extends HookConsumerWidget {
 
   // print(locale); 
   // print(getLanguage(context));
-
+  print(_SignUpState);
     return MaterialApp(
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
