@@ -2,6 +2,7 @@ import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
+import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
 import 'package:circle_app/view_model/signup/signup_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -183,6 +184,7 @@ class CircleWidget extends HookConsumerWidget {
         (value) {
           // ScaffoldSnackBar.of(context)
           //     .show('Successfully signed in! by: ${value.user!.email!}');
+          messageHandleSnack(context,AppLocalizations.of(context)!.successloggedIn);
         },
       ).catchError(
         (onError) {
@@ -237,7 +239,7 @@ class CircleWidget extends HookConsumerWidget {
       print(user);
       print("eiajfeioajioejfaoiejfakldjfiea");
       // check -1 user email!のところ、エラー回避するかどうか
-      _UserNotifier.setCurrentUserEmail(user.email!);
+      _UserNotifier.setCurrentUserEmail(user.email!); 
 
     }
   });
