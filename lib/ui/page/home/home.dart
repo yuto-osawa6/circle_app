@@ -2,38 +2,44 @@
 
 import 'dart:convert';
 
+import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/model/task.dart';
 import 'package:circle_app/service/task_service.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
 import 'package:circle_app/utils/style/fontstyle.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 // import 'package:http/http.dart' as http;
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+// class Home extends StatefulWidget {
+//   const Home({Key? key}) : super(key: key);
+//   @override
+//   State<Home> createState() => _HomeState();
+// }
+
+class Home extends HookConsumerWidget {
+
+
   @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-
-
-  @override
-  void initState() {
-    super.initState();
-    // final a = fetchUsers()
-    // print(fetchUsers());
-    print("aaa");
-    // print("aa");
-  }
+  // void initState() {
+  //   super.initState();
+  //   // final a = fetchUsers()
+  //   // print(fetchUsers());
+  //   print("aaa");
+  //   // print("aa");
+  // }
   
   // print()
-  Widget build(BuildContext context) {
-     Locale locale = Localizations.localeOf(context);
+  Widget build(BuildContext context,WidgetRef ref) {
+    final _UserState = ref.watch(UserProvider);
+    final _UserNotifier = ref.watch(UserProvider.notifier);
+
+    Locale locale = Localizations.localeOf(context);
 
   print(locale); 
   // var descTextStyle = TextStyle(
@@ -46,10 +52,33 @@ class _HomeState extends State<Home> {
   //     // fontSize: 50.0,
   //   );
     print(getJugdeLanguage(context));
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("afefefefefe")));
     // print("aaaaa");
+    
     return Scaffold(
       appBar: AppBar(
         title:const Text("Home"),
+        actions: <Widget>[
+        _UserState.email != null?
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              // ログアウト処理
+              // 内部で保持しているログイン情報等が初期化される
+              // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫です）
+              await FirebaseAuth.instance.signOut();
+              _UserNotifier.setCurrentUserEmail(null);
+              // ログイン画面に遷移＋チャット画面を破棄
+              // await Navigator.of(context).pushReplacement(
+              //   MaterialPageRoute(builder: (context) {
+              //     return LoginPage();
+              //   }),
+              // );
+            },
+          )
+          :Text("N")
+
+        ],
       ),
       body: DefaultTextStyle.merge(
         style: descTextStyle,
@@ -74,7 +103,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             Text(
-              "認証あいあいげういあふぇ",
+              // check-1 _UserState.email! !が必要な理由
+              _UserState.email != null?_UserState.email!:"ログインしていません。",
               style: TextStyle(
                 // fontFamily: 'Noto_Serif_JP',
                 // fontWeight: FontWeight.w700

@@ -46,7 +46,7 @@ class UserNotifier extends StateNotifier<UserModel> {
   //   );
   // }
 
-  void setCurrentUserEmail(String email) async {
+  void setCurrentUserEmail(String? email) async {
     state = state.copyWith(email: email);
   }
 

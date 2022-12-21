@@ -19,3 +19,28 @@ void FirebaseAuthError(String code, BuildContext context){
   }
 
 }
+
+void FirebaseAuthError2(String code, BuildContext context,String? lang){
+  // bool judgeLocate = jugdeLocate(context);
+  // try{
+  //   Locale locale = Localizations.localeOf(context);
+  //   // 言語コード取得
+  //   String languageCode = locale.languageCode;
+  //   print(languageCode);
+
+  // }catch (e) {
+  //   print(e);
+    
+  // }
+  print("afeijfieoajfioeajfioaefjieoajfieojfioapppp");
+  print(lang);
+  // print(languageCode);
+  print(lang == "en");
+  print("aoijdioajioe");
+  if(lang == "ja"){
+    FirebaseAuthErrorJa2(code);
+  }else{
+    FirebaseAuthErrorJa2(code);
+  }
+
+}

@@ -3,7 +3,9 @@ import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
+import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
+import 'package:circle_app/view_model/navigate_view_model.dart';
 import 'package:circle_app/view_model/signup/signup_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,6 +37,7 @@ import 'package:google_fonts/google_fonts.dart';
 //   );
 //   runApp(ProviderScope(child:CircleWidget()));
 // }
+final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
   // Firebase初期化
@@ -141,8 +144,12 @@ class CircleWidget extends HookConsumerWidget {
     final _UserState = ref.watch(UserProvider);
     final _UserNotifier = ref.watch(UserProvider.notifier);
 
+    final _NavigateActionState = ref.watch(NavigateActionProvider);
+    final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
+
 
     Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
+      // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
       try{
     print("abcd5");
     print(_data?.link.queryParameters["continueUrl"].toString()); 
@@ -156,6 +163,7 @@ class CircleWidget extends HookConsumerWidget {
     if(url == null) return;
     final uri = Uri.parse(url);
     String? email = uri.queryParameters['email'];
+    String? lang = uri.queryParameters['lang'];
     print(url);
     print(uri);
     print(email);
@@ -179,28 +187,69 @@ class CircleWidget extends HookConsumerWidget {
       print(_SignUpState);
       print("ajgiefjaioefj33");
       // メールリンクに含まれる認証情報でサインイン
-      // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）
-      _auth.signInWithEmailLink(email: email, emailLink: _deepLink).then(
-        (value) {
+      // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）yy
+      try{
+          print("ajgiefjaioefj33go1");
+          await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
+        // .then(
+        // // print("");
+        // (value) {
           // ScaffoldSnackBar.of(context)
           //     .show('Successfully signed in! by: ${value.user!.email!}');
-          messageHandleSnack(context,AppLocalizations.of(context)!.successloggedIn);
-        },
-      ).catchError(
-        (onError) {
-           print("ajgiefjaioefj3");
-          print(onError);
-           print("ajgiefjaioefj3");
+          print("ajgiefjaioefj33go");
+          messageHandleSnack2(lang);
+          print("aaaa");
+          // print("koko:${value}");
+        // },
+        // );
+      }on FirebaseAuthException catch (e){
+          // Locale locale = Localizations.localeOf(context);
+          // // 言語コード取得
+          // String languageCode = locale.languageCode;
+          // print(locale.languageCode);
+          print("ajgiefjaioefj3");
+          print(e);
+          // print(onError.hashCode);
+          FirebaseAuthError2(e.code,context,lang);
+          // ScaffoldMessenger.of(context).show(SnackBar(content: Text("afefefefefe")));
+          // try{
+          // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("afefefefefe")));
+          // _scaffoldMessangerState.showSnackBar(const SnackBar(content: Text("afefefefefe")));
+          // }catch (e){
+          //   print("ajgiefjaioefj357");
+          //   print(e);
+          //   print("ajgiefjaioefj357");
+          // }
+
+          print("ajgiefjaioefj3");
+      }
+      // _auth.signInWithEmailLink(email: email, emailLink: _deepLink).then(
+      //   // print("");
+      //   (value) {
+      //     // ScaffoldSnackBar.of(context)
+      //     //     .show('Successfully signed in! by: ${value.user!.email!}');
+      //     messageHandleSnack(context,AppLocalizations.of(context)!.successloggedIn);
+      //     print("aaaa");
+      //     print("koko:${value}");
+      //   },
+      // ).catchError(
+        // (onError) {
+          //  print("ajgiefjaioefj3");
+          // print(onError);
+          // print(onError.hashCode);
+          // // FirebaseAuthError(onError,context);
+          //  print("ajgiefjaioefj3");
           // ScaffoldSnackBar.of(context)
           //     .show('Error signing in with email link $onError');
-        },
-      );
+        // },
+      // );
     }
     }catch(e){
 
     }
   }
      Future<void> _initDynamicLink() async {
+      // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
     print("abcd");
     // リンクからアプリへ遷移するとき、アプリが開いていると発動
     FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
@@ -208,9 +257,14 @@ class CircleWidget extends HookConsumerWidget {
       print("abcd2");
       print(dynamicLinkData);
       print("abcd23");
+      _NavigateActionNotifier.onTapItem(0);
+      // Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.popUntil(context, ModalRoute.withName('/'));
       _verifyDynamicLink(dynamicLinkData);
     }).onError((error) {
   // Handle errors
+    print("abcd3");
+    print(error);
     print("abcd3");
     });
     // FirebaseDynamicLinks.instance.onLink(
@@ -262,6 +316,7 @@ class CircleWidget extends HookConsumerWidget {
   // print(getLanguage(context));
   print(_SignUpState);
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldKey,
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (context) => MainPage(),
