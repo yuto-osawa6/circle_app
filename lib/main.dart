@@ -138,202 +138,196 @@ class CircleWidget extends HookConsumerWidget {
 
   // print(locale); 
     // state（状態）
-    final _SignUpState = ref.watch(SignProvider);
-    final _SignUpNotifier = ref.watch(SignProvider.notifier);
+  //   final _SignUpState = ref.watch(SignProvider);
+  //   final _SignUpNotifier = ref.watch(SignProvider.notifier);
 
-    final _UserState = ref.watch(UserProvider);
-    final _UserNotifier = ref.watch(UserProvider.notifier);
+  //   final _UserState = ref.watch(UserProvider);
+  //   final _UserNotifier = ref.watch(UserProvider.notifier);
 
-    final _NavigateActionState = ref.watch(NavigateActionProvider);
-    final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
+  //   final _NavigateActionState = ref.watch(NavigateActionProvider);
+  //   final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
 
 
-    Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
-      // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
-      try{
-    print("abcd5");
-    print(_data?.link.queryParameters["continueUrl"].toString()); 
-    print("abcd568");
-    print(_data?.link.queryParametersAll.values); 
-    print("abcd568");
-    print(_data?.link); 
+  //   Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
+  //     // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
+  //     try{
+  //   print("abcd5");
+  //   print(_data?.link.queryParameters["continueUrl"].toString()); 
+  //   print("abcd568");
+  //   print(_data?.link.queryParametersAll.values); 
+  //   print("abcd568");
+  //   print(_data?.link); 
 
-    final url = _data?.link.queryParameters["continueUrl"].toString();
-    // check-1 (あとでerrorをthrowさせるかどうか) 
-    if(url == null) return;
-    final uri = Uri.parse(url);
-    String? email = uri.queryParameters['email'];
-    String? lang = uri.queryParameters['lang'];
-    print(url);
-    print(uri);
-    print(email);
-    print("abcd56");
-       // // すでにSigninしている場合はスキップ
-    // if (user != null) return;
-    // // メールアドレスの入力がない場合はスキップ
-    // check-1 (あとでerrorをthrowさせるかどうか) 
-    if (email == null) return;
+  //   final url = _data?.link.queryParameters["continueUrl"].toString();
+  //   // check-1 (あとでerrorをthrowさせるかどうか) 
+  //   if(url == null) return;
+  //   final uri = Uri.parse(url);
+  //   String? email = uri.queryParameters['email'];
+  //   String? lang = uri.queryParameters['lang'];
+  //   print(url);
+  //   print(uri);
+  //   print(email);
+  //   print("abcd56");
+  //      // // すでにSigninしている場合はスキップ
+  //   // if (user != null) return;
+  //   // // メールアドレスの入力がない場合はスキップ
+  //   // check-1 (あとでerrorをthrowさせるかどうか) 
+  //   if (email == null) return;
     
 
-    final String? _deepLink = _data?.link.toString();
-    print(_deepLink);
-    if (_deepLink == null) return;
+  //   final String? _deepLink = _data?.link.toString();
+  //   print(_deepLink);
+  //   if (_deepLink == null) return;
 
-    // // リンク（＝URL）が、メールリンクかどうか検証
-    if (_auth.isSignInWithEmailLink(_deepLink)) {
-      var emailAuth = _SignUpState.newUserEmail;
-      print("ajgiefjaioefj");
-      print(emailAuth);
-      print(_SignUpState);
-      print("ajgiefjaioefj33");
-      // メールリンクに含まれる認証情報でサインイン
-      // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）yy
-      try{
-          print("ajgiefjaioefj33go1");
-          await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
-        // .then(
-        // // print("");
-        // (value) {
-          // ScaffoldSnackBar.of(context)
-          //     .show('Successfully signed in! by: ${value.user!.email!}');
-          print("ajgiefjaioefj33go");
-          messageHandleSnack2(lang);
-          print("aaaa");
-          // print("koko:${value}");
-        // },
-        // );
-      }on FirebaseAuthException catch (e){
-          // Locale locale = Localizations.localeOf(context);
-          // // 言語コード取得
-          // String languageCode = locale.languageCode;
-          // print(locale.languageCode);
-          print("ajgiefjaioefj3");
-          print(e);
-          // print(onError.hashCode);
-          FirebaseAuthError2(e.code,context,lang);
-          // ScaffoldMessenger.of(context).show(SnackBar(content: Text("afefefefefe")));
-          // try{
-          // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("afefefefefe")));
-          // _scaffoldMessangerState.showSnackBar(const SnackBar(content: Text("afefefefefe")));
-          // }catch (e){
-          //   print("ajgiefjaioefj357");
-          //   print(e);
-          //   print("ajgiefjaioefj357");
-          // }
+  //   // // リンク（＝URL）が、メールリンクかどうか検証
+  //   if (_auth.isSignInWithEmailLink(_deepLink)) {
+  //     var emailAuth = _SignUpState.newUserEmail;
+  //     print("ajgiefjaioefj");
+  //     print(emailAuth);
+  //     print(_SignUpState);
+  //     print("ajgiefjaioefj33");
+  //     // メールリンクに含まれる認証情報でサインイン
+  //     // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）yy
+  //     try{
+  //         print("ajgiefjaioefj33go1");
+  //         await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
+  //       // .then(
+  //       // // print("");
+  //       // (value) {
+  //         // ScaffoldSnackBar.of(context)
+  //         //     .show('Successfully signed in! by: ${value.user!.email!}');
+  //         print("ajgiefjaioefj33go");
+  //         messageHandleSnack2(lang);
+  //         print("aaaa");
+  //         // print("koko:${value}");
+  //       // },
+  //       // );
+  //     }on FirebaseAuthException catch (e){
+  //         // Locale locale = Localizations.localeOf(context);
+  //         // // 言語コード取得
+  //         // String languageCode = locale.languageCode;
+  //         // print(locale.languageCode);
+  //         print("ajgiefjaioefj3");
+  //         print(e);
+  //         // print(onError.hashCode);
+  //         FirebaseAuthError2(e.code,context,lang);
+  //         // ScaffoldMessenger.of(context).show(SnackBar(content: Text("afefefefefe")));
+  //         // try{
+  //         // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("afefefefefe")));
+  //         // _scaffoldMessangerState.showSnackBar(const SnackBar(content: Text("afefefefefe")));
+  //         // }catch (e){
+  //         //   print("ajgiefjaioefj357");
+  //         //   print(e);
+  //         //   print("ajgiefjaioefj357");
+  //         // }
 
-          print("ajgiefjaioefj3");
-      }
-      // _auth.signInWithEmailLink(email: email, emailLink: _deepLink).then(
-      //   // print("");
-      //   (value) {
-      //     // ScaffoldSnackBar.of(context)
-      //     //     .show('Successfully signed in! by: ${value.user!.email!}');
-      //     messageHandleSnack(context,AppLocalizations.of(context)!.successloggedIn);
-      //     print("aaaa");
-      //     print("koko:${value}");
-      //   },
-      // ).catchError(
-        // (onError) {
-          //  print("ajgiefjaioefj3");
-          // print(onError);
-          // print(onError.hashCode);
-          // // FirebaseAuthError(onError,context);
-          //  print("ajgiefjaioefj3");
-          // ScaffoldSnackBar.of(context)
-          //     .show('Error signing in with email link $onError');
-        // },
-      // );
-    }
-    }catch(e){
+  //         print("ajgiefjaioefj3");
+  //     }
+  //     // _auth.signInWithEmailLink(email: email, emailLink: _deepLink).then(
+  //     //   // print("");
+  //     //   (value) {
+  //     //     // ScaffoldSnackBar.of(context)
+  //     //     //     .show('Successfully signed in! by: ${value.user!.email!}');
+  //     //     messageHandleSnack(context,AppLocalizations.of(context)!.successloggedIn);
+  //     //     print("aaaa");
+  //     //     print("koko:${value}");
+  //     //   },
+  //     // ).catchError(
+  //       // (onError) {
+  //         //  print("ajgiefjaioefj3");
+  //         // print(onError);
+  //         // print(onError.hashCode);
+  //         // // FirebaseAuthError(onError,context);
+  //         //  print("ajgiefjaioefj3");
+  //         // ScaffoldSnackBar.of(context)
+  //         //     .show('Error signing in with email link $onError');
+  //       // },
+  //     // );
+  //   }
+  //   }catch(e){
 
-    }
-  }
-     Future<void> _initDynamicLink() async {
-      // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
-    print("abcd");
-    // リンクからアプリへ遷移するとき、アプリが開いていると発動
-    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-      // Navigator.pushNamed(context, dynamicLinkData.link.path);
-      print("abcd2");
-      print(dynamicLinkData);
-      print("abcd23");
-      _NavigateActionNotifier.onTapItem(0);
-      // Navigator.popUntil(context, (route) => route.isFirst);
-      Navigator.popUntil(context, ModalRoute.withName('/'));
-      _verifyDynamicLink(dynamicLinkData);
-    }).onError((error) {
-  // Handle errors
-    print("abcd3");
-    print(error);
-    print("abcd3");
-    });
-    // FirebaseDynamicLinks.instance.onLink(
-    //     onSuccess: _verifyDynamicLink,
-    //     onError: (OnLinkErrorException e) async {
-    //       // ScaffoldSnackBar.of(context)
-    //       //     .show('Error signing in with email link $e');
-    //     });
+  //   }
+  // }
+  //    Future<void> _initDynamicLink() async {
+  //     // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
+  //   print("abcd");
+  //   // リンクからアプリへ遷移するとき、アプリが開いていると発動
+  //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+  //     // Navigator.pushNamed(context, dynamicLinkData.link.path);
+  //     print("abcd2");
+  //     print(dynamicLinkData);
+  //     print("abcd23");
+  //     _NavigateActionNotifier.onTapItem(0);
+  //     // Navigator.popUntil(context, (route) => route.isFirst);
+  //     Navigator.popUntil(context, ModalRoute.withName('/'));
+  //     _verifyDynamicLink(dynamicLinkData);
+  //   }).onError((error) {
+  // // Handle errors
+  //   print("abcd3");
+  //   print(error);
+  //   print("abcd3");
+  //   });
+  //   // FirebaseDynamicLinks.instance.onLink(
+  //   //     onSuccess: _verifyDynamicLink,
+  //   //     onError: (OnLinkErrorException e) async {
+  //   //       // ScaffoldSnackBar.of(context)
+  //   //       //     .show('Error signing in with email link $e');
+  //   //     });
 
-    // リンクからアプリへ遷移するとき、アプリが開いていないと発動
-    FirebaseDynamicLinks.instance.getInitialLink().then(
-          _verifyDynamicLink,
-        );
-  }
-   Future<void> _initAuth() async {
-    // _auth.userChanges().listen(
-    //       (event) => setState(() => user = event),
-    //     );
-    FirebaseAuth.instance
-  .authStateChanges()
-  .listen((User? user) {
-    if (user != null) {
-      print("eiajfeioajioejfaoiejfakldjfiea");
-      print(user.uid);
-      print("eiajfeioajioejfaoiejfakldjfiea");
-      print(user);
-      print("eiajfeioajioejfaoiejfakldjfiea");
-      // check -1 user email!のところ、エラー回避するかどうか
-      _UserNotifier.setCurrentUserEmail(user.email!); 
+  //   // リンクからアプリへ遷移するとき、アプリが開いていないと発動
+  //   FirebaseDynamicLinks.instance.getInitialLink().then(
+  //         _verifyDynamicLink,
+  //       );
+  // }
+  //  Future<void> _initAuth() async {
+  //   // _auth.userChanges().listen(
+  //   //       (event) => setState(() => user = event),
+  //   //     );
+  //   FirebaseAuth.instance
+  // .authStateChanges()
+  // .listen((User? user) {
+  //   if (user != null) {
+  //     print("eiajfeioajioejfaoiejfakldjfiea");
+  //     print(user.uid);
+  //     print("eiajfeioajioejfaoiejfakldjfiea");
+  //     print(user);
+  //     print("eiajfeioajioejfaoiejfakldjfiea");
+  //     // check -1 user email!のところ、エラー回避するかどうか
+  //     _UserNotifier.setCurrentUserEmail(user.email!); 
 
-    }
-  });
-  }
+  //   }
+  // });
+  // }
   
-  Future<void> _initAsync() async {
-    // await _initAuth();
-    // await _initEmail();
-    print("abcd00");
-    await _initAuth();
-    await _initDynamicLink();
-  }
-  useEffect((){
-    _initAsync();
-  },[]);
-  print("abcd001");
-  // Locale locale = Localizations.localeOf(context);
+  // Future<void> _initAsync() async {
+  //   // await _initAuth();
+  //   // await _initEmail();
+  //   print("abcd00");
+  //   await _initAuth();
+  //   await _initDynamicLink();
+  // }
+  // useEffect((){
+  //   _initAsync();
+  // },[]);
+  // print("abcd001");
+  // // Locale locale = Localizations.localeOf(context);
 
-  // print(locale); 
-  // print(getLanguage(context));
-  print(_SignUpState);
+  // // print(locale); 
+  // // print(getLanguage(context));
+  // print(_SignUpState);
     return MaterialApp(
       scaffoldMessengerKey: scaffoldKey,
       initialRoute: '/',
+      // routes: <String, WidgetBuilder>{
+      //   '/': (context) => MainPage(),
+      //   '/email': (context) => EmailVerificationPage(),
+      // },
       routes: <String, WidgetBuilder>{
-        '/': (context) => MainPage(),
+        '/': (context) => CircleHomeWidget(),
         '/email': (context) => EmailVerificationPage(),
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
       supportedLocales: AppLocalizations.supportedLocales,   
-      // localizationsDelegates: [
-      //   AppLocalizations.delegate,
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
-      // supportedLocales: [
-      //   const Locale('ja', ''), //日本語
-      //   const Locale('en', ''), //英語
-      // ],
       title: "",
       theme: ThemeData(
         primaryColor:Colors.blue,
@@ -466,3 +460,152 @@ class CircleWidget extends HookConsumerWidget {
 //     );
 //   }
 // }
+
+
+
+// check -1 別クラスを定義したので、locateやcontextが使える可能性あり。
+class CircleHomeWidget extends HookConsumerWidget {
+  
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    //  Locale locale = Localizations.localeOf(context);
+
+  // print(locale); 
+    // state（状態）
+    final _SignUpState = ref.watch(SignProvider);
+    final _SignUpNotifier = ref.watch(SignProvider.notifier);
+
+    final _UserState = ref.watch(UserProvider);
+    final _UserNotifier = ref.watch(UserProvider.notifier);
+
+    final _NavigateActionState = ref.watch(NavigateActionProvider);
+    final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
+
+
+    Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
+      // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
+      try{
+    print("abcd5");
+    print(_data?.link.queryParameters["continueUrl"].toString()); 
+    print("abcd568");
+    print(_data?.link.queryParametersAll.values); 
+    print("abcd568");
+    print(_data?.link); 
+
+    final url = _data?.link.queryParameters["continueUrl"].toString();
+    // check-1 (あとでerrorをthrowさせるかどうか) 
+    if(url == null) return;
+    final uri = Uri.parse(url);
+    String? email = uri.queryParameters['email'];
+    String? lang = uri.queryParameters['lang'];
+    print(url);
+    print(uri);
+    print(email);
+    print("abcd56");
+       // // すでにSigninしている場合はスキップ
+    // if (user != null) return;
+    // // メールアドレスの入力がない場合はスキップ
+    // check-1 (あとでerrorをthrowさせるかどうか) 
+    if (email == null) return;
+    
+
+    final String? _deepLink = _data?.link.toString();
+    print(_deepLink);
+    if (_deepLink == null) return;
+
+    // // リンク（＝URL）が、メールリンクかどうか検証
+    if (_auth.isSignInWithEmailLink(_deepLink)) {
+      var emailAuth = _SignUpState.newUserEmail;
+      print("ajgiefjaioefj");
+      print(emailAuth);
+      print(_SignUpState);
+      print("ajgiefjaioefj33");
+      // メールリンクに含まれる認証情報でサインイン
+      // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）yy
+      try{
+          print("ajgiefjaioefj33go1");
+          await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
+          print("ajgiefjaioefj33go");
+          messageHandleSnack2(lang);
+          print("aaaa");
+      }on FirebaseAuthException catch (e){
+          print("ajgiefjaioefj3");
+          print(e);
+          FirebaseAuthError2(e.code,context,lang);
+          print("ajgiefjaioefj3");
+      }
+    }
+    }catch(e){
+
+    }
+  }
+     Future<void> _initDynamicLink() async {
+      // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
+    print("abcd");
+    // リンクからアプリへ遷移するとき、アプリが開いていると発動
+    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+      // Navigator.pushNamed(context, dynamicLinkData.link.path);
+      print("abcd2");
+      print(dynamicLinkData);
+      print("abcd23");
+      _NavigateActionNotifier.onTapItem(0);
+      // Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      _verifyDynamicLink(dynamicLinkData);
+    }).onError((error) {
+  // Handle errors
+    print("abcd3");
+    print(error);
+    print("abcd3");
+    });
+    // リンクからアプリへ遷移するとき、アプリが開いていないと発動
+    FirebaseDynamicLinks.instance.getInitialLink().then(
+          _verifyDynamicLink,
+        );
+  }
+   Future<void> _initAuth() async {
+    FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User? user) {
+    if (user != null) {
+      print("eiajfeioajioejfaoiejfakldjfiea");
+      print(user.uid);
+      print("eiajfeioajioejfaoiejfakldjfiea");
+      print(user);
+      print("eiajfeioajioejfaoiejfakldjfiea");
+      // check -1 user email!のところ、エラー回避するかどうか
+      _UserNotifier.setCurrentUserEmail(user.email!); 
+
+    }
+  });
+  }
+  
+  Future<void> _initAsync() async {
+    print("abcd00");
+    await _initAuth();
+    await _initDynamicLink();
+  }
+  useEffect((){
+    _initAsync();
+  },[]);
+  print("abcd001");
+  print(_SignUpState);
+    // return MaterialApp(
+    //   scaffoldMessengerKey: scaffoldKey,
+    //   initialRoute: '/',
+    //   routes: <String, WidgetBuilder>{
+    //     '/': (context) => MainPage(),
+    //     '/email': (context) => EmailVerificationPage(),
+    //   },
+    //   localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
+    //   supportedLocales: AppLocalizations.supportedLocales,   
+    //   title: "",
+    //   theme: ThemeData(
+    //     primaryColor:Colors.blue,
+    //   ),
+    // );
+    return Scaffold(
+      body: MainPage(),
+    );
+  }
+}
