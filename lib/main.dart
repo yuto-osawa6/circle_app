@@ -1,5 +1,6 @@
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
+import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
@@ -481,6 +482,14 @@ class CircleHomeWidget extends HookConsumerWidget {
     final _NavigateActionState = ref.watch(NavigateActionProvider);
     final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
 
+    final asyncValue = ref.watch(userDataProvider);
+    print("asyncValue----");
+    print(asyncValue);
+    print("----");
+
+    // final client = RestClient(dio);
+
+    // client.getTasks().then((it) => logger.i(it));
 
     Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
       // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
@@ -525,11 +534,21 @@ class CircleHomeWidget extends HookConsumerWidget {
       try{
           print("ajgiefjaioefj33go1");
           await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
+          String token = await _auth.currentUser!.getIdToken();
+          CreateUserRepository repository = CreateUserRepository();
+          repository.fetchUsers(token);
+          final asyncValue = ref.watch(userDataProvider);
+          print(asyncValue);
+
           print("ajgiefjaioefj33go");
           messageHandleSnack2(lang);
           print("aaaa");
       }on FirebaseAuthException catch (e){
           print("ajgiefjaioefj3");
+          String token = await _auth.currentUser!.getIdToken();
+          CreateUserRepository repository = CreateUserRepository();
+          repository.fetchUsers(token);
+          final asyncValue = ref.watch(userDataProvider);
           print(e);
           FirebaseAuthError2(e.code,context,lang);
           print("ajgiefjaioefj3");

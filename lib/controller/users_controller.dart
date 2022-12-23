@@ -1,12 +1,16 @@
+import 'package:circle_app/client/user_api_client.dart';
 import 'package:circle_app/model/api/user.dart';
 import 'package:circle_app/model/state/navigate.dart';
+import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/ui/page/calendar/calendar.dart';
 import 'package:circle_app/ui/page/groupfrends/groupfrends.dart';
 import 'package:circle_app/ui/page/home/home.dart';
 import 'package:circle_app/ui/page/talk/talk.dart';
 import 'package:circle_app/ui/page/timeline/timeline.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 // import 'package:yochan/model/task_model.dart';
 
 // import 'package:yochan/repository/task_repo.dart';
@@ -14,41 +18,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class UserNotifier extends StateNotifier<UserModel> {
   // 初期値の指定
   UserNotifier() : super(UserModel());
-
-  // final _pages = <Widget>[
-  //   Home(),
-  //   GroupFrends(),
-  //   Talk(),
-  //   TimeLine(),
-  //   Calendar(),
-  // ];
-
-  // void onTapItem(int index) {
-  //     // clicks.value = index;
-  //     state = state.copyWith(page: index);
-  // }
-
-  // メインカウントを+1する
-  // void increaseMainCount() async {
-  //   state = state.copyWith(mainCount: state.mainCount + 1);
-  // }
-
-  // // サブカウントを+1する
-  // void increaseSubCount() async {
-  //   state = state.copyWith(subCount: state.subCount + 1);
-  // }
-
-  // // すべてのカウントを0に戻す
-  // void resetAllCount() async {
-  //   state = state.copyWith(
-  //     mainCount: 0,
-  //     subCount: 0,
-  //   );
-  // }
-
   void setCurrentUserEmail(String? email) async {
     state = state.copyWith(email: email);
   }
+
+  void setCurrentUserToken(String? token) async {
+    state = state.copyWith(token: token);
+  }
+  
 
 }
 
@@ -57,6 +34,60 @@ final UserProvider =
     StateNotifierProvider.autoDispose<UserNotifier, UserModel>(
   (ref) => UserNotifier(),
 );
+
+// Repository(APIの取得)を管理するためのProviderを作成
+final createUserRepostitoryProvider = Provider((ref) => CreateUserRepository());
+
+// APIの取得を非同期で管理するためのProviderを作成
+final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
+  // Repositoryのインスタンスを取得
+  final repository = ref.read(createUserRepostitoryProvider);
+  // トークンの状態を監視
+  final currentUser= ref.watch(UserProvider.notifier);
+  // トークンを組み込み、APIを取得する
+  // return await repository.fetchUsers(currentUser.state.token);
+  // final a = await repository.fetchUsers(currentUser.state.token);
+
+  final dio = Dio();
+  final client = UserApiClient(dio);
+  final logger = Logger();
+  // try{
+  //   final b = await client.getFlutterUser();
+  //   return b;
+  // }catch(e){
+
+  // }
+  final b = client.getFlutterUser().then((it) {
+  logger.i(it);
+  return it;
+}).catchError((Object obj) {
+   final res = (obj as DioError).response;
+   print(res);
+   print("res");
+   print(obj);
+  // non-200 error goes here.
+  // switch (obj.runtimeType) {
+  //   case DioError:
+  //     // Here's the sample to get the failed response error code and message
+  //     final res = (obj as DioError).response;
+  //     logger.e("Got error : ${res.statusCode} -> ${res.statusMessage}");
+  //     break;
+  //   default:
+  //     break;
+  // }
+});
+return b;
+  // final b = await client.getFlutterUser();
+  // // .then((it) => logger.i(it));
+  // print("aa");
+  // print(a);
+  // print("aa");
+  // print(b);
+  // print(b.email.runtimeType);
+  // print(b.token.runtimeType);
+  // return a;
+  // return b;
+});
 
 
 // import 'package:yochan/repository/task_repo.dart';
