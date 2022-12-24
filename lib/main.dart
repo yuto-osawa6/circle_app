@@ -481,11 +481,20 @@ class CircleHomeWidget extends HookConsumerWidget {
 
     final _NavigateActionState = ref.watch(NavigateActionProvider);
     final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
+    
 
-    final asyncValue = ref.watch(userDataProvider);
-    print("asyncValue----");
-    print(asyncValue);
-    print("----");
+
+    // String token = await _auth.currentUser!.getIdToken();
+    //       // CreateUserRepository repository = CreateUserRepository();
+    //       // repository.fetchUsers(token);
+    //       _UserNotifier.setCurrentUserToken(token);
+    //       final asyncValue = ref.watch(userDataProvider);
+    //       print(asyncValue);
+
+    // final asyncValue = ref.watch(userDataProvider);
+    // print("asyncValue----");
+    // // print(asyncValue);
+    // print("----");
 
     // final client = RestClient(dio);
 
@@ -535,8 +544,9 @@ class CircleHomeWidget extends HookConsumerWidget {
           print("ajgiefjaioefj33go1");
           await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
           String token = await _auth.currentUser!.getIdToken();
-          CreateUserRepository repository = CreateUserRepository();
-          repository.fetchUsers(token);
+          // CreateUserRepository repository = CreateUserRepository();
+          // repository.fetchUsers(token);
+          _UserNotifier.setCurrentUserToken(token);
           final asyncValue = ref.watch(userDataProvider);
           print(asyncValue);
 
@@ -545,10 +555,10 @@ class CircleHomeWidget extends HookConsumerWidget {
           print("aaaa");
       }on FirebaseAuthException catch (e){
           print("ajgiefjaioefj3");
-          String token = await _auth.currentUser!.getIdToken();
-          CreateUserRepository repository = CreateUserRepository();
-          repository.fetchUsers(token);
-          final asyncValue = ref.watch(userDataProvider);
+          // String token = await _auth.currentUser!.getIdToken();
+          // CreateUserRepository repository = CreateUserRepository();
+          // repository.fetchUsers(token);
+          // final asyncValue = ref.watch(userDataProvider);
           print(e);
           FirebaseAuthError2(e.code,context,lang);
           print("ajgiefjaioefj3");
@@ -583,20 +593,32 @@ class CircleHomeWidget extends HookConsumerWidget {
         );
   }
    Future<void> _initAuth() async {
+    String token = await _auth.currentUser!.getIdToken();
     FirebaseAuth.instance
   .authStateChanges()
   .listen((User? user) {
-    if (user != null) {
+    if (user != null && token !=null) {
       print("eiajfeioajioejfaoiejfakldjfiea");
       print(user.uid);
       print("eiajfeioajioejfaoiejfakldjfiea");
       print(user);
       print("eiajfeioajioejfaoiejfakldjfiea");
       // check -1 user email!のところ、エラー回避するかどうか
-      _UserNotifier.setCurrentUserEmail(user.email!); 
+      _UserNotifier.setCurrentUserEmail(user.email!);
 
+      _UserNotifier.setCurrentUserToken("Bearer ${token}");
+  print(_UserState);
+          final asyncValue = ref.watch(userDataProvider);
+          print(asyncValue);
     }
   });
+  print("aafjeioa99990");
+  // String token = await _auth.currentUser!.getIdToken();
+  print(token);
+          // CreateUserRepository repository = CreateUserRepository();
+          // repository.fetchUsers(token);
+          
+  
   }
   
   Future<void> _initAsync() async {

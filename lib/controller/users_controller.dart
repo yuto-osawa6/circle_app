@@ -43,50 +43,39 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   // Repositoryのインスタンスを取得
   final repository = ref.read(createUserRepostitoryProvider);
   // トークンの状態を監視
-  final currentUser= ref.watch(UserProvider.notifier);
+  final currentUserState= ref.watch(UserProvider);
+  print("token2");
+  print(currentUserState.token);
+  print("token2");
+  // final currentUserNotifier= ref.watch(UserProvider.notifier);
   // トークンを組み込み、APIを取得する
   // return await repository.fetchUsers(currentUser.state.token);
-  // final a = await repository.fetchUsers(currentUser.state.token);
+  final a = await repository.fetchUsers(currentUserState.token);
 
-  final dio = Dio();
-  final client = UserApiClient(dio);
-  final logger = Logger();
-  // try{
-  //   final b = await client.getFlutterUser();
-  //   return b;
-  // }catch(e){
-
-  // }
-  final b = client.getFlutterUser().then((it) {
-  logger.i(it);
-  return it;
-}).catchError((Object obj) {
-   final res = (obj as DioError).response;
-   print(res);
-   print("res");
-   print(obj);
-  // non-200 error goes here.
-  // switch (obj.runtimeType) {
-  //   case DioError:
-  //     // Here's the sample to get the failed response error code and message
-  //     final res = (obj as DioError).response;
-  //     logger.e("Got error : ${res.statusCode} -> ${res.statusMessage}");
-  //     break;
-  //   default:
-  //     break;
-  // }
-});
-return b;
-  // final b = await client.getFlutterUser();
-  // // .then((it) => logger.i(it));
-  // print("aa");
-  // print(a);
-  // print("aa");
-  // print(b);
-  // print(b.email.runtimeType);
-  // print(b.token.runtimeType);
-  // return a;
-  // return b;
+//   final dio = Dio();
+//   final client = UserApiClient(dio);
+//   // final logger = Logger();
+//   final b = client.getFlutterUser(currentUserState.token).then((it) {
+//   // logger.i(it);
+//   return it;
+// }).catchError((Object obj) {
+//    final res = (obj as DioError).response;
+//    print(res);
+//    print("res");
+//    print(obj);
+//   // non-200 error goes here.
+//   // switch (obj.runtimeType) {
+//   //   case DioError:
+//   //     // Here's the sample to get the failed response error code and message
+//   //     final res = (obj as DioError).response;
+//   //     logger.e("Got error : ${res.statusCode} -> ${res.statusMessage}");
+//   //     break;
+//   //   default:
+//   //     break;
+//   // }
+// });
+// return b;
+return a;
 });
 
 
@@ -98,3 +87,6 @@ return b;
 //     return await userRepository.fetchUsers();
 //   }
 // }
+
+// final dio = Dio();
+// final client = UserApiClient(dio);

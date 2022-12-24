@@ -40,10 +40,10 @@ class Home extends HookConsumerWidget {
     final _UserNotifier = ref.watch(UserProvider.notifier);
 
     Locale locale = Localizations.localeOf(context);
-    final asyncValue = ref.watch(userDataProvider);
-    print("asyncValue----");
-    print(asyncValue);
-    print("----");
+    // final asyncValue = ref.watch(userDataProvider);
+    // print("asyncValue----");
+    // print(asyncValue);
+    // print("----");
 
   print(locale); 
   // var descTextStyle = TextStyle(
@@ -114,14 +114,14 @@ class Home extends HookConsumerWidget {
                 // fontWeight: FontWeight.w700
               ),
             ),
-            Text(
-              // check-1 _UserState.email! !が必要な理由
-              asyncValue.value != null?asyncValue.value!.email!:"null",
-              style: TextStyle(
-                // fontFamily: 'Noto_Serif_JP',
-                // fontWeight: FontWeight.w700
-              ),
-            ),
+            // Text(
+            //   // check-1 _UserState.email! !が必要な理由
+            //   asyncValue.value != null?asyncValue.value!.email!:"null",
+            //   style: TextStyle(
+            //     // fontFamily: 'Noto_Serif_JP',
+            //     // fontWeight: FontWeight.w700
+            //   ),
+            // ),
             
             // Text(
             //   "認証あいあいげういあふぇういあふぇ",
