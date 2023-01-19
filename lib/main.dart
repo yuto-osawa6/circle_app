@@ -546,12 +546,14 @@ class CircleHomeWidget extends HookConsumerWidget {
           String token = await _auth.currentUser!.getIdToken();
           // CreateUserRepository repository = CreateUserRepository();
           // repository.fetchUsers(token);
-          _UserNotifier.setCurrentUserToken(token);
+          _UserNotifier.setCurrentUserToken("Bearer ${token}");
+          // check したいらない 試しコード
+          _UserNotifier.setCurrentUserEmail(email);
           final asyncValue = ref.watch(userDataProvider);
           print(asyncValue);
 
           print("ajgiefjaioefj33go");
-          // messageHandleSnack2(lang);
+          messageHandleSnack2(lang);
           print("aaaa");
       }on FirebaseAuthException catch (e){
           print("ajgiefjaioefj3");
@@ -560,7 +562,7 @@ class CircleHomeWidget extends HookConsumerWidget {
           // repository.fetchUsers(token);
           // final asyncValue = ref.watch(userDataProvider);
           print(e);
-          // FirebaseAuthError2(e.code,context,lang);
+          FirebaseAuthError2(e.code,context,lang);
           print("ajgiefjaioefj3");
       }
     }
@@ -588,6 +590,7 @@ class CircleHomeWidget extends HookConsumerWidget {
     print("abcd3");
     });
     // リンクからアプリへ遷移するとき、アプリが開いていないと発動
+    // check 確認してない。dynamiclinkDataを引数に必要。
     FirebaseDynamicLinks.instance.getInitialLink().then(
           _verifyDynamicLink,
         );
