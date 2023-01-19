@@ -551,7 +551,7 @@ class CircleHomeWidget extends HookConsumerWidget {
           print(asyncValue);
 
           print("ajgiefjaioefj33go");
-          messageHandleSnack2(lang);
+          // messageHandleSnack2(lang);
           print("aaaa");
       }on FirebaseAuthException catch (e){
           print("ajgiefjaioefj3");
@@ -560,7 +560,7 @@ class CircleHomeWidget extends HookConsumerWidget {
           // repository.fetchUsers(token);
           // final asyncValue = ref.watch(userDataProvider);
           print(e);
-          FirebaseAuthError2(e.code,context,lang);
+          // FirebaseAuthError2(e.code,context,lang);
           print("ajgiefjaioefj3");
       }
     }
@@ -593,7 +593,8 @@ class CircleHomeWidget extends HookConsumerWidget {
         );
   }
    Future<void> _initAuth() async {
-    String token = await _auth.currentUser!.getIdToken();
+    // print()
+    final token = await _auth.currentUser?.getIdToken();
     FirebaseAuth.instance
   .authStateChanges()
   .listen((User? user) {
