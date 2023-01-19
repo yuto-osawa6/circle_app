@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'sign_model.dart';
 
@@ -33,7 +33,8 @@ mixin _$SignModel {
 /// @nodoc
 abstract class $SignModelCopyWith<$Res> {
   factory $SignModelCopyWith(SignModel value, $Res Function(SignModel) then) =
-      _$SignModelCopyWithImpl<$Res>;
+      _$SignModelCopyWithImpl<$Res, SignModel>;
+  @useResult
   $Res call(
       {String newUserEmail,
       String newUserPassword,
@@ -46,58 +47,61 @@ abstract class $SignModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SignModelCopyWithImpl<$Res> implements $SignModelCopyWith<$Res> {
+class _$SignModelCopyWithImpl<$Res, $Val extends SignModel>
+    implements $SignModelCopyWith<$Res> {
   _$SignModelCopyWithImpl(this._value, this._then);
 
-  final SignModel _value;
   // ignore: unused_field
-  final $Res Function(SignModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? newUserEmail = freezed,
-    Object? newUserPassword = freezed,
-    Object? newUserPassword2 = freezed,
-    Object? loginUserEmail = freezed,
-    Object? loginUserPassword = freezed,
-    Object? infoText = freezed,
-    Object? openEye = freezed,
-    Object? openEye2 = freezed,
+    Object? newUserEmail = null,
+    Object? newUserPassword = null,
+    Object? newUserPassword2 = null,
+    Object? loginUserEmail = null,
+    Object? loginUserPassword = null,
+    Object? infoText = null,
+    Object? openEye = null,
+    Object? openEye2 = null,
   }) {
     return _then(_value.copyWith(
-      newUserEmail: newUserEmail == freezed
+      newUserEmail: null == newUserEmail
           ? _value.newUserEmail
           : newUserEmail // ignore: cast_nullable_to_non_nullable
               as String,
-      newUserPassword: newUserPassword == freezed
+      newUserPassword: null == newUserPassword
           ? _value.newUserPassword
           : newUserPassword // ignore: cast_nullable_to_non_nullable
               as String,
-      newUserPassword2: newUserPassword2 == freezed
+      newUserPassword2: null == newUserPassword2
           ? _value.newUserPassword2
           : newUserPassword2 // ignore: cast_nullable_to_non_nullable
               as String,
-      loginUserEmail: loginUserEmail == freezed
+      loginUserEmail: null == loginUserEmail
           ? _value.loginUserEmail
           : loginUserEmail // ignore: cast_nullable_to_non_nullable
               as String,
-      loginUserPassword: loginUserPassword == freezed
+      loginUserPassword: null == loginUserPassword
           ? _value.loginUserPassword
           : loginUserPassword // ignore: cast_nullable_to_non_nullable
               as String,
-      infoText: infoText == freezed
+      infoText: null == infoText
           ? _value.infoText
           : infoText // ignore: cast_nullable_to_non_nullable
               as String,
-      openEye: openEye == freezed
+      openEye: null == openEye
           ? _value.openEye
           : openEye // ignore: cast_nullable_to_non_nullable
               as bool,
-      openEye2: openEye2 == freezed
+      openEye2: null == openEye2
           ? _value.openEye2
           : openEye2 // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 }
 
@@ -107,6 +111,7 @@ abstract class _$$_SignModelCopyWith<$Res> implements $SignModelCopyWith<$Res> {
           _$_SignModel value, $Res Function(_$_SignModel) then) =
       __$$_SignModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String newUserEmail,
       String newUserPassword,
@@ -119,56 +124,55 @@ abstract class _$$_SignModelCopyWith<$Res> implements $SignModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_SignModelCopyWithImpl<$Res> extends _$SignModelCopyWithImpl<$Res>
+class __$$_SignModelCopyWithImpl<$Res>
+    extends _$SignModelCopyWithImpl<$Res, _$_SignModel>
     implements _$$_SignModelCopyWith<$Res> {
   __$$_SignModelCopyWithImpl(
       _$_SignModel _value, $Res Function(_$_SignModel) _then)
-      : super(_value, (v) => _then(v as _$_SignModel));
+      : super(_value, _then);
 
-  @override
-  _$_SignModel get _value => super._value as _$_SignModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? newUserEmail = freezed,
-    Object? newUserPassword = freezed,
-    Object? newUserPassword2 = freezed,
-    Object? loginUserEmail = freezed,
-    Object? loginUserPassword = freezed,
-    Object? infoText = freezed,
-    Object? openEye = freezed,
-    Object? openEye2 = freezed,
+    Object? newUserEmail = null,
+    Object? newUserPassword = null,
+    Object? newUserPassword2 = null,
+    Object? loginUserEmail = null,
+    Object? loginUserPassword = null,
+    Object? infoText = null,
+    Object? openEye = null,
+    Object? openEye2 = null,
   }) {
     return _then(_$_SignModel(
-      newUserEmail: newUserEmail == freezed
+      newUserEmail: null == newUserEmail
           ? _value.newUserEmail
           : newUserEmail // ignore: cast_nullable_to_non_nullable
               as String,
-      newUserPassword: newUserPassword == freezed
+      newUserPassword: null == newUserPassword
           ? _value.newUserPassword
           : newUserPassword // ignore: cast_nullable_to_non_nullable
               as String,
-      newUserPassword2: newUserPassword2 == freezed
+      newUserPassword2: null == newUserPassword2
           ? _value.newUserPassword2
           : newUserPassword2 // ignore: cast_nullable_to_non_nullable
               as String,
-      loginUserEmail: loginUserEmail == freezed
+      loginUserEmail: null == loginUserEmail
           ? _value.loginUserEmail
           : loginUserEmail // ignore: cast_nullable_to_non_nullable
               as String,
-      loginUserPassword: loginUserPassword == freezed
+      loginUserPassword: null == loginUserPassword
           ? _value.loginUserPassword
           : loginUserPassword // ignore: cast_nullable_to_non_nullable
               as String,
-      infoText: infoText == freezed
+      infoText: null == infoText
           ? _value.infoText
           : infoText // ignore: cast_nullable_to_non_nullable
               as String,
-      openEye: openEye == freezed
+      openEye: null == openEye
           ? _value.openEye
           : openEye // ignore: cast_nullable_to_non_nullable
               as bool,
-      openEye2: openEye2 == freezed
+      openEye2: null == openEye2
           ? _value.openEye2
           : openEye2 // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -239,35 +243,38 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SignModel &&
-            const DeepCollectionEquality()
-                .equals(other.newUserEmail, newUserEmail) &&
-            const DeepCollectionEquality()
-                .equals(other.newUserPassword, newUserPassword) &&
-            const DeepCollectionEquality()
-                .equals(other.newUserPassword2, newUserPassword2) &&
-            const DeepCollectionEquality()
-                .equals(other.loginUserEmail, loginUserEmail) &&
-            const DeepCollectionEquality()
-                .equals(other.loginUserPassword, loginUserPassword) &&
-            const DeepCollectionEquality().equals(other.infoText, infoText) &&
-            const DeepCollectionEquality().equals(other.openEye, openEye) &&
-            const DeepCollectionEquality().equals(other.openEye2, openEye2));
+            (identical(other.newUserEmail, newUserEmail) ||
+                other.newUserEmail == newUserEmail) &&
+            (identical(other.newUserPassword, newUserPassword) ||
+                other.newUserPassword == newUserPassword) &&
+            (identical(other.newUserPassword2, newUserPassword2) ||
+                other.newUserPassword2 == newUserPassword2) &&
+            (identical(other.loginUserEmail, loginUserEmail) ||
+                other.loginUserEmail == loginUserEmail) &&
+            (identical(other.loginUserPassword, loginUserPassword) ||
+                other.loginUserPassword == loginUserPassword) &&
+            (identical(other.infoText, infoText) ||
+                other.infoText == infoText) &&
+            (identical(other.openEye, openEye) || other.openEye == openEye) &&
+            (identical(other.openEye2, openEye2) ||
+                other.openEye2 == openEye2));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(newUserEmail),
-      const DeepCollectionEquality().hash(newUserPassword),
-      const DeepCollectionEquality().hash(newUserPassword2),
-      const DeepCollectionEquality().hash(loginUserEmail),
-      const DeepCollectionEquality().hash(loginUserPassword),
-      const DeepCollectionEquality().hash(infoText),
-      const DeepCollectionEquality().hash(openEye),
-      const DeepCollectionEquality().hash(openEye2));
+      newUserEmail,
+      newUserPassword,
+      newUserPassword2,
+      loginUserEmail,
+      loginUserPassword,
+      infoText,
+      openEye,
+      openEye2);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SignModelCopyWith<_$_SignModel> get copyWith =>
       __$$_SignModelCopyWithImpl<_$_SignModel>(this, _$identity);
 }

@@ -3,6 +3,7 @@ import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
+import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
@@ -551,6 +552,7 @@ class CircleHomeWidget extends HookConsumerWidget {
           _UserNotifier.setCurrentUserEmail(email);
           final asyncValue = ref.watch(userDataProvider);
           print(asyncValue);
+          print(asyncValue.error);
 
           print("ajgiefjaioefj33go");
           messageHandleSnack2(lang);
@@ -611,9 +613,12 @@ class CircleHomeWidget extends HookConsumerWidget {
       _UserNotifier.setCurrentUserEmail(user.email!);
 
       _UserNotifier.setCurrentUserToken("Bearer ${token}");
-  print(_UserState);
-          final asyncValue = ref.watch(userDataProvider);
-          print(asyncValue);
+      print(_UserState);
+      final asyncValue = ref.watch(userDataProvider);
+      print("asyncValue");
+      print(asyncValue.error);
+      print("asyncValue");
+
     }
   });
   print("aafjeioa99990");
@@ -649,8 +654,31 @@ class CircleHomeWidget extends HookConsumerWidget {
     //     primaryColor:Colors.blue,
     //   ),
     // );
+    final asyncValue = ref.watch(userDataProvider);
+    ref.listen<String?>(
+      errorMessageProvider,
+      ((previous, next) {
+        print("next");
+        print(next);
+        apiError(next, context);
+        // if (next == '403') {
+        //   // errorDialog('検索できないよ😡');
+        //   apiError(context)
+        // }
+        // if (next == '404') {
+        //   // errorDialog('投稿が見つかりません😢');
+        // }
+      }),
+    );
     return Scaffold(
-      body: MainPage(),
+      // body: MainPage(),
+      body: Center(
+        child: asyncValue.when(
+          error: (err, _) => Text(err.toString()), //エラー時
+          loading: () => const CircularProgressIndicator(), //読み込み時
+          data: (data) => Text(data.toString()), //データ受け取り時
+        ),
+      ),
     );
   }
 }

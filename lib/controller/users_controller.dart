@@ -35,6 +35,9 @@ final UserProvider =
   (ref) => UserNotifier(),
 );
 
+// エラーメッセージを管理。isNotEmptyになったらViewのref.listenのコールバックが発火してダイアログ表示
+final errorMessageProvider = StateProvider<String?>((_) => '');
+
 // Repository(APIの取得)を管理するためのProviderを作成
 final createUserRepostitoryProvider = Provider((ref) => CreateUserRepository());
 
@@ -44,13 +47,31 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   final repository = ref.read(createUserRepostitoryProvider);
   // トークンの状態を監視
   final currentUserState= ref.watch(UserProvider);
+  
   print("token2");
   print(currentUserState.token);
   print("token2");
-  // final currentUserNotifier= ref.watch(UserProvider.notifier);
-  // トークンを組み込み、APIを取得する
-  // return await repository.fetchUsers(currentUser.state.token);
-  final a = await repository.fetchUsers(currentUserState.token);
+  // return await repository.fetchUsers(currentUserState.token);
+
+  return await repository.fetchUsers(currentUserState.token).then((result) {
+      result.when(
+        success: (value) => value,
+        failure: (error) {
+          print("error fetchuser");
+          print(error.message);
+          print(error.response?.statusCode);
+          print("error fetchuser");
+
+          ref
+            .read(errorMessageProvider.notifier)
+            .update((state) => state = error.response?.statusCode.toString());
+        });
+  });
+
+
+  // final a = await repository.fetchUsers(currentUserState.token);
+  // return a;
+
 
 //   final dio = Dio();
 //   final client = UserApiClient(dio);
@@ -75,7 +96,7 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
 //   // }
 // });
 // return b;
-return a;
+// return a;
 });
 
 
