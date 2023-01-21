@@ -654,31 +654,24 @@ class CircleHomeWidget extends HookConsumerWidget {
     //     primaryColor:Colors.blue,
     //   ),
     // );
-    final asyncValue = ref.watch(userDataProvider);
+    // final asyncValue = ref.watch(userDataProvider);
     ref.listen<String?>(
       errorMessageProvider,
       ((previous, next) {
         print("next");
         print(next);
         apiError(next, context);
-        // if (next == '403') {
-        //   // errorDialog('検索できないよ😡');
-        //   apiError(context)
-        // }
-        // if (next == '404') {
-        //   // errorDialog('投稿が見つかりません😢');
-        // }
       }),
     );
     return Scaffold(
-      // body: MainPage(),
-      body: Center(
-        child: asyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const CircularProgressIndicator(), //読み込み時
-          data: (data) => Text(data.toString()), //データ受け取り時
-        ),
-      ),
+      body: MainPage(),
+      // body: Center(
+      //   child: asyncValue.when(
+      //     error: (err, _) => Text(err.toString()), //エラー時
+      //     loading: () => const CircularProgressIndicator(), //読み込み時
+      //     data: (data) => Text(data.toString()), //データ受け取り時
+      //   ),
+      // ),
     );
   }
 }
