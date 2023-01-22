@@ -48,7 +48,7 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   // トークンの状態を監視
   final currentUserState= ref.watch(UserProvider);
   
-  // print("token2");
+  print("token2");
   print(currentUserState.token);
   // print("token2");
   // return await repository.fetchUsers(currentUserState.token);
