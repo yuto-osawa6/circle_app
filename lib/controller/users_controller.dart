@@ -50,7 +50,7 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   
   print("token2");
   print(currentUserState.token);
-  print("token2");
+  // print("token2");
   // return await repository.fetchUsers(currentUserState.token);
 
   return await repository.fetchUsers(currentUserState.token).then((result) {
