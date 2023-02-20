@@ -1,5 +1,6 @@
 
 import 'package:circle_app/main.dart';
+import 'package:circle_app/utils/method/error/errorJa.dart';
 import 'package:flutter/material.dart';
 
 void errorHandleSnack (BuildContext context, String text){
@@ -15,6 +16,28 @@ void errorHandleSnack2 (String text){
     _scaffoldMessangerState.showSnackBar(SnackBar(content: Text(text)));
     print("ajdieoooooo889");
   }
+
+  // void errorHandleSnack3 (int? code,String text, String? lang) {
+  //   switch (lang) {
+  //   case "ja":
+  //     errorHandleSnack3messageJa(code);
+  //     break;
+  //   case "en":
+  //     // messageHandleSnackEn2();
+  //     if(code != null){
+  //       errorHandleSnack2(text);
+  //     }else{
+  //       errorHandleSnack2("An unexpected error has occurred.Please contact us");
+  //     }
+
+  //     break;
+  // // 条件に一致しない場合
+  //   default:
+  //     errorHandleSnack2("An unexpected error has occurred.Please contact us");
+  //   }
+  // } 
+
+// ------------------
   
 
 void messageHandleSnack (BuildContext context, String text){

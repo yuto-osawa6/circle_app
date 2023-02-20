@@ -1,3 +1,4 @@
+import 'package:circle_app/controller/lang_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/repository/user_create.dart';
@@ -482,6 +483,10 @@ class CircleHomeWidget extends HookConsumerWidget {
 
     final _NavigateActionState = ref.watch(NavigateActionProvider);
     final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
+
+    final _LangState = ref.watch(LangProvider);
+    final _LangNotifier = ref.watch(LangProvider.notifier);
+
     
 
 
@@ -551,11 +556,11 @@ class CircleHomeWidget extends HookConsumerWidget {
           // check したいらない 試しコード
           _UserNotifier.setCurrentUserEmail(email);
           final asyncValue = ref.watch(userDataProvider);
-          print(asyncValue);
-          print(asyncValue.error);
-
+          _LangNotifier.setCurrentLang(lang);
+          // print(asyncValue);
+          // print(asyncValue.error);
           print("ajgiefjaioefj33go");
-          messageHandleSnack2(lang);
+          // messageHandleSnack2(lang);
           print("aaaa");
       }on FirebaseAuthException catch (e){
           print("ajgiefjaioefj3");

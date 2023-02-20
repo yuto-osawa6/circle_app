@@ -1,4 +1,5 @@
 import 'package:circle_app/client/user_api_client.dart';
+import 'package:circle_app/controller/lang_controller.dart';
 import 'package:circle_app/model/api/user.dart';
 import 'package:circle_app/model/state/navigate.dart';
 import 'package:circle_app/repository/user_create.dart';
@@ -7,10 +8,13 @@ import 'package:circle_app/ui/page/groupfrends/groupfrends.dart';
 import 'package:circle_app/ui/page/home/home.dart';
 import 'package:circle_app/ui/page/talk/talk.dart';
 import 'package:circle_app/ui/page/timeline/timeline.dart';
+import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+
+import 'package:circle_app/model/api/result.dart';
 // import 'package:yochan/model/task_model.dart';
 
 // import 'package:yochan/repository/task_repo.dart';
@@ -47,6 +51,7 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   final repository = ref.read(createUserRepostitoryProvider);
   // トークンの状態を監視
   final currentUserState= ref.watch(UserProvider);
+  final langState = ref.watch(LangProvider);
   
   // print("token2");
   print(currentUserState.token);
@@ -54,18 +59,22 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   // return await repository.fetchUsers(currentUserState.token);
 
   return await repository.fetchUsers(currentUserState.token).then((result) {
-      result.when(
-        success: (value) => value,
-        failure: (error) {
-          print("error fetchuser");
-          print(error.message);
-          print(error.response?.statusCode);
-          print("error fetchuser");
+    result.when(
+      success: (value) {
+          // messageHandleSnack2(langState.lang);
+          return value;
+        },
+      failure: (error) {
+        print("error fetchuser");
+        print(error.message);
+        print(error.response?.statusCode);
+        // errorHandleSnack3(error.response?.statusCode,error.message,langState.lang);
+        print("error fetchuser");
 
-          ref
-            .read(errorMessageProvider.notifier)
-            .update((state) => state = error.response?.statusCode.toString());
-        });
+      ref
+        .read(errorMessageProvider.notifier)
+        .update((state) => state = error.response?.statusCode.toString());
+    });
   });
 
 
