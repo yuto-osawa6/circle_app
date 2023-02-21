@@ -17,10 +17,10 @@ void errorHandleSnack2 (String text){
     print("ajdieoooooo889");
   }
 
-  // void errorHandleSnack3 (int? code,String text, String? lang) {
+  // void  apiError (int? code,String text, String? lang) {
   //   switch (lang) {
   //   case "ja":
-  //     errorHandleSnack3messageJa(code);
+  //     apiErrorJa(code);
   //     break;
   //   case "en":
   //     // messageHandleSnackEn2();

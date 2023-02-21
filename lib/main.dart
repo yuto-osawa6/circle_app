@@ -660,14 +660,16 @@ class CircleHomeWidget extends HookConsumerWidget {
     //   ),
     // );
     // final asyncValue = ref.watch(userDataProvider);
-    ref.listen<String?>(
-      errorMessageProvider,
-      ((previous, next) {
-        print("next");
-        print(next);
-        apiError(next, context);
-      }),
-    );
+
+    // check1 errorMessageの内容が更新されるたびに呼ばれるのかどうかわからないため保留。
+    // ref.listen<String?>(
+    //   errorMessageProvider,
+    //   ((previous, next) {
+    //     print("next");
+    //     print(next);
+    //     apiError(next, context);
+    //   }),
+    // );
     return Scaffold(
       body: MainPage(),
       // body: Center(

@@ -8,6 +8,7 @@ import 'package:circle_app/ui/page/groupfrends/groupfrends.dart';
 import 'package:circle_app/ui/page/home/home.dart';
 import 'package:circle_app/ui/page/talk/talk.dart';
 import 'package:circle_app/ui/page/timeline/timeline.dart';
+import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -61,19 +62,19 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   return await repository.fetchUsers(currentUserState.token).then((result) {
     result.when(
       success: (value) {
-          // messageHandleSnack2(langState.lang);
+          messageHandleSnack2(langState.lang);
           return value;
         },
       failure: (error) {
         print("error fetchuser");
         print(error.message);
         print(error.response?.statusCode);
-        // errorHandleSnack3(error.response?.statusCode,error.message,langState.lang);
+        apiError(error.response?.statusCode,error.message,langState.lang);
         print("error fetchuser");
 
-      ref
-        .read(errorMessageProvider.notifier)
-        .update((state) => state = error.response?.statusCode.toString());
+      // ref
+      //   .read(errorMessageProvider.notifier)
+      //   .update((state) => state = error.response?.statusCode.toString());
     });
   });
 
