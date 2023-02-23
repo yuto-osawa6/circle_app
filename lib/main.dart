@@ -550,12 +550,16 @@ class CircleHomeWidget extends HookConsumerWidget {
           print("ajgiefjaioefj33go1");
           await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
           String token = await _auth.currentUser!.getIdToken();
+          debugPrint(token);
+          debugPrint("token-----");
+          debugPrint(_auth.currentUser?.uid);
+          debugPrint("auth-----");
           // CreateUserRepository repository = CreateUserRepository();
           // repository.fetchUsers(token);
           _UserNotifier.setCurrentUserToken("Bearer ${token}");
           // check したいらない 試しコード
           _UserNotifier.setCurrentUserEmail(email);
-          final asyncValue = ref.watch(userDataProvider);
+          final asyncValue = ref.watch(userDataProvider2);
           _LangNotifier.setCurrentLang(lang);
           // print(asyncValue);
           // print(asyncValue.error);
@@ -621,7 +625,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       print(_UserState);
       final asyncValue = ref.watch(userDataProvider);
       print("asyncValue");
-      print(asyncValue.error);
+      // print(asyncValue.error);
       print("asyncValue");
 
     }

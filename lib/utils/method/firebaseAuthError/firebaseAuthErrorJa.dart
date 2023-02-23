@@ -18,7 +18,7 @@ void FirebaseAuthErrorJa(String code,BuildContext context) {
     errorHandleSnack(context,"メールアドレスを入力してください。");
     break;
   case "too-many-requests":
-    errorHandleSnack(context,"連続でリクエストが送信されため、このデバイスからのすべてのリクエストをブロックしました。数分後、もう一度試してみてください。");
+    errorHandleSnack(context,"連続でリクエストが送信されため、このデバイスからのすべてのリクエストをブロックしました。後に、もう一度試してください。");
     break;
 // 条件に一致しない場合
   default:

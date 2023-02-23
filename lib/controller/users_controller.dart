@@ -54,9 +54,9 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   final currentUserState= ref.watch(UserProvider);
   final langState = ref.watch(LangProvider);
   
-  // print("token2");
+  print("token2");
   print(currentUserState.token);
-  // print("token2");
+  print("token2");
   // return await repository.fetchUsers(currentUserState.token);
 
   return await repository.fetchUsers(currentUserState.token).then((result) {
@@ -121,3 +121,67 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
 
 // final dio = Dio();
 // final client = UserApiClient(dio);
+
+
+// APIの取得を非同期で管理するためのProviderを作成
+final userDataProvider2 = FutureProvider.autoDispose<UserModel?>((ref) async {
+  // Repositoryのインスタンスを取得
+  final repository = ref.read(createUserRepostitoryProvider);
+  // トークンの状態を監視
+  final currentUserState= ref.watch(UserProvider);
+  final langState = ref.watch(LangProvider);
+  
+  print("token23");
+  print(currentUserState.token);
+  print("token23");
+  // return await repository.fetchUsers(currentUserState.token);
+
+  return await repository.fetchUsers(currentUserState.token).then((result) {
+    result.when(
+      success: (value) {
+          messageHandleSnack2(langState.lang);
+          return value;
+        },
+      failure: (error) {
+        print("error fetchuser3");
+        print(error.message);
+        print(error.response?.statusCode);
+        apiError(error.response?.statusCode,error.message,langState.lang);
+        print("error fetchuser3");
+
+      // ref
+      //   .read(errorMessageProvider.notifier)
+      //   .update((state) => state = error.response?.statusCode.toString());
+    });
+  });
+
+
+  // final a = await repository.fetchUsers(currentUserState.token);
+  // return a;
+
+
+//   final dio = Dio();
+//   final client = UserApiClient(dio);
+//   // final logger = Logger();
+//   final b = client.getFlutterUser(currentUserState.token).then((it) {
+//   // logger.i(it);
+//   return it;
+// }).catchError((Object obj) {
+//    final res = (obj as DioError).response;
+//    print(res);
+//    print("res");
+//    print(obj);
+//   // non-200 error goes here.
+//   // switch (obj.runtimeType) {
+//   //   case DioError:
+//   //     // Here's the sample to get the failed response error code and message
+//   //     final res = (obj as DioError).response;
+//   //     logger.e("Got error : ${res.statusCode} -> ${res.statusMessage}");
+//   //     break;
+//   //   default:
+//   //     break;
+//   // }
+// });
+// return b;
+// return a;
+});
