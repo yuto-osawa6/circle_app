@@ -147,7 +147,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // print(idToken);
           // print("aaab");
           // print(result.user!.emailVerified);
-          print("bbbb");
+          // print("bbbb");
           // if(result.user!.emailVerified){
             print("bbbb2");
           // }else{
