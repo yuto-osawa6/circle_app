@@ -128,6 +128,36 @@ class SignUpNotifier extends StateNotifier<SignModel> {
         } on FirebaseAuthException catch (e) {
           print(e);
           print("afefie");
+          // developer.log()
+          // print(e.);
+
+          // emailが既に登録されていて、認証がまだの場合。
+          // if(e.code == "email-already-in-use"){
+          //   print("yいえじあ");
+          // }
+          // try {
+          //   if(e.code == "email-already-in-use"){
+          //     final FirebaseAuth auth = FirebaseAuth.instance;
+          //     final UserCredential result =
+          //       await auth.signInWithEmailAndPassword(
+          //     email: state.newUserEmail,
+          //     password: state.newUserPassword,
+          //   );
+          //     if(result.user!.emailVerified){
+          //     }else{
+          //       // errorHandleSnack(context,"mailアドレスを認証してください。");
+          //       result.user!.delete();
+          //       handleSignUp(context);
+          //       print("削除した");
+          //       return;
+          //     }
+          //   }
+          // }on FirebaseAuthException catch (e) {
+          //   FirebaseAuthError("email-already-in-use",context);
+          //   return;
+          // }
+
+          // print(e.code);
           FirebaseAuthError(e.code,context);
         }
     }
@@ -138,15 +168,15 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
           // auth.sendSignInLinkToEmail(auth,email)
-          final UserCredential result =
-              await auth.createUserWithEmailAndPassword(
-            email: state.newUserEmail,
-            password: state.newUserPassword,
-          );
+          // final UserCredential result =
+          //     await auth.createUserWithEmailAndPassword(
+          //   email: state.newUserEmail,
+          //   password: state.newUserPassword,
+          // );
           // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           // print(idToken);
           print("aaab");
-          print(result.user!.emailVerified);
+          // print(result.user!.emailVerified);
           print("bbbb");
           // if(result.user!.emailVerified){
             print("bbbb2");
