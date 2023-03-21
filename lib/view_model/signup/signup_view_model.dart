@@ -175,7 +175,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // );
           // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           // print(idToken);
-          print("aaab");
+          // print("aaab");
           // print(result.user!.emailVerified);
           print("bbbb");
           // if(result.user!.emailVerified){
