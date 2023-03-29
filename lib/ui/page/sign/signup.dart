@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -112,10 +113,36 @@ class SignUpPage extends HookConsumerWidget {
     // print(newUserPassword.value);
     // print(AppLocalizations.of(context));
 
+
     // state（状態）
     final _SignState = ref.watch(SignProvider);
     // provider（状態の操作）
     final _SignNotifier = ref.watch(SignProvider.notifier);
+
+     // Googleを使ってサインイン
+  Future<UserCredential?> signInWithGoogle() async {
+    // 認証フローのトリガー
+    final googleUser = await GoogleSignIn(scopes: [
+      'email',
+    ]).signIn();
+    // リクエストから、認証情報を取得
+    if (googleUser == null) {
+      print("null");
+      return null;
+    }
+    // if (_deepLink == null) return;
+
+
+    final googleAuth = await googleUser.authentication;
+    // クレデンシャルを新しく作成
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    // サインインしたら、UserCredentialを返す
+    return FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
     return Scaffold(
       backgroundColor:Colors.grey[200],
       body: Center(
@@ -306,7 +333,23 @@ class SignUpPage extends HookConsumerWidget {
                             ),
                           ],
                         ),
-                        child: Icon(FontAwesomeIcons.google),
+                        child: 
+                        IconButton(
+                          icon: Icon(FontAwesomeIcons.google),
+                          onPressed: () async{
+                            try {
+                              final userCredential = await signInWithGoogle();
+                              print(userCredential);
+                            } on FirebaseAuthException catch (e) {
+                              print('FirebaseAuthException');
+                              print('${e.code}');
+                            } on Exception catch (e) {
+                              print('Other Exception');
+                              print('${e.toString()}');
+                            }
+                          },
+                        ),
+                      //  Icon(FontAwesomeIcons.google),
                       ),
                       Container(
                         padding:const EdgeInsets.all(10.10),
