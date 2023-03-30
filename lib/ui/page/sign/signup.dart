@@ -1,4 +1,5 @@
 import 'package:circle_app/firebase_options.dart';
+import 'package:circle_app/service/auth_service.dart';
 import 'package:circle_app/service/user_service.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
@@ -120,28 +121,30 @@ class SignUpPage extends HookConsumerWidget {
     final _SignNotifier = ref.watch(SignProvider.notifier);
 
      // Googleを使ってサインイン
-  Future<UserCredential?> signInWithGoogle() async {
-    // 認証フローのトリガー
-    final googleUser = await GoogleSignIn(scopes: [
-      'email',
-    ]).signIn();
-    // リクエストから、認証情報を取得
-    if (googleUser == null) {
-      print("null");
-      return null;
-    }
-    // if (_deepLink == null) return;
-
-
-    final googleAuth = await googleUser.authentication;
-    // クレデンシャルを新しく作成
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    // サインインしたら、UserCredentialを返す
-    return FirebaseAuth.instance.signInWithCredential(credential);
-  }
+  // Future<UserCredential?> signInWithGoogle() async {
+  //   // await FirebaseAuth.instance.signOut();
+  //   GoogleSignIn _googleSignIn = GoogleSignIn(
+  //     scopes: [
+  //       'email',
+  //     ],
+  //   );
+  //   print("aaa");
+  //   // 認証フローのトリガー
+  //   // try {
+  //   final googleUser = await _googleSignIn.signIn();
+  //   //   // Obtain the auth details from the request
+  //   final GoogleSignInAuthentication? googleAuth = await googleUser!.authentication;
+  //   // Create a new credential
+  //   final credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth?.accessToken,
+  //     idToken: googleAuth?.idToken,
+  //   );
+    
+  //   // print("aaa3");
+  //   print(credential);
+  //   GoogleSignIn().disconnect();
+  //   return FirebaseAuth.instance.signInWithCredential(credential);
+  // }
 
     return Scaffold(
       backgroundColor:Colors.grey[200],
@@ -336,18 +339,22 @@ class SignUpPage extends HookConsumerWidget {
                         child: 
                         IconButton(
                           icon: Icon(FontAwesomeIcons.google),
-                          onPressed: () async{
-                            try {
-                              final userCredential = await signInWithGoogle();
-                              print(userCredential);
-                            } on FirebaseAuthException catch (e) {
-                              print('FirebaseAuthException');
-                              print('${e.code}');
-                            } on Exception catch (e) {
-                              print('Other Exception');
-                              print('${e.toString()}');
-                            }
-                          },
+                          onPressed: () => AuthService().signInWithGoogle(),
+                          // onPressed: ()async => await AuthService().signInWithGoogle(),
+                          // onPressed: () {
+                          //   try {
+                          //     // final userCredential = await signInWithGoogle();
+                          //     final UserCredential = AuthService().signInWithGoogle();
+                          //     // print(userCredential);
+                          //     print("↑userCredential");
+                          //   } on FirebaseAuthException catch (e) {
+                          //     print('FirebaseAuthException');
+                          //     print('${e}');
+                          //   } on Exception catch (e) {
+                          //     print('Other Exception');
+                          //     print('${e.toString()}');
+                          //   }
+                          // },
                         ),
                       //  Icon(FontAwesomeIcons.google),
                       ),

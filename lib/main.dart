@@ -536,7 +536,7 @@ class CircleHomeWidget extends HookConsumerWidget {
     final String? _deepLink = _data?.link.toString();
     print(_deepLink);
     if (_deepLink == null) return;
-
+    
     // // リンク（＝URL）が、メールリンクかどうか検証
     if (_auth.isSignInWithEmailLink(_deepLink)) {
       var emailAuth = _SignUpState.newUserEmail;
@@ -645,7 +645,8 @@ class CircleHomeWidget extends HookConsumerWidget {
     await _initDynamicLink();
   }
   useEffect((){
-    _initAsync();
+    // check1 あとでなおす
+    // _initAsync();
   },[]);
   print("abcd001");
   print(_SignUpState);
