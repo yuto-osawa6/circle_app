@@ -58,7 +58,7 @@ class Home extends HookConsumerWidget {
     print(getJugdeLanguage(context));
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("afefefefefe")));
     // print("aaaaa");
-    
+    print(_UserState);
     return Scaffold(
       appBar: AppBar(
         title:const Text("Home"),
@@ -70,6 +70,7 @@ class Home extends HookConsumerWidget {
               // ログアウト処理
               // 内部で保持しているログイン情報等が初期化される
               // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫です）
+              // GoogleSignIn googleSign = GoogleSignIn();
               await FirebaseAuth.instance.signOut();
               _UserNotifier.setCurrentUserEmail(null);
               // ログイン画面に遷移＋チャット画面を破棄

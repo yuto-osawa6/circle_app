@@ -1,3 +1,5 @@
+import 'package:circle_app/controller/lang_controller.dart';
+import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/service/auth_service.dart';
 import 'package:circle_app/service/user_service.dart';
@@ -19,133 +21,41 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref){
-    // // 入力されたメールアドレス
-    // final newUserEmail = useState("");
-    // // 入力されたパスワード
-    // final newUserPassword = useState("");
-    // // 入力されたメールアドレス（ログイン）
-    // final loginUserEmail = useState("");
-    // // 入力されたパスワード（ログイン）
-    // final loginUserPassword = useState("");
-    // // 登録・ログインに関する情報を表示
-    // final infoText = useState("");
-    // // open password
-    // final openEye = useState<bool>(false);
-
-    // void changeEmailText(String value){
-    //   newUserEmail.value = value;
-    // }
-    // void changePasswordText(String value){
-    //   newUserPassword.value = value;
-    // }
-    // void clickOpenEye (){
-    //   openEye.value == true?openEye.value = false:openEye.value =true;
-    //   newUserEmail.value = "aaa";
-    // }
-    // void errorHandle (String text){
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
-    // }
-    // void handleSignUp ()async {
-    //   print("aaa");
-    //   print(newUserEmail.value);
-    //   print(newUserPassword.value);
-    //   try
-    //     {
-    //       // メール/パスワードでログイン
-    //       final FirebaseAuth auth = FirebaseAuth.instance;
-    //       final UserCredential result =
-    //           await auth.createUserWithEmailAndPassword(
-    //         email: newUserEmail.value,
-    //         password: newUserPassword.value,
-    //       );
-    //       String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    //       print(idToken);
-    //       print("aaab");
-    //       print(result.user!.emailVerified);
-    //       print("bbbb");
-    //       if(result.user!.emailVerified){
-    //         print("bbbb2");
-    //       }else{
-    //         print("bbbb5");
-    //         errorHandleSnack(context,"mailアドレスを認証してください。");
-    //         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
-    //       }
-    //       // final result = await ApiClientCreateUser.fetchApiCreateUser();
-
-    //       // final apiClient = ApiClientCreateUser();
-    //       // print(await apiClient.fetchApiCreateUser(idToken));
-
-    //       // dynamic fetchUsers() async {
-    //       //   return await apiClient.fetchApiCreateUser();
-    //       // }
-    //       // ログインに成功した場合
-    //       // final User user = result.user!;
-    //       // setState(() {
-    //       //   infoText = "ログインOK：${user.email}";
-    //       // });
-    //       print("aaa3");
-    //     } on FirebaseAuthException catch (e) {
-    //       print(e.code);
-    //       print(e.message);
-    //       print("aaa245");
-    //       print(AppLocalizations);
-    //       // Locale locale = Localizations.localeOf(context);
-
-    //       // // 言語コード取得
-    //       // String languageCode = locale.languageCode;
-    //       print("aaa23");
-    //       print(jugdeLocate(context));  // ja
-    //       print("aaa2");
-    //       errorHandleSnack(context,e.message.toString());
-    //       // result = FirebaseAuthExceptionHandler.handleException(error);
-    //       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
-    //       // errorHandleSnack(context,"mailアドレスを認証してください。3");
-    //       // errorHandleSnack(context,"mailアドレスを認証してください。4");
-    //       // ログインに失敗した場合
-    //       // setState(() {
-    //       //   infoText = "ログインNG：${e.toString()}";
-    //       // });
-    //     }
-    // };
-    // ^^^^^^^^^^^^^^^^^^^^^^
-    // print(openEye);
-    // print(newUserEmail);
-    // print(newUserPassword);
-    // print(newUserPassword.value);
-    // print(AppLocalizations.of(context));
-
-
     // state（状態）
     final _SignState = ref.watch(SignProvider);
     // provider（状態の操作）
     final _SignNotifier = ref.watch(SignProvider.notifier);
 
-     // Googleを使ってサインイン
-  // Future<UserCredential?> signInWithGoogle() async {
-  //   // await FirebaseAuth.instance.signOut();
-  //   GoogleSignIn _googleSignIn = GoogleSignIn(
-  //     scopes: [
-  //       'email',
-  //     ],
-  //   );
-  //   print("aaa");
-  //   // 認証フローのトリガー
-  //   // try {
-  //   final googleUser = await _googleSignIn.signIn();
-  //   //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication? googleAuth = await googleUser!.authentication;
-  //   // Create a new credential
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-    
-  //   // print("aaa3");
-  //   print(credential);
-  //   GoogleSignIn().disconnect();
-  //   return FirebaseAuth.instance.signInWithCredential(credential);
-  // }
+    // final _SignUpState = ref.watch(SignProvider);
+    // final _SignUpNotifier = ref.watch(SignProvider.notifier);
 
+    final _UserState = ref.watch(UserProvider);
+    final _UserNotifier = ref.watch(UserProvider.notifier);
+
+    // final _NavigateActionState = ref.watch(NavigateActionProvider);
+    // final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
+
+    final _LangState = ref.watch(LangProvider);
+    final _LangNotifier = ref.watch(LangProvider.notifier);
+
+    void googleLogin ()async {
+      final token = await AuthService().signInWithGoogle();
+      print("aa98");
+      if(token == null){
+        print("aa990");
+        return;
+      }
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      Locale locale = Localizations.localeOf(context);
+      print(_auth.currentUser);
+      print("aa991");
+      final idtoken = await _auth.currentUser?.getIdToken();
+      // _UserNotifier.setCurrentUserToken("Bearer ${idtoken}");
+      // _LangNotifier.setCurrentLang(locale.languageCode);
+      _UserNotifier.setCurrentUser(ref,idtoken,locale.languageCode);
+    }
+    print(_UserState);
+    print(_LangState);
     return Scaffold(
       backgroundColor:Colors.grey[200],
       body: Center(
@@ -339,7 +249,10 @@ class SignUpPage extends HookConsumerWidget {
                         child: 
                         IconButton(
                           icon: Icon(FontAwesomeIcons.google),
-                          onPressed: () => AuthService().signInWithGoogle(),
+                          // onPressed: () => googleLogin(context, ref),
+                          onPressed: () => googleLogin(),
+                          // onPressed: () =>_UserNotifier.setCurrentUserEmail("bb"),
+
                           // onPressed: ()async => await AuthService().signInWithGoogle(),
                           // onPressed: () {
                           //   try {
@@ -404,7 +317,16 @@ class SignUpPage extends HookConsumerWidget {
                             ),
                           ],
                         ),
-                        child: Icon(FontAwesomeIcons.apple),
+                        child:
+                          IconButton(
+                            icon: Icon(FontAwesomeIcons.apple),
+                            onPressed: () {
+                              Locale locale = Localizations.localeOf(context);
+                              _LangNotifier.setCurrentLang("jp");
+                              print("changeApple");
+
+                            },
+                            )
                       ),
                     ],
                   ),

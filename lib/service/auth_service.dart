@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle() async {
     try{
     GoogleSignIn googleSign = GoogleSignIn();
      print("aaa3");
@@ -25,9 +25,12 @@ class AuthService {
       );
       
       print(credential);
+      print("aa9");
       GoogleSignIn().disconnect();
-      final currentUser= await FirebaseAuth.instance.signInWithCredential(credential);
-
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+      
+      // バックエンド user保存
+      // final apiUser = fetchUsers
       // userDataProvider()
       // // repository.fetchUsers(token);
       // _UserNotifier.setCurrentUserToken("Bearer ${token}");

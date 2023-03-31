@@ -3,6 +3,7 @@ import 'package:circle_app/controller/lang_controller.dart';
 import 'package:circle_app/model/api/user.dart';
 import 'package:circle_app/model/state/navigate.dart';
 import 'package:circle_app/repository/user_create.dart';
+import 'package:circle_app/service/auth_service.dart';
 import 'package:circle_app/ui/page/calendar/calendar.dart';
 import 'package:circle_app/ui/page/groupfrends/groupfrends.dart';
 import 'package:circle_app/ui/page/home/home.dart';
@@ -11,18 +12,23 @@ import 'package:circle_app/ui/page/timeline/timeline.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 import 'package:circle_app/model/api/result.dart';
 // import 'package:yochan/model/task_model.dart';
+import 'package:circle_app/model/state/lang.dart';
+
 
 // import 'package:yochan/repository/task_repo.dart';
+
 
 class UserNotifier extends StateNotifier<UserModel> {
   // 初期値の指定
   UserNotifier() : super(UserModel());
+
   void setCurrentUserEmail(String? email) async {
     state = state.copyWith(email: email);
   }
@@ -30,7 +36,67 @@ class UserNotifier extends StateNotifier<UserModel> {
   void setCurrentUserToken(String? token) async {
     state = state.copyWith(token: token);
   }
+
   
+  // setUser
+  void setCurrentUser(WidgetRef ref,String? idtoken,String langCode) async {
+    final repository = ref.read(createUserRepostitoryProvider);
+    // トークンの状態を監視
+    final currentUserState= ref.watch(UserProvider);
+    // final langState = ref.watch(LangProvider);
+    print("currentUserState.token");
+    state = state.copyWith(token: "1");
+    await repository.fetchUsers("Bearer ${idtoken}").then((result) {
+    result.when(
+      success: (value) {
+          messageHandleSnack2(langCode);
+          print(value);
+          print(value.email);
+          print("value----");
+          // setCurrentUserEmail(value.email);
+          state = UserModel(email: value.email);
+          // return value;
+        },
+      failure: (error) {
+        print("error fetchuser");
+        print(error.message);
+        print(error.response?.statusCode);
+        apiError(error.response?.statusCode,error.message,langCode);
+        print("error fetchuser");
+
+      // ref
+      //   .read(errorMessageProvider.notifier)
+      //   .update((state) => state = error.response?.statusCode.toString());
+    });
+  });
+  }  
+
+  // google
+  // void googleLogin (context,WidgetRef ref)async {
+  //     state = state.copyWith(token: "1",email: "aa@aa");
+  //     final _LangNotifier = ref.watch(LangProvider.notifier);
+  //     final token = await AuthService().signInWithGoogle();
+  //     print("aa98");
+  //     if(token == null){
+  //       print("aa990");
+  //       return;
+  //     }
+  //     final FirebaseAuth _auth = FirebaseAuth.instance;
+  //     Locale locale = Localizations.localeOf(context);
+  //     print(_auth.currentUser);
+  //     print("aa991");
+  //     final idtoken = await _auth.currentUser?.getIdToken();
+  //     print(idtoken);
+  //     setCurrentUserToken("Bearer ${idtoken}");
+  //     // // check したいらない 試しコード
+  //     // // _UserNotifier.setCurrentUserEmail(email);
+  //     // _LangNotifier.setCurrentLang(locale.languageCode);
+  //     // setCurrentUser(ref,idtoken,locale.languageCode);
+  //     // final asyncValue = ref.watch(userDataProvider2);
+  //     // print("asyncValue");
+  //     // print(asyncValue);
+  //     // print("asyncValue");
+  //   }
 
 }
 
@@ -39,6 +105,11 @@ final UserProvider =
     StateNotifierProvider.autoDispose<UserNotifier, UserModel>(
   (ref) => UserNotifier(),
 );
+
+// final LangProvider2 =
+//     StateNotifierProvider.autoDispose<LangNotifier, LangModel>(
+//   (ref) => LangNotifier(),
+// );
 
 // エラーメッセージを管理。isNotEmptyになったらViewのref.listenのコールバックが発火してダイアログ表示
 final errorMessageProvider = StateProvider<String?>((_) => '');
@@ -77,37 +148,9 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
       //   .update((state) => state = error.response?.statusCode.toString());
     });
   });
-
-
-  // final a = await repository.fetchUsers(currentUserState.token);
-  // return a;
-
-
-//   final dio = Dio();
-//   final client = UserApiClient(dio);
-//   // final logger = Logger();
-//   final b = client.getFlutterUser(currentUserState.token).then((it) {
-//   // logger.i(it);
-//   return it;
-// }).catchError((Object obj) {
-//    final res = (obj as DioError).response;
-//    print(res);
-//    print("res");
-//    print(obj);
-//   // non-200 error goes here.
-//   // switch (obj.runtimeType) {
-//   //   case DioError:
-//   //     // Here's the sample to get the failed response error code and message
-//   //     final res = (obj as DioError).response;
-//   //     logger.e("Got error : ${res.statusCode} -> ${res.statusMessage}");
-//   //     break;
-//   //   default:
-//   //     break;
-//   // }
-// });
-// return b;
-// return a;
 });
+
+
 
 
 // import 'package:yochan/repository/task_repo.dart';
@@ -123,16 +166,17 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
 // final client = UserApiClient(dio);
 
 
+
 // APIの取得を非同期で管理するためのProviderを作成
 final userDataProvider2 = FutureProvider.autoDispose<UserModel?>((ref) async {
   // Repositoryのインスタンスを取得
   final repository = ref.read(createUserRepostitoryProvider);
-  // トークンの状態を監視
+  // // // トークンの状態を監視
   final currentUserState= ref.watch(UserProvider);
   final langState = ref.watch(LangProvider);
   
   print("token23");
-  print(currentUserState.token);
+  // print(currentUserState.token);
   print("token23");
   // return await repository.fetchUsers(currentUserState.token);
 
@@ -140,6 +184,9 @@ final userDataProvider2 = FutureProvider.autoDispose<UserModel?>((ref) async {
     result.when(
       success: (value) {
           messageHandleSnack2(langState.lang);
+          print("value");
+          print(value);
+          print("value");
           return value;
         },
       failure: (error) {
@@ -154,34 +201,4 @@ final userDataProvider2 = FutureProvider.autoDispose<UserModel?>((ref) async {
       //   .update((state) => state = error.response?.statusCode.toString());
     });
   });
-
-
-  // final a = await repository.fetchUsers(currentUserState.token);
-  // return a;
-
-
-//   final dio = Dio();
-//   final client = UserApiClient(dio);
-//   // final logger = Logger();
-//   final b = client.getFlutterUser(currentUserState.token).then((it) {
-//   // logger.i(it);
-//   return it;
-// }).catchError((Object obj) {
-//    final res = (obj as DioError).response;
-//    print(res);
-//    print("res");
-//    print(obj);
-//   // non-200 error goes here.
-//   // switch (obj.runtimeType) {
-//   //   case DioError:
-//   //     // Here's the sample to get the failed response error code and message
-//   //     final res = (obj as DioError).response;
-//   //     logger.e("Got error : ${res.statusCode} -> ${res.statusMessage}");
-//   //     break;
-//   //   default:
-//   //     break;
-//   // }
-// });
-// return b;
-// return a;
 });
