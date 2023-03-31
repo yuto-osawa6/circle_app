@@ -99,6 +99,11 @@ class UserNotifier extends StateNotifier<UserModel> {
   //     // print("asyncValue");
   //   }
 
+  // ログインされてるかどうかの判別
+  bool judgeSigned () {
+   bool signed =  state.email == null ? false : true;
+   return signed;
+  }
 }
 
 // HomePageNotifierの状態を管理する

@@ -91,6 +91,8 @@ flutter:
     - .env
     - .env.development
     - .env.production
+
+    - images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

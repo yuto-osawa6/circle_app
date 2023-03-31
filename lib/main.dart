@@ -4,6 +4,7 @@ import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
+import 'package:circle_app/ui/page/sign/signHomePage.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
@@ -606,8 +607,10 @@ class CircleHomeWidget extends HookConsumerWidget {
           _verifyDynamicLink,
         );
   }
+   Locale locale = Localizations.localeOf(context);
    Future<void> _initAuth() async {
     // print()
+   
     final token = await _auth.currentUser?.getIdToken();
     FirebaseAuth.instance
   .authStateChanges()
@@ -619,11 +622,12 @@ class CircleHomeWidget extends HookConsumerWidget {
       print(user);
       print("eiajfeioajioejfaoiejfakldjfiea");
       // check -1 user email!のところ、エラー回避するかどうか
-      _UserNotifier.setCurrentUserEmail(user.email!);
+      // _UserNotifier.setCurrentUserEmail(user.email!);
 
-      _UserNotifier.setCurrentUserToken("Bearer ${token}");
+      // _UserNotifier.setCurrentUserToken("Bearer ${token}");
       print(_UserState);
-      final asyncValue = ref.watch(userDataProvider);
+      // final asyncValue = ref.watch(userDataProvider);
+      _UserNotifier.setCurrentUser(ref,token,locale.languageCode);
       print("asyncValue");
       // print(asyncValue.error);
       print("asyncValue");
@@ -646,7 +650,7 @@ class CircleHomeWidget extends HookConsumerWidget {
   }
   useEffect((){
     // check1 あとでなおす
-    // _initAsync();
+    _initAsync();
   },[]);
   print("abcd001");
   print(_SignUpState);
@@ -676,7 +680,7 @@ class CircleHomeWidget extends HookConsumerWidget {
     //   }),
     // );
     return Scaffold(
-      body: MainPage(),
+      body: _UserNotifier.judgeSigned() == true ? MainPage() : SignHomePage()
       // body: Center(
       //   child: asyncValue.when(
       //     error: (err, _) => Text(err.toString()), //エラー時
