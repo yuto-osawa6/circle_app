@@ -50,6 +50,9 @@ class SignUpPage extends HookConsumerWidget {
       print(_auth.currentUser);
       print("aa991");
       final idtoken = await _auth.currentUser?.getIdToken();
+      print(idtoken);
+      print("idtoken");
+
       // _UserNotifier.setCurrentUserToken("Bearer ${idtoken}");
       // _LangNotifier.setCurrentLang(locale.languageCode);
       _UserNotifier.setCurrentUser(ref,idtoken,locale.languageCode);

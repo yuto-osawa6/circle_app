@@ -6,11 +6,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   Future<UserCredential?> signInWithGoogle() async {
     try{
-    GoogleSignIn googleSign = GoogleSignIn();
+    GoogleSignIn googleSign = GoogleSignIn(
+    );
      print("aaa3");
     print(googleSign);
      print("aaa3");
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount? gUser = await googleSign.signIn();
     print(gUser);
     // if(gUser == null){
     //   print("aaa");

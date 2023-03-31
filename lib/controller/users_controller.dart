@@ -44,6 +44,7 @@ class UserNotifier extends StateNotifier<UserModel> {
     // トークンの状態を監視
     final currentUserState= ref.watch(UserProvider);
     // final langState = ref.watch(LangProvider);
+    print(idtoken);
     print("currentUserState.token");
     state = state.copyWith(token: "1");
     await repository.fetchUsers("Bearer ${idtoken}").then((result) {
