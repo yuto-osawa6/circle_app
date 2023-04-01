@@ -1,10 +1,12 @@
 import 'package:circle_app/controller/lang_controller.dart';
+import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/ui/page/sign/signHomePage.dart';
+import 'package:circle_app/ui/page/sign/signup.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
@@ -26,6 +28,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -47,6 +50,10 @@ Future<void> main() async {
   // Firebase初期化
   // await Firebase.initializeApp();
   await dotenv.load(fileName: "assets/.env.development");
+
+  // flutter_native_splash
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // await dotenv.load(fileName: ".env.development");
   // assets/.env.development
   print(dotenv.env["apiKey"]);
@@ -488,8 +495,8 @@ class CircleHomeWidget extends HookConsumerWidget {
     final _LangState = ref.watch(LangProvider);
     final _LangNotifier = ref.watch(LangProvider.notifier);
 
-    
-
+    final _LoadingState = ref.watch(LoadingCircleProvider);
+    final _LoadingNotifier = ref.watch(LoadingCircleProvider.notifier);
 
     // String token = await _auth.currentUser!.getIdToken();
     //       // CreateUserRepository repository = CreateUserRepository();
@@ -506,6 +513,9 @@ class CircleHomeWidget extends HookConsumerWidget {
     // final client = RestClient(dio);
 
     // client.getTasks().then((it) => logger.i(it));
+
+    print(_LoadingState);
+    print("_LoadingState");
 
     Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
       // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
@@ -611,11 +621,22 @@ class CircleHomeWidget extends HookConsumerWidget {
    Future<void> _initAuth() async {
     // print()
    
-    final token = await _auth.currentUser?.getIdToken();
+    // final token = await _auth.currentUser?.getIdToken();
+    print(789);
+    // print(token == null);
     FirebaseAuth.instance
   .authStateChanges()
-  .listen((User? user) {
-    if (user != null && token !=null) {
+  .listen((User? user) async{
+    final token = await _auth.currentUser?.getIdToken();
+    print("78:${_auth.currentUser == user}");
+    print("user78");
+    print("782:${token == null}");
+    print("7892:${_UserState}");
+    // print("7892:${_UserState.email != _auth.currentUser!.email}");
+    print("7893:${_auth.currentUser}");
+    print("783:${user}");
+    // if (user != null && token !=null && _auth.currentUser != null&&_auth.currentUser!.email == _UserState.email) {
+    if (user != null && _auth.currentUser != null) {
       print("eiajfeioajioejfaoiejfakldjfiea");
       print(user.uid);
       print("eiajfeioajioejfaoiejfakldjfiea");
@@ -631,12 +652,15 @@ class CircleHomeWidget extends HookConsumerWidget {
       print("asyncValue");
       // print(asyncValue.error);
       print("asyncValue");
+      // FlutterNativeSplash.remove();
 
+    }else{
+      FlutterNativeSplash.remove();
     }
   });
   print("aafjeioa99990");
   // String token = await _auth.currentUser!.getIdToken();
-  print(token);
+  // print(token);
           // CreateUserRepository repository = CreateUserRepository();
           // repository.fetchUsers(token);
           
@@ -679,15 +703,30 @@ class CircleHomeWidget extends HookConsumerWidget {
     //     apiError(next, context);
     //   }),
     // );
-    return Scaffold(
-      body: _UserNotifier.judgeSigned() == true ? MainPage() : SignHomePage()
-      // body: Center(
-      //   child: asyncValue.when(
-      //     error: (err, _) => Text(err.toString()), //エラー時
-      //     loading: () => const CircularProgressIndicator(), //読み込み時
-      //     data: (data) => Text(data.toString()), //データ受け取り時
-      //   ),
-      // ),
+    print("7800${_UserState.email}");
+    return Stack(
+      children: [
+        Scaffold(
+          body: _UserNotifier.judgeSigned() == true ? MainPage() : SignUpPage(),
+        ),
+        if (_LoadingState.loaded == false)
+          Opacity(
+            opacity: 0.7,
+            child: ModalBarrier(
+              dismissible: false,
+              color: Colors.black,
+            ),
+          ),
+        if (_LoadingState.loaded == false) Center(
+          child: CircularProgressIndicator(
+            // color:Colors.
+        ))
+        // if (1==1) 
+          // Center(child:  Image.asset('assets/images/circle-load1.gif'))
+
+
+      ]
     );
+    
   }
 }

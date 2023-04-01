@@ -11,6 +11,7 @@ import 'package:circle_app/ui/page/talk/talk.dart';
 import 'package:circle_app/ui/page/timeline/timeline.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
+import 'package:circle_app/view_model/signup/signup_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ import 'package:logger/logger.dart';
 import 'package:circle_app/model/api/result.dart';
 // import 'package:yochan/model/task_model.dart';
 import 'package:circle_app/model/state/lang.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 
 // import 'package:yochan/repository/task_repo.dart';
@@ -43,6 +45,10 @@ class UserNotifier extends StateNotifier<UserModel> {
     final repository = ref.read(createUserRepostitoryProvider);
     // トークンの状態を監視
     final currentUserState= ref.watch(UserProvider);
+    final signState= ref.watch(SignProvider);
+    final signStateNotifier= ref.watch(SignProvider.notifier);
+
+
     // final langState = ref.watch(LangProvider);
     print(idtoken);
     print("currentUserState.token");
@@ -50,15 +56,24 @@ class UserNotifier extends StateNotifier<UserModel> {
     await repository.fetchUsers("Bearer ${idtoken}").then((result) {
     result.when(
       success: (value) {
-          messageHandleSnack2(langCode);
+          // check1 situation
+          print("signState09");
+          print("${signState.situation}");
+          if(signState.situation == true){
+            messageHandleSnack2(langCode);
+            signStateNotifier.setSituation(false);
+          }
           print(value);
           print(value.email);
           print("value----");
           // setCurrentUserEmail(value.email);
+          // print("signState09");
+          // // print("${signState.situation}");
           state = UserModel(email: value.email);
           // return value;
         },
       failure: (error) {
+         // check1 situation エラー通常でも表示させるかどうか。
         print("error fetchuser");
         print(error.message);
         print(error.response?.statusCode);
@@ -69,7 +84,8 @@ class UserNotifier extends StateNotifier<UserModel> {
       //   .read(errorMessageProvider.notifier)
       //   .update((state) => state = error.response?.statusCode.toString());
     });
-  });
+      FlutterNativeSplash.remove();
+    });
   }  
 
   // google
@@ -101,8 +117,8 @@ class UserNotifier extends StateNotifier<UserModel> {
 
   // ログインされてるかどうかの判別
   bool judgeSigned () {
-   bool signed =  state.email == null ? false : true;
-   return signed;
+    bool signed =  state.email == null ? false : true;
+    return signed;
   }
 }
 

@@ -78,6 +78,13 @@ class SignUpNotifier extends StateNotifier<SignModel> {
       state = state.copyWith(openEye: state.openEye == true?false:true);
     }
 
+    // 
+    void setSituation (bool s){
+      // openEye.value == true?openEye.value = false:openEye.value =true;
+      // newUserEmail.value = "aaa";
+      state = state.copyWith(situation: s);
+    }
+
     // final acs = ActionCodeSettings(
     // // URL you want to redirect back to. The domain (www.example.com) for this
     // // URL must be whitelisted in the Firebase Console.

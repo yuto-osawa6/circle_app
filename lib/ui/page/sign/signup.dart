@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:circle_app/controller/lang_controller.dart';
+import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/service/auth_service.dart';
@@ -38,24 +41,37 @@ class SignUpPage extends HookConsumerWidget {
     final _LangState = ref.watch(LangProvider);
     final _LangNotifier = ref.watch(LangProvider.notifier);
 
-    void googleLogin ()async {
-      final token = await AuthService().signInWithGoogle();
-      print("aa98");
-      if(token == null){
-        print("aa990");
-        return;
-      }
-      final FirebaseAuth _auth = FirebaseAuth.instance;
-      Locale locale = Localizations.localeOf(context);
-      print(_auth.currentUser);
-      print("aa991");
-      final idtoken = await _auth.currentUser?.getIdToken();
-      print(idtoken);
-      print("idtoken");
+    final _LoadingCircleState = ref.watch(LoadingCircleProvider);
+    final _LoadingCircleNotifier = ref.watch(LoadingCircleProvider.notifier);
 
-      // _UserNotifier.setCurrentUserToken("Bearer ${idtoken}");
-      // _LangNotifier.setCurrentLang(locale.languageCode);
-      _UserNotifier.setCurrentUser(ref,idtoken,locale.languageCode);
+    void googleLogin ()async {
+      // _LoadingCircleNotifier.setLoaded(false);
+      try{
+      final token = await AuthService().signInWithGoogle();
+      // check1 ロード必要かどうか。
+      // _LoadingCircleNotifier.setLoaded(false);
+      // print("aa98");
+      // if(token == null){
+      //   print("aa990");
+      //   return;
+      // }
+      // print(_LoadingCircleState);
+      //   print("aa9901");
+
+      // final FirebaseAuth _auth = FirebaseAuth.instance;
+      // Locale locale = Localizations.localeOf(context);
+      // print(_auth.currentUser);
+      // print("aa991");
+      // final idtoken = await _auth.currentUser?.getIdToken();
+      // print(idtoken);
+      // print("idtoken");
+      // _UserNotifier.setCurrentUser(ref,idtoken,locale.languageCode);
+      }catch (e){
+        print(e);
+      }finally{
+        _SignNotifier.setSituation(true);
+        // _LoadingCircleNotifier.setLoaded(true);
+      }
     }
     print(_UserState);
     print(_LangState);

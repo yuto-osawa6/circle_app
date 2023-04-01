@@ -73,6 +73,11 @@ class Home extends HookConsumerWidget {
               // GoogleSignIn googleSign = GoogleSignIn();
               await FirebaseAuth.instance.signOut();
               _UserNotifier.setCurrentUserEmail(null);
+
+              final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+              print(token);
+              print("token_home");
+
               // ログイン画面に遷移＋チャット画面を破棄
               // await Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(builder: (context) {

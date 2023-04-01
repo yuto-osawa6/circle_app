@@ -24,6 +24,7 @@ mixin _$SignModel {
   String get infoText => throw _privateConstructorUsedError;
   bool get openEye => throw _privateConstructorUsedError;
   bool get openEye2 => throw _privateConstructorUsedError;
+  bool get situation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SignModelCopyWith<SignModel> get copyWith =>
@@ -43,7 +44,8 @@ abstract class $SignModelCopyWith<$Res> {
       String loginUserPassword,
       String infoText,
       bool openEye,
-      bool openEye2});
+      bool openEye2,
+      bool situation});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$SignModelCopyWithImpl<$Res, $Val extends SignModel>
     Object? infoText = null,
     Object? openEye = null,
     Object? openEye2 = null,
+    Object? situation = null,
   }) {
     return _then(_value.copyWith(
       newUserEmail: null == newUserEmail
@@ -101,6 +104,10 @@ class _$SignModelCopyWithImpl<$Res, $Val extends SignModel>
           ? _value.openEye2
           : openEye2 // ignore: cast_nullable_to_non_nullable
               as bool,
+      situation: null == situation
+          ? _value.situation
+          : situation // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -120,7 +127,8 @@ abstract class _$$_SignModelCopyWith<$Res> implements $SignModelCopyWith<$Res> {
       String loginUserPassword,
       String infoText,
       bool openEye,
-      bool openEye2});
+      bool openEye2,
+      bool situation});
 }
 
 /// @nodoc
@@ -142,6 +150,7 @@ class __$$_SignModelCopyWithImpl<$Res>
     Object? infoText = null,
     Object? openEye = null,
     Object? openEye2 = null,
+    Object? situation = null,
   }) {
     return _then(_$_SignModel(
       newUserEmail: null == newUserEmail
@@ -176,6 +185,10 @@ class __$$_SignModelCopyWithImpl<$Res>
           ? _value.openEye2
           : openEye2 // ignore: cast_nullable_to_non_nullable
               as bool,
+      situation: null == situation
+          ? _value.situation
+          : situation // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -191,7 +204,8 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
       this.loginUserPassword = "",
       this.infoText = "",
       this.openEye = false,
-      this.openEye2 = false});
+      this.openEye2 = false,
+      this.situation = false});
 
   @override
   @JsonKey()
@@ -217,10 +231,13 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
   @override
   @JsonKey()
   final bool openEye2;
+  @override
+  @JsonKey()
+  final bool situation;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SignModel(newUserEmail: $newUserEmail, newUserPassword: $newUserPassword, newUserPassword2: $newUserPassword2, loginUserEmail: $loginUserEmail, loginUserPassword: $loginUserPassword, infoText: $infoText, openEye: $openEye, openEye2: $openEye2)';
+    return 'SignModel(newUserEmail: $newUserEmail, newUserPassword: $newUserPassword, newUserPassword2: $newUserPassword2, loginUserEmail: $loginUserEmail, loginUserPassword: $loginUserPassword, infoText: $infoText, openEye: $openEye, openEye2: $openEye2, situation: $situation)';
   }
 
   @override
@@ -235,7 +252,8 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
       ..add(DiagnosticsProperty('loginUserPassword', loginUserPassword))
       ..add(DiagnosticsProperty('infoText', infoText))
       ..add(DiagnosticsProperty('openEye', openEye))
-      ..add(DiagnosticsProperty('openEye2', openEye2));
+      ..add(DiagnosticsProperty('openEye2', openEye2))
+      ..add(DiagnosticsProperty('situation', situation));
   }
 
   @override
@@ -257,7 +275,9 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
                 other.infoText == infoText) &&
             (identical(other.openEye, openEye) || other.openEye == openEye) &&
             (identical(other.openEye2, openEye2) ||
-                other.openEye2 == openEye2));
+                other.openEye2 == openEye2) &&
+            (identical(other.situation, situation) ||
+                other.situation == situation));
   }
 
   @override
@@ -270,7 +290,8 @@ class _$_SignModel with DiagnosticableTreeMixin implements _SignModel {
       loginUserPassword,
       infoText,
       openEye,
-      openEye2);
+      openEye2,
+      situation);
 
   @JsonKey(ignore: true)
   @override
@@ -288,7 +309,8 @@ abstract class _SignModel implements SignModel {
       final String loginUserPassword,
       final String infoText,
       final bool openEye,
-      final bool openEye2}) = _$_SignModel;
+      final bool openEye2,
+      final bool situation}) = _$_SignModel;
 
   @override
   String get newUserEmail;
@@ -306,6 +328,8 @@ abstract class _SignModel implements SignModel {
   bool get openEye;
   @override
   bool get openEye2;
+  @override
+  bool get situation;
   @override
   @JsonKey(ignore: true)
   _$$_SignModelCopyWith<_$_SignModel> get copyWith =>

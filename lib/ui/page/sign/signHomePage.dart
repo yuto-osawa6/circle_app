@@ -20,17 +20,17 @@ class SignHomePage extends HookConsumerWidget {
         body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('images/home-2.png'),
+          image: AssetImage('assets/images/home-2.png'),
           fit: BoxFit.cover,
         )),
         child: const Center(
-          child: Text(
-              'ホラーゲームとかに使えそう',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-            ),
-          ),
+          // child: Text(
+          //     'ホラーゲームとかに使えそう',
+          //   style: TextStyle(
+          //     color: Colors.white,
+          //     fontSize: 30,
+          //   ),
+          // ),
         ),
       )
     ));

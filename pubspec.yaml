@@ -62,6 +62,7 @@ dependencies:
   firebase_auth: 
   google_sign_in: ^6.0.2
   firebase_analytics: ^10.1.6
+  flutter_native_splash: ^2.2.18
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,18 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   retrofit_generator: ^4.1.2
+
+flutter_native_splash:
+    color: '#add8e6'
+    image: 'assets/images/home-1.png'
+    color_dark: '#262626'
+    # image_dark: 'assets/images/splash.png'
+    fullscreen: true
+    android_12:
+      icon_background_color: '#add8e6'
+      image: 'assets/images/home-1.png'
+      icon_background_color_dark: '#262626'
+      # image_dark: 'assets/images/home-1.png'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -91,8 +104,7 @@ flutter:
     - .env
     - .env.development
     - .env.production
-
-    - images/
+    - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -142,6 +154,8 @@ flutter:
         - asset: assets/fonts/Noto_Serif_JP/NotoSerifJP-Regular.otf
         - asset: assets/fonts/Noto_Serif_JP/NotoSerifJP-Bold.otf
           weight: 700
+  
+  
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
