@@ -40,6 +40,10 @@ class Home extends HookConsumerWidget {
     final _UserNotifier = ref.watch(UserProvider.notifier);
 
     Locale locale = Localizations.localeOf(context);
+    // final asyncValue = ref.watch(userDataProvider);
+    // print("asyncValue----");
+    // print(asyncValue);
+    // print("----");
 
   print(locale); 
   // var descTextStyle = TextStyle(
@@ -54,7 +58,7 @@ class Home extends HookConsumerWidget {
     print(getJugdeLanguage(context));
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("afefefefefe")));
     // print("aaaaa");
-    
+    print(_UserState);
     return Scaffold(
       appBar: AppBar(
         title:const Text("Home"),
@@ -66,8 +70,14 @@ class Home extends HookConsumerWidget {
               // ログアウト処理
               // 内部で保持しているログイン情報等が初期化される
               // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫です）
+              // GoogleSignIn googleSign = GoogleSignIn();
               await FirebaseAuth.instance.signOut();
               _UserNotifier.setCurrentUserEmail(null);
+
+              final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+              print(token);
+              print("token_home");
+
               // ログイン画面に遷移＋チャット画面を破棄
               // await Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(builder: (context) {
@@ -110,6 +120,14 @@ class Home extends HookConsumerWidget {
                 // fontWeight: FontWeight.w700
               ),
             ),
+            // Text(
+            //   // check-1 _UserState.email! !が必要な理由
+            //   asyncValue.value != null?asyncValue.value!.email!:"null",
+            //   style: TextStyle(
+            //     // fontFamily: 'Noto_Serif_JP',
+            //     // fontWeight: FontWeight.w700
+            //   ),
+            // ),
             
             // Text(
             //   "認証あいあいげういあふぇういあふぇ",

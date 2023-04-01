@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'navigate.dart';
 
@@ -27,29 +27,32 @@ mixin _$NavigateActionModel {
 abstract class $NavigateActionModelCopyWith<$Res> {
   factory $NavigateActionModelCopyWith(
           NavigateActionModel value, $Res Function(NavigateActionModel) then) =
-      _$NavigateActionModelCopyWithImpl<$Res>;
+      _$NavigateActionModelCopyWithImpl<$Res, NavigateActionModel>;
+  @useResult
   $Res call({int page});
 }
 
 /// @nodoc
-class _$NavigateActionModelCopyWithImpl<$Res>
+class _$NavigateActionModelCopyWithImpl<$Res, $Val extends NavigateActionModel>
     implements $NavigateActionModelCopyWith<$Res> {
   _$NavigateActionModelCopyWithImpl(this._value, this._then);
 
-  final NavigateActionModel _value;
   // ignore: unused_field
-  final $Res Function(NavigateActionModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? page = freezed,
+    Object? page = null,
   }) {
     return _then(_value.copyWith(
-      page: page == freezed
+      page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -60,26 +63,25 @@ abstract class _$$_NavigateActionModelCopyWith<$Res>
           $Res Function(_$_NavigateActionModel) then) =
       __$$_NavigateActionModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({int page});
 }
 
 /// @nodoc
 class __$$_NavigateActionModelCopyWithImpl<$Res>
-    extends _$NavigateActionModelCopyWithImpl<$Res>
+    extends _$NavigateActionModelCopyWithImpl<$Res, _$_NavigateActionModel>
     implements _$$_NavigateActionModelCopyWith<$Res> {
   __$$_NavigateActionModelCopyWithImpl(_$_NavigateActionModel _value,
       $Res Function(_$_NavigateActionModel) _then)
-      : super(_value, (v) => _then(v as _$_NavigateActionModel));
+      : super(_value, _then);
 
-  @override
-  _$_NavigateActionModel get _value => super._value as _$_NavigateActionModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? page = freezed,
+    Object? page = null,
   }) {
     return _then(_$_NavigateActionModel(
-      page: page == freezed
+      page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
@@ -116,15 +118,15 @@ class _$_NavigateActionModel
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_NavigateActionModel &&
-            const DeepCollectionEquality().equals(other.page, page));
+            (identical(other.page, page) || other.page == page));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(page));
+  int get hashCode => Object.hash(runtimeType, page);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_NavigateActionModelCopyWith<_$_NavigateActionModel> get copyWith =>
       __$$_NavigateActionModelCopyWithImpl<_$_NavigateActionModel>(
           this, _$identity);

@@ -17,7 +17,8 @@ class SignModel with _$SignModel {
     @Default("") String loginUserPassword,
     @Default("") String infoText,
     @Default(false) bool openEye,
-    @Default(false) bool openEye2
+    @Default(false) bool openEye2,
+    @Default(false) bool situation
   }) = _SignModel;
 
 }

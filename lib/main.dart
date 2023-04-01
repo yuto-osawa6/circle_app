@@ -1,7 +1,13 @@
+import 'package:circle_app/controller/lang_controller.dart';
+import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
+import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
+import 'package:circle_app/ui/page/sign/signHomePage.dart';
+import 'package:circle_app/ui/page/sign/signup.dart';
+import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
@@ -22,6 +28,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -43,6 +50,10 @@ Future<void> main() async {
   // Firebase初期化
   // await Firebase.initializeApp();
   await dotenv.load(fileName: "assets/.env.development");
+
+  // flutter_native_splash
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // await dotenv.load(fileName: ".env.development");
   // assets/.env.development
   print(dotenv.env["apiKey"]);
@@ -481,6 +492,30 @@ class CircleHomeWidget extends HookConsumerWidget {
     final _NavigateActionState = ref.watch(NavigateActionProvider);
     final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
 
+    final _LangState = ref.watch(LangProvider);
+    final _LangNotifier = ref.watch(LangProvider.notifier);
+
+    final _LoadingState = ref.watch(LoadingCircleProvider);
+    final _LoadingNotifier = ref.watch(LoadingCircleProvider.notifier);
+
+    // String token = await _auth.currentUser!.getIdToken();
+    //       // CreateUserRepository repository = CreateUserRepository();
+    //       // repository.fetchUsers(token);
+    //       _UserNotifier.setCurrentUserToken(token);
+    //       final asyncValue = ref.watch(userDataProvider);
+    //       print(asyncValue);
+
+    // final asyncValue = ref.watch(userDataProvider);
+    // print("asyncValue----");
+    // // print(asyncValue);
+    // print("----");
+
+    // final client = RestClient(dio);
+
+    // client.getTasks().then((it) => logger.i(it));
+
+    print(_LoadingState);
+    print("_LoadingState");
 
     Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
       // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
@@ -512,7 +547,7 @@ class CircleHomeWidget extends HookConsumerWidget {
     final String? _deepLink = _data?.link.toString();
     print(_deepLink);
     if (_deepLink == null) return;
-
+    
     // // リンク（＝URL）が、メールリンクかどうか検証
     if (_auth.isSignInWithEmailLink(_deepLink)) {
       var emailAuth = _SignUpState.newUserEmail;
@@ -525,11 +560,29 @@ class CircleHomeWidget extends HookConsumerWidget {
       try{
           print("ajgiefjaioefj33go1");
           await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
+          String token = await _auth.currentUser!.getIdToken();
+          debugPrint(token);
+          debugPrint("token-----");
+          debugPrint(_auth.currentUser?.uid);
+          debugPrint("auth-----");
+          // CreateUserRepository repository = CreateUserRepository();
+          // repository.fetchUsers(token);
+          _UserNotifier.setCurrentUserToken("Bearer ${token}");
+          // check したいらない 試しコード
+          _UserNotifier.setCurrentUserEmail(email);
+          final asyncValue = ref.watch(userDataProvider2);
+          _LangNotifier.setCurrentLang(lang);
+          // print(asyncValue);
+          // print(asyncValue.error);
           print("ajgiefjaioefj33go");
-          messageHandleSnack2(lang);
+          // messageHandleSnack2(lang);
           print("aaaa");
       }on FirebaseAuthException catch (e){
           print("ajgiefjaioefj3");
+          // String token = await _auth.currentUser!.getIdToken();
+          // CreateUserRepository repository = CreateUserRepository();
+          // repository.fetchUsers(token);
+          // final asyncValue = ref.watch(userDataProvider);
           print(e);
           FirebaseAuthError2(e.code,context,lang);
           print("ajgiefjaioefj3");
@@ -559,25 +612,59 @@ class CircleHomeWidget extends HookConsumerWidget {
     print("abcd3");
     });
     // リンクからアプリへ遷移するとき、アプリが開いていないと発動
+    // check 確認してない。dynamiclinkDataを引数に必要。
     FirebaseDynamicLinks.instance.getInitialLink().then(
           _verifyDynamicLink,
         );
   }
+   Locale locale = Localizations.localeOf(context);
    Future<void> _initAuth() async {
+    // print()
+   
+    // final token = await _auth.currentUser?.getIdToken();
+    print(789);
+    // print(token == null);
     FirebaseAuth.instance
   .authStateChanges()
-  .listen((User? user) {
-    if (user != null) {
+  .listen((User? user) async{
+    final token = await _auth.currentUser?.getIdToken();
+    print("78:${_auth.currentUser == user}");
+    print("user78");
+    print("782:${token == null}");
+    print("7892:${_UserState}");
+    // print("7892:${_UserState.email != _auth.currentUser!.email}");
+    print("7893:${_auth.currentUser}");
+    print("783:${user}");
+    // if (user != null && token !=null && _auth.currentUser != null&&_auth.currentUser!.email == _UserState.email) {
+    if (user != null && _auth.currentUser != null) {
       print("eiajfeioajioejfaoiejfakldjfiea");
       print(user.uid);
       print("eiajfeioajioejfaoiejfakldjfiea");
       print(user);
       print("eiajfeioajioejfaoiejfakldjfiea");
       // check -1 user email!のところ、エラー回避するかどうか
-      _UserNotifier.setCurrentUserEmail(user.email!); 
+      // _UserNotifier.setCurrentUserEmail(user.email!);
 
+      // _UserNotifier.setCurrentUserToken("Bearer ${token}");
+      print(_UserState);
+      // final asyncValue = ref.watch(userDataProvider);
+      _UserNotifier.setCurrentUser(ref,token,locale.languageCode);
+      print("asyncValue");
+      // print(asyncValue.error);
+      print("asyncValue");
+      // FlutterNativeSplash.remove();
+
+    }else{
+      FlutterNativeSplash.remove();
     }
   });
+  print("aafjeioa99990");
+  // String token = await _auth.currentUser!.getIdToken();
+  // print(token);
+          // CreateUserRepository repository = CreateUserRepository();
+          // repository.fetchUsers(token);
+          
+  
   }
   
   Future<void> _initAsync() async {
@@ -586,6 +673,7 @@ class CircleHomeWidget extends HookConsumerWidget {
     await _initDynamicLink();
   }
   useEffect((){
+    // check1 あとでなおす
     _initAsync();
   },[]);
   print("abcd001");
@@ -604,8 +692,41 @@ class CircleHomeWidget extends HookConsumerWidget {
     //     primaryColor:Colors.blue,
     //   ),
     // );
-    return Scaffold(
-      body: MainPage(),
+    // final asyncValue = ref.watch(userDataProvider);
+
+    // check1 errorMessageの内容が更新されるたびに呼ばれるのかどうかわからないため保留。
+    // ref.listen<String?>(
+    //   errorMessageProvider,
+    //   ((previous, next) {
+    //     print("next");
+    //     print(next);
+    //     apiError(next, context);
+    //   }),
+    // );
+    print("7800${_UserState.email}");
+    return Stack(
+      children: [
+        Scaffold(
+          body: _UserNotifier.judgeSigned() == true ? MainPage() : SignUpPage(),
+        ),
+        if (_LoadingState.loaded == false)
+          Opacity(
+            opacity: 0.7,
+            child: ModalBarrier(
+              dismissible: false,
+              color: Colors.black,
+            ),
+          ),
+        if (_LoadingState.loaded == false) Center(
+          child: CircularProgressIndicator(
+            // color:Colors.
+        ))
+        // if (1==1) 
+          // Center(child:  Image.asset('assets/images/circle-load1.gif'))
+
+
+      ]
     );
+    
   }
 }

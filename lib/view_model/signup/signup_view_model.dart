@@ -78,6 +78,13 @@ class SignUpNotifier extends StateNotifier<SignModel> {
       state = state.copyWith(openEye: state.openEye == true?false:true);
     }
 
+    // 
+    void setSituation (bool s){
+      // openEye.value == true?openEye.value = false:openEye.value =true;
+      // newUserEmail.value = "aaa";
+      state = state.copyWith(situation: s);
+    }
+
     // final acs = ActionCodeSettings(
     // // URL you want to redirect back to. The domain (www.example.com) for this
     // // URL must be whitelisted in the Firebase Console.
@@ -95,21 +102,6 @@ class SignUpNotifier extends StateNotifier<SignModel> {
 
 
     void handleSignUp (BuildContext context)async {
-    //   var acs = ActionCodeSettings(
-    // // URL you want to redirect back to. The domain (www.example.com) for this
-    // // URL must be whitelisted in the Firebase Console.
-    // url: 'https://circle-c701a.firebaseapp.com/',
-    // // This must be true
-    // handleCodeInApp: true,
-    // // iOSBundleId: 'com.circle-c701a.ios',
-    // // androidPackageName: 'com.circle-c701a.android',
-    // iOSBundleId: 'com.circle.circle_app.ios',
-    // androidPackageName: 'com.circle.circle_app.android',
-    // // installIfNotAvailable
-    // androidInstallApp: true,
-    // // minimumVersion
-    // androidMinimumVersion: '12'
-    // );
     var acs2 = ActionCodeSettings(
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
@@ -128,80 +120,21 @@ class SignUpNotifier extends StateNotifier<SignModel> {
     // androidMinimumVersion: '12'
     );
 
-  //   var actionCodeSettings =  ActionCodeSettings(
-  // url: 'https://www.example.com/?email=' + firebase.auth().currentUser.email,
-  // iOS: {
-  //   bundleId: 'com.example.ios'
-  // },
-  // android: {
-  //   packageName: 'com.example.android',
-  //   installApp: true,
-  //   minimumVersion: '12'
-  // },
-  // handleCodeInApp: true,
-  // // When multiple custom dynamic link domains are defined, specify which
-  // // one to use.
-  // dynamicLinkDomain: "example.page.link"
-  //   );
-
       try
         {
           // メール/パスワードでログイン
           final FirebaseAuth auth = FirebaseAuth.instance;
-
+          print("afe");
           await auth.sendSignInLinkToEmail(
             email: state.newUserEmail,
 
             actionCodeSettings: acs2
-          //   password: state.newUserPassword,
           );
-          // var emailAuth = 'someemail@domain.com';
-          // final aa = auth.sendSignInLinkToEmail(
-          //         email: emailAuth, actionCodeSettings: acs);
-        //   .catchError((onError) => print('Error sending email verification $onError'))
-        // .then((value) => print('Successfully sent email verificatio'));
-
-
-          // final UserCredential result =
-          //     await auth.createUserWithEmailAndPassword(
-          //   email: state.newUserEmail,
-          //   password: state.newUserPassword,
-          // );
-          // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-          // // print(idToken);
-          // print("aaab");
           Navigator.pushNamed(context, '/email');
-
-          // print(result.user!.emailVerified);
-          // print("bbbb");
-          // if(result.user!.emailVerified){
-          //   print("y-ev");
-          // }else{
-          //   print("n-ev");
-          //   // errorHandleSnack(context,"mailアドレスを認証してください。");
-          //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("bb4")));
-          //   // Navigator.pushNamed(context, '/email_vertification');
-          // }
-          // final result = await ApiClientCreateUser.fetchApiCreateUser();
-
-          // final apiClient = ApiClientCreateUser();
-          // print(await apiClient.fetchApiCreateUser(idToken));
-
-          // dynamic fetchUsers() async {
-          //   return await apiClient.fetchApiCreateUser();
-          // }
-          // ログインに成功した場合
-          // final User user = result.user!;
-          // setState(() {
-          //   infoText = "ログインOK：${user.email}";
-          // });
           print("aaa3");
         } on FirebaseAuthException catch (e) {
-        // } catch (e) {
           print(e);
-          // logger.i(e);
-          
-          // debugPrint(e.email);
+          print("afefie");
           // developer.log()
           // print(e.);
 
@@ -249,7 +182,7 @@ class SignUpNotifier extends StateNotifier<SignModel> {
           // );
           // String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           // print(idToken);
-          print("aaab");
+          // print("aaab");
           // print(result.user!.emailVerified);
           print("bbbb");
           // if(result.user!.emailVerified){

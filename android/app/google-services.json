@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "655197458944-rp8d350ng73kemf8sv7kfcrt44ue1tat.apps.googleusercontent.com",
+          "client_id": "655197458944-ofvf9ql0tdfh5oeg1hvt7v6qt6ko393q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.circle.circle_app",
+            "certificate_hash": "a499a31ea46ab616b87f04d4eab6b318a72cbbd4"
+          }
+        },
+        {
+          "client_id": "655197458944-36vds4arel2hkopitqssdopq80eeemi6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,16 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "655197458944-rp8d350ng73kemf8sv7kfcrt44ue1tat.apps.googleusercontent.com",
+              "client_id": "655197458944-36vds4arel2hkopitqssdopq80eeemi6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "655197458944-g4mmmtgjj0tgm7gfv8sbuf7qn1rct931.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.circle.circleApp",
+                "app_store_id": "123456789"
+              }
             }
           ]
         }
