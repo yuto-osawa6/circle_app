@@ -23,6 +23,7 @@
 // }
 
 
+import 'package:circle_app/controller/group_controller.dart';
 import 'package:circle_app/ui/page/sign/signup.dart';
 import 'package:circle_app/ui/page/sign/signIn.dart';
 import 'package:flutter/material.dart';
@@ -30,13 +31,16 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Calendar extends StatelessWidget {
-  const  Calendar({Key? key}) : super(key: key);
+class Calendar extends HookConsumerWidget {
+  // const  Calendar({Key? key}) : super(key: key);
+
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    
     return 
     // MaterialApp(
       // localizationsDelegates: AppLocalizations.localizationsDelegates,

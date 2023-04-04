@@ -23,7 +23,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // }
 
 class Home extends HookConsumerWidget {
-
+  
 
   @override
   // void initState() {
@@ -68,23 +68,14 @@ class Home extends HookConsumerWidget {
             icon: Icon(Icons.logout),
             onPressed: () async {
               // ログアウト処理
-              // 内部で保持しているログイン情報等が初期化される
-              // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫です）
-              // GoogleSignIn googleSign = GoogleSignIn();
               await FirebaseAuth.instance.signOut();
               _UserNotifier.setCurrentUserEmail(null);
 
               final token = await FirebaseAuth.instance.currentUser?.getIdToken();
               print(token);
               print("token_home");
-
-              // ログイン画面に遷移＋チャット画面を破棄
-              // await Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(builder: (context) {
-              //     return LoginPage();
-              //   }),
-              // );
             },
+            
           )
           :Text("N")
 
@@ -119,7 +110,19 @@ class Home extends HookConsumerWidget {
                 // fontFamily: 'Noto_Serif_JP',
                 // fontWeight: FontWeight.w700
               ),
+              
             ),
+            IconButton(
+            icon: Icon(Icons.create_new_folder),
+            onPressed: () async {
+              // tokenの発行
+              final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+              // group 作成のapi
+
+            },
+            
+          )
             // Text(
             //   // check-1 _UserState.email! !が必要な理由
             //   asyncValue.value != null?asyncValue.value!.email!:"null",
