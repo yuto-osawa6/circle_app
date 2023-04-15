@@ -69,7 +69,7 @@ class UserNotifier extends StateNotifier<UserModel> {
           // setCurrentUserEmail(value.email);
           // print("signState09");
           // // print("${signState.situation}");
-          state = UserModel(email: value.email);
+          state = UserModel(id:value.id,email: value.email);
           // return value;
         },
       failure: (error) {
@@ -123,8 +123,13 @@ class UserNotifier extends StateNotifier<UserModel> {
 }
 
 // HomePageNotifierの状態を管理する
+// final UserProvider =
+//     StateNotifierProvider.autoDispose<UserNotifier, UserModel>(
+//   (ref) => UserNotifier(),
+// );
+
 final UserProvider =
-    StateNotifierProvider.autoDispose<UserNotifier, UserModel>(
+    StateNotifierProvider<UserNotifier, UserModel>(
   (ref) => UserNotifier(),
 );
 

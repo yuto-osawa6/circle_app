@@ -21,6 +21,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserModel {
 // required String email,
+  int? get id => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get token => throw _privateConstructorUsedError;
 
@@ -35,7 +36,7 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
-  $Res call({String? email, String? token});
+  $Res call({int? id, String? email, String? token});
 }
 
 /// @nodoc
@@ -51,10 +52,15 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? email = freezed,
     Object? token = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -74,7 +80,7 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       __$$_UserModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? email, String? token});
+  $Res call({int? id, String? email, String? token});
 }
 
 /// @nodoc
@@ -88,10 +94,15 @@ class __$$_UserModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? email = freezed,
     Object? token = freezed,
   }) {
     return _then(_$_UserModel(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -107,12 +118,14 @@ class __$$_UserModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_UserModel with DiagnosticableTreeMixin implements _UserModel {
-  _$_UserModel({this.email, this.token});
+  _$_UserModel({this.id, this.email, this.token});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
 
 // required String email,
+  @override
+  final int? id;
   @override
   final String? email;
   @override
@@ -120,7 +133,7 @@ class _$_UserModel with DiagnosticableTreeMixin implements _UserModel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(email: $email, token: $token)';
+    return 'UserModel(id: $id, email: $email, token: $token)';
   }
 
   @override
@@ -128,6 +141,7 @@ class _$_UserModel with DiagnosticableTreeMixin implements _UserModel {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'UserModel'))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('token', token));
   }
@@ -137,13 +151,14 @@ class _$_UserModel with DiagnosticableTreeMixin implements _UserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserModel &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, token);
+  int get hashCode => Object.hash(runtimeType, id, email, token);
 
   @JsonKey(ignore: true)
   @override
@@ -160,12 +175,15 @@ class _$_UserModel with DiagnosticableTreeMixin implements _UserModel {
 }
 
 abstract class _UserModel implements UserModel {
-  factory _UserModel({final String? email, final String? token}) = _$_UserModel;
+  factory _UserModel(
+      {final int? id, final String? email, final String? token}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
 
   @override // required String email,
+  int? get id;
+  @override
   String? get email;
   @override
   String? get token;

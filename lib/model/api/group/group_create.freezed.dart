@@ -20,7 +20,7 @@ GroupCreate _$GroupCreateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GroupCreate {
-// int id,
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int? get level => throw _privateConstructorUsedError;
 
@@ -36,7 +36,7 @@ abstract class $GroupCreateCopyWith<$Res> {
           GroupCreate value, $Res Function(GroupCreate) then) =
       _$GroupCreateCopyWithImpl<$Res, GroupCreate>;
   @useResult
-  $Res call({String name, int? level});
+  $Res call({int? id, String name, int? level});
 }
 
 /// @nodoc
@@ -52,10 +52,15 @@ class _$GroupCreateCopyWithImpl<$Res, $Val extends GroupCreate>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = null,
     Object? level = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -76,7 +81,7 @@ abstract class _$$_GroupCreateCopyWith<$Res>
       __$$_GroupCreateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, int? level});
+  $Res call({int? id, String name, int? level});
 }
 
 /// @nodoc
@@ -90,10 +95,15 @@ class __$$_GroupCreateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = null,
     Object? level = freezed,
   }) {
     return _then(_$_GroupCreate(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -109,12 +119,13 @@ class __$$_GroupCreateCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
-  const _$_GroupCreate({required this.name, this.level});
+  const _$_GroupCreate({this.id, required this.name, this.level});
 
   factory _$_GroupCreate.fromJson(Map<String, dynamic> json) =>
       _$$_GroupCreateFromJson(json);
 
-// int id,
+  @override
+  final int? id;
   @override
   final String name;
   @override
@@ -122,7 +133,7 @@ class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GroupCreate(name: $name, level: $level)';
+    return 'GroupCreate(id: $id, name: $name, level: $level)';
   }
 
   @override
@@ -130,6 +141,7 @@ class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'GroupCreate'))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('level', level));
   }
@@ -139,13 +151,14 @@ class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GroupCreate &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.level, level) || other.level == level));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, level);
+  int get hashCode => Object.hash(runtimeType, id, name, level);
 
   @JsonKey(ignore: true)
   @override
@@ -162,13 +175,17 @@ class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
 }
 
 abstract class _GroupCreate implements GroupCreate {
-  const factory _GroupCreate({required final String name, final int? level}) =
-      _$_GroupCreate;
+  const factory _GroupCreate(
+      {final int? id,
+      required final String name,
+      final int? level}) = _$_GroupCreate;
 
   factory _GroupCreate.fromJson(Map<String, dynamic> json) =
       _$_GroupCreate.fromJson;
 
-  @override // int id,
+  @override
+  int? get id;
+  @override
   String get name;
   @override
   int? get level;

@@ -9,6 +9,7 @@ part 'user.g.dart';
 class UserModel with _$UserModel {
   factory UserModel({
     // required String email,
+    int? id,
     String? email,
     String? token
     // @Default("") String email,

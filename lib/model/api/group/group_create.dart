@@ -7,7 +7,7 @@ part 'group_create.g.dart';
 @freezed
 abstract class GroupCreate with _$GroupCreate {
   const factory GroupCreate({
-    // int id,
+    int? id,
     required String name,
     int? level,
     // List<String> members,

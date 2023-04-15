@@ -3,6 +3,7 @@
 import 'package:circle_app/controller/group_controller.dart';
 import 'package:circle_app/model/api/group/group_create.dart';
 import 'package:circle_app/service/auth_service.dart';
+import 'package:circle_app/ui/component/group/user_group_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,6 +17,7 @@ class GroupFrends extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final nameController = useTextEditingController();
 
+    // final 
     // final _counterState = ref.watch( nameProvider );
     // // ⑤状態管理している値を操作できるようにする
     // final _counterNotifier = ref.watch( nameProvider .notifier);
@@ -56,7 +58,7 @@ class GroupFrends extends HookConsumerWidget {
                 _groupCreateNotifier.setNameforGroup("くくりとう");
                 final token = await AuthService().getCurrentUserToken();
                 final groupCreate = GroupCreate(name:"くくりとう",level:0);
-                _groupCreateNotifier.setCreateGroup(token, groupCreate);
+                _groupCreateNotifier.setCreateGroup(token, groupCreate,context);
                 // _counterNotifier.state = nameController.text;
                 // ref.read(idProvider).state = int.tryParse(idController.text) ?? 0;
                 // ref.read(levelProvider).state = int.tryParse(levelController.text) ?? 0;
@@ -64,6 +66,10 @@ class GroupFrends extends HookConsumerWidget {
               child: Text('Submit'),
             ),
             SizedBox(height: 20),
+            // UserGroupsList2(),
+            Container(
+              child: UserGroupsList(),
+            )
             // group.when(
             //   data: (data) => Column(
             //     children: [

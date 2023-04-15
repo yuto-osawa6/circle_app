@@ -3,6 +3,7 @@ import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/repository/user_create.dart';
+import 'package:circle_app/ui/page/group/group_show.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/ui/page/sign/signHomePage.dart';
@@ -336,6 +337,12 @@ class CircleWidget extends HookConsumerWidget {
       routes: <String, WidgetBuilder>{
         '/': (context) => CircleHomeWidget(),
         '/email': (context) => EmailVerificationPage(),
+        // '/group/show': (context) => GroupShowPage(),
+        '/group/:id': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final id = args['id'] as int;
+          return GroupShowPage(id: id);
+        }
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
       supportedLocales: AppLocalizations.supportedLocales,   
@@ -592,11 +599,11 @@ class CircleHomeWidget extends HookConsumerWidget {
 
     }
   }
-     Future<void> _initDynamicLink() async {
+    Future<void> _initDynamicLink() async {
       // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
-    print("abcd");
-    // リンクからアプリへ遷移するとき、アプリが開いていると発動
-    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+      print("abcd");
+      // リンクからアプリへ遷移するとき、アプリが開いていると発動
+      FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
       // Navigator.pushNamed(context, dynamicLinkData.link.path);
       print("abcd2");
       print(dynamicLinkData);
@@ -606,7 +613,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       _verifyDynamicLink(dynamicLinkData);
     }).onError((error) {
-  // Handle errors
+    // Handle errors
     print("abcd3");
     print(error);
     print("abcd3");
@@ -617,10 +624,9 @@ class CircleHomeWidget extends HookConsumerWidget {
           _verifyDynamicLink,
         );
   }
-   Locale locale = Localizations.localeOf(context);
-   Future<void> _initAuth() async {
+  Locale locale = Localizations.localeOf(context);
+  Future<void> _initAuth() async {
     // print()
-   
     // final token = await _auth.currentUser?.getIdToken();
     print(789);
     // print(token == null);
