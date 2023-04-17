@@ -1,5 +1,6 @@
 import 'package:circle_app/controller/group_controller.dart';
 import 'package:circle_app/model/api/group/group.dart';
+import 'package:circle_app/ui/page/group/group_show.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -886,7 +887,19 @@ class UserGroupsList extends HookConsumerWidget {
         //   group: item,
         // ),
         itemBuilder: (context, item, index){
-          return Text("${item.id}");
+          return ListTile(
+            title: Text("${item.id}"),
+            subtitle: Text(item.name),
+            onTap: () {
+              // Navigator.pushNamed(context, '/group/:id', arguments: {'id': item.id});
+              Navigator.pushNamed(context, '/groupShow', arguments: {'id': item.id});
+
+            //   Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => GroupShowPage(id:item.id)),
+            // );
+            },
+          );
         }
       ),
     )

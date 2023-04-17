@@ -2,6 +2,7 @@
 
 import 'package:circle_app/ui/common/footer/footer.dart';
 import 'package:circle_app/ui/page/calendar/calendar.dart';
+import 'package:circle_app/ui/page/group/group_show.dart';
 import 'package:circle_app/ui/page/groupfrends/groupfrends.dart';
 import 'package:circle_app/ui/page/home/home.dart';
 import 'package:circle_app/ui/page/talk/talk.dart';
@@ -47,12 +48,24 @@ class MainPage extends HookConsumerWidget {
     return Scaffold(
       // appBar: Header(),
       // body: _pages[_NavigateActionState.page],
+
       body: DefaultTextStyle.merge(
             style: descTextStyle,
             // child: Center(
               child: _pages[_NavigateActionState.page],
               // )
             ),
+      
+      // body: Navigator(
+      //   onGenerateRoute: (settings) {
+      //     Widget page = GroupFrends();
+      //     if (settings.name == 'groupShow') {
+      //       final id = settings.arguments as int?;
+      //       page = GroupShowPage(id: id ?? 0);
+      //     }
+      //     return MaterialPageRoute(builder: (_) => page);
+      //   },
+      // ),
       // body: Center(
       //   child: Column(
       //     mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +82,7 @@ class MainPage extends HookConsumerWidget {
       //     ],
       //   ),
       // ),
-      bottomNavigationBar: Footer(),
+      // bottomNavigationBar: Footer(),
     );
   }
 }

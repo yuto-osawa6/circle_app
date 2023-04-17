@@ -3,6 +3,7 @@ import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/repository/user_create.dart';
+import 'package:circle_app/sub.dart';
 import 'package:circle_app/ui/page/group/group_show.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
@@ -713,7 +714,11 @@ class CircleHomeWidget extends HookConsumerWidget {
     return Stack(
       children: [
         Scaffold(
-          body: _UserNotifier.judgeSigned() == true ? MainPage() : SignUpPage(),
+          body: _UserNotifier.judgeSigned() == true ? 
+          // MainPage() 
+          SubPage()
+          : 
+          SignUpPage(),
         ),
         if (_LoadingState.loaded == false)
           Opacity(
