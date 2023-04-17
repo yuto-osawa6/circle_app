@@ -32,6 +32,11 @@ class GroupCreateNotifier extends StateNotifier<GroupCreate> {
           print(value.id);
           final id = value.id;
           Navigator.pushNamed(context, '/group/:id', arguments: {'id': id});
+          // 
+          final new_group = Group(id:value.id!,name:value.name,level:value.level!);
+          print(new_group);
+          ref.read(groupListProvider.notifier).addGroup(new_group);
+          print("new_group");
         }
         // Navigator.pushNamed(context, '/email');
         // return value;
@@ -346,6 +351,49 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
     });
   }
   Ref ref;
+
+  Future<void> addGroup(Group group) async {
+    // print("呼ばれた");
+    // print(state);
+    // print(state.itemList);
+    // print(state.itemList?.length);
+    // state.itemList?.add(group);
+    // print(state.itemList?.length);
+    // ref.read(groupListProvider.notifier).itemList = state.itemList ?? [];
+
+    // final updatedList = [...state.itemList!, group];
+    // final isLastPage = state.lastItem?.pageKey == state.;
+    // if (isLastPage) {
+    //   state.itemList.add(group);
+    // } 
+    // print(state.nextPageKey!);
+    // final updatedList = [...state.itemList!, group];
+    // final isLastPage = (state.nextPageKey! - 1) * 20 != state.itemList?.length;
+    // if (isLastPage) {
+    //   state.appendLastPage(updatedList);
+    // } else {
+      // state.itemList = updatedList;
+    // }
+
+    if (state.nextPageKey != null) {
+      // print(state.nextPageKey);
+      // final updatedList = [...state.itemList!, group];
+      // state.itemList = updatedList;
+
+    }
+    // final controller = ref.read(groupListProvider.notifier);
+
+    // リストに新しいグループを追加する処理
+    state.itemList?.add(group);
+
+    // 状態を更新して、リストに新しいグループを反映
+    final controller = ref.read(groupListProvider.notifier);
+    // controller.state = PagingController(firstPageKey: 1);
+
+    // リストが更新されたら、PagingControllerをrefreshしてリストを更新
+    controller.state.refresh();
+  }
+
 
   Future<void> _fetchPage(int pageKey) async {
     print("_fetchPage(pageKey)2;");
