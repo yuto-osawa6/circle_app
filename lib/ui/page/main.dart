@@ -48,6 +48,7 @@ class MainPage extends HookConsumerWidget {
     return Scaffold(
       // appBar: Header(),
       // body: _pages[_NavigateActionState.page],
+      // bottomNavigationBar: Footer(),
 
       body: DefaultTextStyle.merge(
             style: descTextStyle,

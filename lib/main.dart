@@ -345,6 +345,51 @@ class CircleWidget extends HookConsumerWidget {
           return GroupShowPage(id: id);
         }
       },
+      // onGenerateRoute: (settings) {
+        // switch (settings.name) {
+        //   case '/':
+        //     return MaterialPageRoute(builder: (context) => CircleHomeWidget());
+        //   case '/email':
+        //     return MaterialPageRoute(builder: (_) => EmailVerificationPage());
+        //   default:
+        //     return MaterialPageRoute(builder: (_) => MainPage());
+        // }
+        
+      // },
+       onGenerateRoute: (settings) {
+          // Widget page = CircleWidget2();
+          Widget page;
+          print(settings.name);
+          if (settings.name == '/') {
+            // return MaterialPageRoute(builder: (_) => EmailVerificationPage());
+            // page = SubPage(EmailVerificationPage());
+            page = Scaffold(
+              appBar: AppBar(),
+              body: SubPage(),
+              bottomNavigationBar: Footer(),
+            );
+          }
+          if (settings.name == '/user_group_show') {
+            print("aaass");
+
+            final args = settings.arguments;
+            final id = args is int ? args : 0;
+            page = GroupShowPage(id: id);
+          }
+          // if (settings.name == '/email') {
+          //   // return MaterialPageRoute(builder: (_) => EmailVerificationPage());
+          //   page = Scaffold(
+          //     // appBar: AppBar(),
+          //     body: EmailVerificationPage(),
+          //     // bottomNavigationBar: Footer(),
+          //   );
+          // }
+          else {
+            page = MainPage();
+          }
+          return MaterialPageRoute(builder: (_) => page);
+        },
+      
       localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
       supportedLocales: AppLocalizations.supportedLocales,   
       title: "",
@@ -714,6 +759,7 @@ class CircleHomeWidget extends HookConsumerWidget {
     return Stack(
       children: [
         Scaffold(
+          bottomNavigationBar: Footer(),
           body: _UserNotifier.judgeSigned() == true ? 
           // MainPage() 
           SubPage()

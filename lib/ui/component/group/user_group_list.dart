@@ -1,6 +1,7 @@
 import 'package:circle_app/controller/group_controller.dart';
 import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/ui/page/group/group_show.dart';
+import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -874,7 +875,26 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 //   }
 // }
 
+
 class UserGroupsList extends HookConsumerWidget {
+  //  Route _createRoute() {
+  //   return PageRouteBuilder(
+  //     pageBuilder: (context, animation, secondaryAnimation) => EmailVerificationPage(),
+  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+  //       var begin = Offset.zero;
+  //       var end = Offset.zero;
+  //       var curve = Curves.ease;
+  //       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+  //       return SlideTransition(
+  //         position: animation.drive(tween),
+  //         child: child,
+  //       );
+  //     },
+  //     transitionDuration: Duration(milliseconds: 400),
+  //   );
+  // }
+   
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final PagingController = ref.watch(groupListProvider);
@@ -891,20 +911,24 @@ class UserGroupsList extends HookConsumerWidget {
             title: Text("${item.id}"),
             subtitle: Text(item.name),
             onTap: () {
-              // Navigator.pushNamed(context, '/group/:id', arguments: {'id': item.id});
-              Navigator.pushNamed(context, '/groupShow', arguments: {'id': item.id});
+              print("groupShow");
+              Navigator.pushNamed(context, '/group/:id', arguments: {'id': item.id});
+              // Navigator.pushNamed(context, 'email');
+              // Navigator.pushNamed(context, '/email');
+              // Navigator.of(context).push(_createRoute());
 
-            //   Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => GroupShowPage(id:item.id)),
-            // );
+
             },
           );
         }
       ),
     )
+
+    
     
     );
+
+    
     
   }
 }

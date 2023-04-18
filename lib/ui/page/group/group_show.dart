@@ -17,7 +17,7 @@ class GroupShowPage extends HookConsumerWidget {
       ),
       // resizeToAvoidBottomInset: false,
         // bottomNavigationBar: Footer(),
-
+      // bottomNavigationBar: null,
       body: ListView.builder(
         // itemCount: group.members.length,
         itemBuilder: (BuildContext context, int index) {
