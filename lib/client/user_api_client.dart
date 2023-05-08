@@ -11,7 +11,6 @@ import 'package:retrofit/retrofit.dart';
 
 part 'user_api_client.g.dart';
 
-// const baseUrl = 'http://192.168.2.101:8080';
 
 @RestApi(baseUrl: baseUrl)
 abstract class UserApiClient {

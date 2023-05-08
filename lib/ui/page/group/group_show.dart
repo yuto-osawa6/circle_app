@@ -71,7 +71,7 @@ class GroupShowPage extends HookConsumerWidget {
         controller: _tabController,
         children: [
           SummaryPage(),
-          GroupChatPage(),
+          GroupChatPage(groupChatId: id),
           SummaryPage(),
           SummaryPage(),
           // CommunityPage(),

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_api_client.dart';
+part of 'group_chat_api_client.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'user_api_client.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _UserApiClient implements UserApiClient {
-  _UserApiClient(
+class _GroupChatApiClient implements GroupChatApiClient {
+  _GroupChatApiClient(
     this._dio, {
     this.baseUrl,
   }) {
@@ -21,26 +21,29 @@ class _UserApiClient implements UserApiClient {
   String? baseUrl;
 
   @override
-  Future<UserModel> getFlutterUser(auth_token) async {
+  Future<GroupChatContentCreate> createGroupChat(
+    groupId,
+    groupChatContentCreate,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': auth_token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
-      method: 'GET',
+    _data.addAll(groupChatContentCreate.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GroupChatContentCreate>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/me',
+              '/groups/${groupId}/group_chats',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UserModel.fromJson(_result.data!);
+    final value = GroupChatContentCreate.fromJson(_result.data!);
     return value;
   }
 

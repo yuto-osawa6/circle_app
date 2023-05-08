@@ -680,7 +680,12 @@ class CircleHomeWidget extends HookConsumerWidget {
   .authStateChanges()
   .listen((User? user) async{
     final token = await _auth.currentUser?.getIdToken();
+
+    final token_details =  await _auth.currentUser?.getIdTokenResult();
+    
+    // print(_auth.currentUser);
     print("78:${_auth.currentUser == user}");
+    print("90:${token_details}");
     print("user78");
     print("782:${token == null}");
     print("7892:${_UserState}");
