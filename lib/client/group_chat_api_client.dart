@@ -1,4 +1,5 @@
 import 'package:circle_app/client/dio/dio.dart';
+import 'package:circle_app/model/api/group_chat/group_chat.dart';
 import 'package:circle_app/model/api/group_chat/group_chat_content_create.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -14,4 +15,7 @@ abstract class GroupChatApiClient {
     @Path("group_id") int groupId,
     @Body() GroupChatContentCreate groupChatContentCreate,
   );
+  @GET('/groups/{group_id}/group_chats')
+  Future<List<GroupChat>> getGroupChats(
+      @Path('group_id') int groupId, @Query('page') int page);
 }

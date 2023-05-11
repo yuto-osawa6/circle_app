@@ -15,23 +15,18 @@ class GroupChatPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _UserState = ref.watch(UserProvider);
+    final groupIdStateNotifier = ref.watch(groupIdProvider.notifier);
+    final groupChatListState = ref.watch(groupChatListProvider(groupChatId));
     if (_UserState.id == null) {
       return Container();
     }
 
-    // final _channel = useState(IOWebSocketChannel.connect(
-    //     'ws://localhost:8080/ws/${groupChatId}/${_UserState.id}'));
-    // final headers = {'Authorization': 'Bearer <token>'};
-    // final _channel = useState(IOWebSocketChannel.connect(
-    //     // 'ws://localhost:8080/ws'));
-
     final _channel = useState(IOWebSocketChannel.connect(
-        // 'ws://localhost:8080/ws'));
         'ws://localhost:8080/ws/${groupChatId}/${_UserState.id}'));
 
-    // 'ws://localhost:8080/ws/', headers: headers));
-
     useEffect(() {
+      // ref.read(groupIdProvider)?.state = groupChatId;
+      // groupIdStateNotifier.state = groupChatId;
       final channel = _channel.value;
       channel.sink.add("最初のメッセージ");
       return () {
@@ -39,30 +34,6 @@ class GroupChatPage extends HookConsumerWidget {
         // channel.stream.drain();
       };
     }, []);
-
-    // return StreamBuilder(
-    //   stream: _channel.value.stream,
-    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //     if (snapshot.hasData) {
-    //       // final data = snapshot.data as List<dynamic>;
-    //       final data = snapshot.data as String;
-
-    //       return Text(data);
-    //       // return ListView.builder(
-    //       //   itemCount: data.length,
-    //       //   itemBuilder: (BuildContext context, int index) {
-    //       //     return ListTile(
-    //       //       title: Text(data[index]),
-    //       //     );
-    //       //   },
-    //       // );
-    //     } else {
-    //       return Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     }
-    //   },
-    // );
 
     // text controller
     final _textEditingController = useTextEditingController();
@@ -83,6 +54,10 @@ class GroupChatPage extends HookConsumerWidget {
           .createGroupChat(groupChatId, message);
       _textEditingController.clear();
     }
+
+    print(groupChatListState);
+    // 最初の読み込み 過去のメッセージ
+    // ref.read(groupIdProvider)?.state = groupId;
 
     return Column(
       children: [
