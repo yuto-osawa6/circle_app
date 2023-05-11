@@ -15,7 +15,7 @@ class GroupChatPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _UserState = ref.watch(UserProvider);
-    if(_UserState.id == null){
+    if (_UserState.id == null) {
       return Container();
     }
 
@@ -29,16 +29,14 @@ class GroupChatPage extends HookConsumerWidget {
         // 'ws://localhost:8080/ws'));
         'ws://localhost:8080/ws/${groupChatId}/${_UserState.id}'));
 
-
-        // 'ws://localhost:8080/ws/', headers: headers));
-
+    // 'ws://localhost:8080/ws/', headers: headers));
 
     useEffect(() {
       final channel = _channel.value;
       channel.sink.add("最初のメッセージ");
       return () {
         channel.sink.close();
-        channel.stream.drain();
+        // channel.stream.drain();
       };
     }, []);
 
@@ -73,9 +71,16 @@ class GroupChatPage extends HookConsumerWidget {
 
     void _sendMessage() {
       // print()
-      final message =GroupChatContentCreate(groupId:groupChatId,userId:userState.id! ,contentType:"text",textContent: _textEditingController.text);
+      final message = GroupChatContentCreate(
+          group_id: groupChatId,
+          user_id: userState.id!,
+          content_type: "text",
+          text_content: _textEditingController.text);
       print(message);
-      ref.read(groupCreateProvider.notifier).createGroupChat(groupChatId, message);
+      print("aaa");
+      ref
+          .read(groupCreateProvider.notifier)
+          .createGroupChat(groupChatId, message);
       _textEditingController.clear();
     }
 

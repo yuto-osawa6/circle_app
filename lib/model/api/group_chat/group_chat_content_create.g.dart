@@ -9,19 +9,19 @@ part of 'group_chat_content_create.dart';
 _$_GroupChatContentCreate _$$_GroupChatContentCreateFromJson(
         Map<String, dynamic> json) =>
     _$_GroupChatContentCreate(
-      groupId: json['groupId'] as int,
-      userId: json['userId'] as int,
-      contentType: json['contentType'] as String,
-      s3ObjectKey: json['s3ObjectKey'] as String?,
-      textContent: json['textContent'] as String?,
+      group_id: json['group_id'] as int,
+      user_id: json['user_id'] as int,
+      content_type: json['content_type'] as String,
+      s3_object_key: json['s3_object_key'] as String?,
+      text_content: json['text_content'] as String?,
     );
 
 Map<String, dynamic> _$$_GroupChatContentCreateToJson(
         _$_GroupChatContentCreate instance) =>
     <String, dynamic>{
-      'groupId': instance.groupId,
-      'userId': instance.userId,
-      'contentType': instance.contentType,
-      's3ObjectKey': instance.s3ObjectKey,
-      'textContent': instance.textContent,
+      'group_id': instance.group_id,
+      'user_id': instance.user_id,
+      'content_type': instance.content_type,
+      's3_object_key': instance.s3_object_key,
+      'text_content': instance.text_content,
     };

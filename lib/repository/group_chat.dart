@@ -5,7 +5,7 @@ import 'package:circle_app/model/api/result.dart';
 import 'package:dio/dio.dart';
 
 class GroupChatRepository {
-  Future<Result<GroupChatContentCreate>> fetchCreateGroupChatContent(int group_id, GroupChatContentCreate body) async {
+  Future<Result<String>> fetchCreateGroupChatContent(int group_id, GroupChatContentCreate body) async {
     // print("token35");
     // print(token);
     print("GroupChatContent");
@@ -15,7 +15,7 @@ class GroupChatRepository {
 
     return client
         .createGroupChat(group_id,body)
-        .then((i) => Result<GroupChatContentCreate>.success(i))
-        .catchError((error) => Result<GroupChatContentCreate>.failure(error));
+        .then((i) => Result<String>.success(i))
+        .catchError((error) => Result<String>.failure(error));
   }
 }

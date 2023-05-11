@@ -10,7 +10,7 @@ abstract class GroupChatApiClient {
   factory GroupChatApiClient(Dio dio, {String baseUrl}) = _GroupChatApiClient;
 
   @POST("/groups/{group_id}/group_chats")
-  Future<GroupChatContentCreate> createGroupChat(
+  Future<String> createGroupChat(
     @Path("group_id") int groupId,
     @Body() GroupChatContentCreate groupChatContentCreate,
   );

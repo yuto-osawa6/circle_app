@@ -404,7 +404,7 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
       // final newItems = await RemoteApi.getGroupList(pageKey, _pageSize);
       print(pageKey);
       final result = await repository.getUserGroups(token, user.id, pageKey);
-       print(result);
+      print(result);
       result.when(
         success: (value) {
           final isLastPage = value.groups.length < _pageSize;

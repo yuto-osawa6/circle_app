@@ -21,7 +21,7 @@ class _GroupChatApiClient implements GroupChatApiClient {
   String? baseUrl;
 
   @override
-  Future<GroupChatContentCreate> createGroupChat(
+  Future<String> createGroupChat(
     groupId,
     groupChatContentCreate,
   ) async {
@@ -30,20 +30,19 @@ class _GroupChatApiClient implements GroupChatApiClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(groupChatContentCreate.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<GroupChatContentCreate>(Options(
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/groups/${groupId}/group_chats',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GroupChatContentCreate.fromJson(_result.data!);
+        .compose(
+          _dio.options,
+          '/groups/${groupId}/group_chats',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!;
     return value;
   }
 

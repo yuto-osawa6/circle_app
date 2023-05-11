@@ -686,8 +686,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //   }
 // }
 
-
-
 // class UserGroupsList extends HookConsumerWidget {
 //   const UserGroupsList({Key? key}) : super(key: key);
 
@@ -713,7 +711,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //             final loadingProvider = ref.read(userGroupLoadingProvider.notifier);
 //             // final loadingProvider2 = ref.read(pageUserGroupProvider);
 //             final isLoading = ref.watch(userGroupLoadingProvider);
-
 
 //             // final loadingProviderNotifier = ref.read(pageUserGroupProvider.notifier);
 
@@ -758,7 +755,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //   }
 // }
 
-
 // class UserGroupsList extends HookConsumerWidget {
 //   const UserGroupsList({Key? key}) : super(key: key);
 
@@ -768,15 +764,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //     final groups = ref.watch(userGroupListProvider);
 //     final groupsBool = ref.watch(userGroupListboolProvider);
 
-
 //     useEffect(() {
 //       print("rararai2");
 //       ref.read(userGroupListProvider.notifier).getUserGroup(context);
 //     }, [page]); // pageが変更されたときにgetUserGroupを呼び出す
 
 //     int itemCount = groups.length + 1;
-
-    
 
 //     return Expanded(
 //       child: NotificationListener<ScrollNotification>(
@@ -787,7 +780,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //             final loadingProvider = ref.read(userGroupLoadingProvider.notifier);
 //             // final loadingProvider2 = ref.read(pageUserGroupProvider);
 //             final isLoading = ref.watch(userGroupLoadingProvider);
-
 
 //             // final loadingProviderNotifier = ref.read(pageUserGroupProvider.notifier);
 
@@ -875,7 +867,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 //   }
 // }
 
-
 class UserGroupsList extends HookConsumerWidget {
   //  Route _createRoute() {
   //   return PageRouteBuilder(
@@ -893,42 +884,32 @@ class UserGroupsList extends HookConsumerWidget {
   //     transitionDuration: Duration(milliseconds: 400),
   //   );
   // }
-   
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final PagingController = ref.watch(groupListProvider);
 
-    return 
-    Expanded(child:PagedListView<int, Group>(
+    return Expanded(
+        child: PagedListView<int, Group>(
       pagingController: PagingController,
       builderDelegate: PagedChildBuilderDelegate<Group>(
-        // itemBuilder: (context, item, index) => GroupListItem(
-        //   group: item,
-        // ),
-        itemBuilder: (context, item, index){
-          return ListTile(
-            title: Text("${item.id}"),
-            subtitle: Text(item.name),
-            onTap: () {
-              print("groupShow");
-              Navigator.pushNamed(context, '/group/:id', arguments: {'id': item.id});
-              // Navigator.pushNamed(context, 'email');
-              // Navigator.pushNamed(context, '/email');
-              // Navigator.of(context).push(_createRoute());
-
-
-            },
-          );
-        }
-      ),
-    )
-
-    
-    
-    );
-
-    
-    
+          // itemBuilder: (context, item, index) => GroupListItem(
+          //   group: item,
+          // ),
+          itemBuilder: (context, item, index) {
+        return ListTile(
+          title: Text("${item.id}"),
+          subtitle: Text(item.name),
+          onTap: () {
+            print("groupShow");
+            Navigator.pushNamed(context, '/group/:id',
+                arguments: {'id': item.id});
+            // Navigator.pushNamed(context, 'email');
+            // Navigator.pushNamed(context, '/email');
+            // Navigator.of(context).push(_createRoute());
+          },
+        );
+      }),
+    ));
   }
 }
