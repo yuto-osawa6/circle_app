@@ -74,7 +74,7 @@ class UserNotifier extends StateNotifier<UserModel> {
         },
       failure: (error) {
          // check1 situation エラー通常でも表示させるかどうか。
-        print("error fetchuser");
+        print("error fetchuser1");
         print(error.message);
         print(error.response?.statusCode);
         apiError(error.response?.statusCode,error.message,langCode);
@@ -164,7 +164,7 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
           return value;
         },
       failure: (error) {
-        print("error fetchuser");
+        print("error fetchuserpp");
         print(error.message);
         print(error.response?.statusCode);
         apiError(error.response?.statusCode,error.message,langState.lang);
