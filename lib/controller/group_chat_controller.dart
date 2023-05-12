@@ -91,7 +91,7 @@ class GroupChatIdNotifier extends StateNotifier<int?> {
 }
 
 class GroupChatListNotifier extends StateNotifier<PagingController<int, GroupChat>> {
-  static const _pageSize = 20;
+  static const _pageSize = 10;
   final int groupId;
 
   GroupChatListNotifier(this.ref,this.groupId) : super(PagingController(firstPageKey: 1)) {
@@ -120,16 +120,28 @@ class GroupChatListNotifier extends StateNotifier<PagingController<int, GroupCha
     controller.state.refresh();
   }
 
+  Future<void> addMessage(GroupChat message) async {
+  final items = state.itemList ?? []; // 現在のリストアイテムまたは空リストを取得
+  print("state:${state}");
+  // リストの先頭に新しいアイテムを追加する
+  items.insert(0, message);
+
+  // リストアイテムを更新してPagingControllerの状態を変更する
+  state.itemList = items;
+  state.itemList = List.of(items); // オブジェクトのコピーを渡すことで、stateを変更したことをPagingControllerに通知する
+}
+
 
   Future<void> _fetchPage(int pageKey) async {
     print("_fetchPage(pageKey)2;");
     // final token = await AuthService().getCurrentUserToken();
-    final groupIdState = ref.read(groupIdProvider);
+    // final groupIdState = ref.read(groupIdProvider);
     final repository = ref.read(GroupChatRepostitoryProvider);
     try {
       // final newItems = await RemoteApi.getGroupList(pageKey, _pageSize);
       print(pageKey);
-      final result = await repository.fetchGroupChats(pageKey,groupIdState!);
+      print(groupId);
+      final result = await repository.fetchGroupChats(groupId,pageKey);
       print(result);
       result.when(
         success: (value) {
@@ -151,6 +163,7 @@ class GroupChatListNotifier extends StateNotifier<PagingController<int, GroupCha
       );
     } catch (error) {
       // error = error;
+      print(error);
       print("error");
     }
   }

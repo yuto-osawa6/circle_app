@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:circle_app/controller/group_chat_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
+import 'package:circle_app/model/api/group_chat/group_chat.dart';
 import 'package:circle_app/model/api/group_chat/group_chat_content_create.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:web_socket_channel/io.dart';
 
 class GroupChatPage extends HookConsumerWidget {
@@ -29,6 +33,24 @@ class GroupChatPage extends HookConsumerWidget {
       // groupIdStateNotifier.state = groupChatId;
       final channel = _channel.value;
       channel.sink.add("最初のメッセージ");
+
+       // WebSocketから新しいメッセージを受信したら、リストに追加する
+      channel.stream.listen((message) {
+        print("aa:${message}");
+        final newMessage = GroupChat.fromJson(json.decode(message));
+        print(newMessage);
+        // groupChatListState.appendPage([newMessage], 0);
+        // groupChatListState.apend
+        // if (groupChatListState.itemList == null) {
+        //   groupChatListState.itemList = [newMessage];
+        //   groupChatListState.refresh();
+        // } else {
+        //   groupChatListState.itemList?.insert(0, newMessage);
+        //   groupChatListState.refresh();
+        // }
+        ref.read(groupChatListProvider(groupChatId).notifier).addMessage(newMessage);
+      });
+
       return () {
         channel.sink.close();
         // channel.stream.drain();
@@ -61,22 +83,44 @@ class GroupChatPage extends HookConsumerWidget {
 
     return Column(
       children: [
-        Expanded(
-          child: StreamBuilder(
-            stream: _channel.value.stream,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                final data = snapshot.data as String;
+        // Expanded(
+        //   child: StreamBuilder(
+        //     stream: _channel.value.stream,
+        //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+        //       if (snapshot.hasData) {
+        //         final data = snapshot.data as String;
 
-                return Text(data);
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
-        ),
+        //         return Text(data);
+        //       } else {
+        //         return Center(
+        //           child: CircularProgressIndicator(),
+        //         );
+        //       }
+        //     },
+        //   ),
+        // ),
+      Expanded(
+        child: PagedListView<int, GroupChat>(
+      pagingController: groupChatListState,
+      builderDelegate: PagedChildBuilderDelegate<GroupChat>(
+          // itemBuilder: (context, item, index) => GroupListItem(
+          //   group: item,
+          // ),
+          itemBuilder: (context, item, index) {
+        return ListTile(
+          title: Text("${item.id}"),
+          subtitle: Text(item.content!.text_content!),
+          onTap: () {
+            print("groupShow");
+            Navigator.pushNamed(context, '/group/:id',
+                arguments: {'id': item.id});
+            // Navigator.pushNamed(context, 'email');
+            // Navigator.pushNamed(context, '/email');
+            // Navigator.of(context).push(_createRoute());
+          },
+        );
+      }),
+    )),
         Row(
           children: [
             Expanded(
