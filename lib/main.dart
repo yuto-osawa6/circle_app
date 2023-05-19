@@ -727,7 +727,8 @@ class CircleHomeWidget extends HookConsumerWidget {
   Future<void> _initAsync() async {
     print("abcd00");
     await _initAuth();
-    await _initDynamicLink();
+    // check -1 メールリンクログインを消しました。
+    // await _initDynamicLink(); 
   }
   useEffect((){
     // check1 あとでなおす

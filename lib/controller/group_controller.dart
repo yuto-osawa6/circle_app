@@ -418,6 +418,7 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
           }
         },
         failure: (error) {
+          print("Error /group_controller.dart421 ${error}");
           print(error);
           print("error2");
 

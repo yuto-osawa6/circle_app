@@ -54,6 +54,8 @@ class UserNotifier extends StateNotifier<UserModel> {
     print("currentUserState.token");
     state = state.copyWith(token: "1");
     await repository.fetchUsers("Bearer ${idtoken}").then((result) {
+    print(result);
+    print("result");
     result.when(
       success: (value) {
           // check1 situation
@@ -69,7 +71,7 @@ class UserNotifier extends StateNotifier<UserModel> {
           // setCurrentUserEmail(value.email);
           // print("signState09");
           // // print("${signState.situation}");
-          state = UserModel(id:value.id,email: value.email);
+          state = UserModel(id:value.id,email: value.email,groups: value.groups);
           // return value;
         },
       failure: (error) {

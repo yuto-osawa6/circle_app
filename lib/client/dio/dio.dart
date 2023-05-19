@@ -8,4 +8,5 @@
 //   //  headers: {HttpHeaders.userAgentHeader: 'dio', 'common-header': 'xx'},
 //   ));
 
-const baseUrl = 'http://localhost:8080';
+// const baseUrl = 'http://localhost:8080';
+const baseUrl = 'http://192.168.2.101:8080';
