@@ -66,20 +66,21 @@ class UserNotifier extends StateNotifier<UserModel> {
             signStateNotifier.setSituation(false);
           }
           print(value);
-          print(value.email);
+          // print(value.email);
           print("value----");
           // setCurrentUserEmail(value.email);
           // print("signState09");
           // // print("${signState.situation}");
-          state = UserModel(id:value.id,email: value.email,groups: value.groups);
+          state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
           // return value;
         },
       failure: (error) {
          // check1 situation エラー通常でも表示させるかどうか。
         print("error fetchuser1");
-        print(error.message);
-        print(error.response?.statusCode);
-        apiError(error.response?.statusCode,error.message,langCode);
+        print(error);
+        // print(error.message);
+        // print(error.response?.statusCode);
+        // apiError(error.response?.statusCode,error.message,langCode);
         print("error fetchuser");
 
       // ref

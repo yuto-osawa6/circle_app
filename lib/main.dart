@@ -1,6 +1,7 @@
 import 'package:circle_app/controller/lang_controller.dart';
 import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
+import 'package:circle_app/controller/websoket_controller.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/sub.dart';
@@ -35,6 +36,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 // void main() async {
 //   await dotenv.load(fileName: "assets/.env.development");
 //   // await dotenv.load(fileName: ".env.development");
@@ -57,6 +59,9 @@ Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // await dotenv.load(fileName: ".env.development");
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // String? token = await messaging.getToken();
+  // print('FCM Token: $token');
   // assets/.env.development
   print(dotenv.env["apiKey"]);
   WidgetsFlutterBinding.ensureInitialized();
@@ -551,6 +556,9 @@ class CircleHomeWidget extends HookConsumerWidget {
     final _LoadingState = ref.watch(LoadingCircleProvider);
     final _LoadingNotifier = ref.watch(LoadingCircleProvider.notifier);
 
+    // // websoket
+    // final webSocketManager = ref.watch(webSocketManagerProvider);
+
     // String token = await _auth.currentUser!.getIdToken();
     //       // CreateUserRepository repository = CreateUserRepository();
     //       // repository.fetchUsers(token);
@@ -729,6 +737,9 @@ class CircleHomeWidget extends HookConsumerWidget {
     await _initAuth();
     // check -1 メールリンクログインを消しました。
     // await _initDynamicLink(); 
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    String? token = await messaging.getToken();
+    print('FCM Token: $token');
   }
   useEffect((){
     // check1 あとでなおす
