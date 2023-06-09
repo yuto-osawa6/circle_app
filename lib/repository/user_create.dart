@@ -17,16 +17,7 @@ import 'package:logger/logger.dart';
 // }
 
 class CreateUserRepository {
-//   final dio = Dio();
-// final client = UserApiClient(dio);
-
-  // final dio = Dio();
-  // final client = UserApiClient(dio);
-  // final logger = Logger();
-  // String token = token;
-  // final apiClient = UserApiClient();
-  Future<Result<UserModel?>> fetchUsers(token) async {
-  // Future<UserModel?> fetchUsers(token) async {
+  Future<Result<UserModel?>> fetchUsers(token,dToken) async {
     print("token35");
     print(token);
     print("token3");
@@ -35,7 +26,7 @@ class CreateUserRepository {
     final client = UserApiClient(dio);
 
     return client
-        .getFlutterUser(token)
+        .getFlutterUser(token,dToken)
         // .then((articles) => Result<UserModel>.success(articles))
         // .catchError((error) => Result<UserModel>.failure(error));
         .then((articles) {
@@ -74,3 +65,16 @@ class CreateUserRepository {
   }
 }
 
+class UserRepository {
+  Future<Result<dynamic>> fetchUpdateDeviceToken(int user_id,String device_token) async {
+    print("fetchUpdateDeviceToken");
+    final logger = Logger();
+    final dio = Dio();
+    final client = UserApiClient(dio);
+
+    return client
+        .updateDeviceToken(user_id,device_token)
+        .then((i) => Result<dynamic>.success(null))
+        .catchError((error) => Result<dynamic>.failure(error));
+  }
+}

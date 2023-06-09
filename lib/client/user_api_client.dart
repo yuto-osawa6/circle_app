@@ -23,5 +23,13 @@ abstract class UserApiClient {
   //   @Part() File image,
   // );
   @GET("/api/me")
-  Future<UserModel> getFlutterUser(@Header("Authorization") auth_token);
+  Future<UserModel> getFlutterUser(
+    @Header("Authorization") auth_token,
+    @Header("Device-Token") String device_token
+  );
+  @PUT("/users/{user_id}/device_token")
+  Future<void> updateDeviceToken(
+    @Path("user_id") int user_id,
+    @Header("Device-Token") String device_token,
+  );
 }

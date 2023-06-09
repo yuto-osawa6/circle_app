@@ -41,7 +41,7 @@ class UserNotifier extends StateNotifier<UserModel> {
 
   
   // setUser
-  void setCurrentUser(WidgetRef ref,String? idtoken,String langCode) async {
+  void setCurrentUser(WidgetRef ref,String? idtoken,String langCode,String dToken) async {
     final repository = ref.read(createUserRepostitoryProvider);
     // トークンの状態を監視
     final currentUserState= ref.watch(UserProvider);
@@ -53,7 +53,7 @@ class UserNotifier extends StateNotifier<UserModel> {
     print(idtoken);
     print("currentUserState.token");
     state = state.copyWith(token: "1");
-    await repository.fetchUsers("Bearer ${idtoken}").then((result) {
+    await repository.fetchUsers("Bearer ${idtoken}",dToken).then((result) {
     print(result);
     print("result");
     result.when(
@@ -123,6 +123,30 @@ class UserNotifier extends StateNotifier<UserModel> {
     bool signed =  state.email == null ? false : true;
     return signed;
   }
+
+  // device_tokenの更新
+  Future<void> update_device_token(WidgetRef ref,String device_token) async{
+    print(state.id);
+    final repository = ref.read(userRepostitoryProvider);
+    if(state.id == null){
+      print("idがnullです");
+      return;
+    }
+    await repository.fetchUpdateDeviceToken(state.id!,device_token).then((result) {
+    print(result);
+    print("result");
+    result.when(
+      success: (value) {
+
+        },
+      failure: (error) {
+        print("error fetchuser1");
+        print(error);
+        print("error fetchuser");
+    });
+  });
+  }
+
 }
 
 // HomePageNotifierの状態を管理する
@@ -146,39 +170,41 @@ final errorMessageProvider = StateProvider<String?>((_) => '');
 
 // Repository(APIの取得)を管理するためのProviderを作成
 final createUserRepostitoryProvider = Provider((ref) => CreateUserRepository());
+// Repository(APIの取得)を管理するためのProviderを作成2
+final userRepostitoryProvider = Provider((ref) => UserRepository());
 
-// APIの取得を非同期で管理するためのProviderを作成
-final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
-  // Repositoryのインスタンスを取得
-  final repository = ref.read(createUserRepostitoryProvider);
-  // トークンの状態を監視
-  final currentUserState= ref.watch(UserProvider);
-  final langState = ref.watch(LangProvider);
+// // APIの取得を非同期で管理するためのProviderを作成
+// final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
+//   // Repositoryのインスタンスを取得
+//   final repository = ref.read(createUserRepostitoryProvider);
+//   // トークンの状態を監視
+//   final currentUserState= ref.watch(UserProvider);
+//   final langState = ref.watch(LangProvider);
   
-  print("token2");
-  print(currentUserState.token);
-  print("token2");
-  // return await repository.fetchUsers(currentUserState.token);
+//   print("token2");
+//   print(currentUserState.token);
+//   print("token2");
+//   // return await repository.fetchUsers(currentUserState.token);
 
-  return await repository.fetchUsers(currentUserState.token).then((result) {
-    result.when(
-      success: (value) {
-          messageHandleSnack2(langState.lang);
-          return value;
-        },
-      failure: (error) {
-        print("error fetchuserpp");
-        print(error.message);
-        print(error.response?.statusCode);
-        apiError(error.response?.statusCode,error.message,langState.lang);
-        print("error fetchuser");
+//   return await repository.fetchUsers(currentUserState.token).then((result) {
+//     result.when(
+//       success: (value) {
+//           messageHandleSnack2(langState.lang);
+//           return value;
+//         },
+//       failure: (error) {
+//         print("error fetchuserpp");
+//         print(error.message);
+//         print(error.response?.statusCode);
+//         apiError(error.response?.statusCode,error.message,langState.lang);
+//         print("error fetchuser");
 
-      // ref
-      //   .read(errorMessageProvider.notifier)
-      //   .update((state) => state = error.response?.statusCode.toString());
-    });
-  });
-});
+//       // ref
+//       //   .read(errorMessageProvider.notifier)
+//       //   .update((state) => state = error.response?.statusCode.toString());
+//     });
+//   });
+// });
 
 
 
@@ -198,37 +224,37 @@ final userDataProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
 
 
 // APIの取得を非同期で管理するためのProviderを作成
-final userDataProvider2 = FutureProvider.autoDispose<UserModel?>((ref) async {
-  // Repositoryのインスタンスを取得
-  final repository = ref.read(createUserRepostitoryProvider);
-  // // // トークンの状態を監視
-  final currentUserState= ref.watch(UserProvider);
-  final langState = ref.watch(LangProvider);
+// final userDataProvider2 = FutureProvider.autoDispose<UserModel?>((ref) async {
+//   // Repositoryのインスタンスを取得
+//   final repository = ref.read(createUserRepostitoryProvider);
+//   // // // トークンの状態を監視
+//   final currentUserState= ref.watch(UserProvider);
+//   final langState = ref.watch(LangProvider);
   
-  print("token23");
-  // print(currentUserState.token);
-  print("token23");
-  // return await repository.fetchUsers(currentUserState.token);
+//   print("token23");
+//   // print(currentUserState.token);
+//   print("token23");
+//   // return await repository.fetchUsers(currentUserState.token);
 
-  return await repository.fetchUsers(currentUserState.token).then((result) {
-    result.when(
-      success: (value) {
-          messageHandleSnack2(langState.lang);
-          print("value");
-          print(value);
-          print("value");
-          return value;
-        },
-      failure: (error) {
-        print("error fetchuser3");
-        print(error.message);
-        print(error.response?.statusCode);
-        apiError(error.response?.statusCode,error.message,langState.lang);
-        print("error fetchuser3");
+//   return await repository.fetchUsers(currentUserState.token).then((result) {
+//     result.when(
+//       success: (value) {
+//           messageHandleSnack2(langState.lang);
+//           print("value");
+//           print(value);
+//           print("value");
+//           return value;
+//         },
+//       failure: (error) {
+//         print("error fetchuser3");
+//         print(error.message);
+//         print(error.response?.statusCode);
+//         apiError(error.response?.statusCode,error.message,langState.lang);
+//         print("error fetchuser3");
 
-      // ref
-      //   .read(errorMessageProvider.notifier)
-      //   .update((state) => state = error.response?.statusCode.toString());
-    });
-  });
-});
+//       // ref
+//       //   .read(errorMessageProvider.notifier)
+//       //   .update((state) => state = error.response?.statusCode.toString());
+//     });
+//   });
+// });
