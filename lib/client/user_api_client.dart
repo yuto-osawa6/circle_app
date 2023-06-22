@@ -1,7 +1,7 @@
 import 'dart:io';
 // import 'package:circle_app/client/dio/dio.dart';
 import 'package:circle_app/client/dio/dio.dart';
-import 'package:circle_app/model/api/user.dart';
+import 'package:circle_app/model/api/user/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 // import 'package:retrofit/http.dart';

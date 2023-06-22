@@ -29,7 +29,7 @@
 //     @Part() File image,
 //   );
 // }
-import 'package:circle_app/model/api/user.dart';
+import 'package:circle_app/model/api/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';

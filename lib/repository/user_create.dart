@@ -1,6 +1,6 @@
 import 'package:circle_app/client/user_api_client.dart';
 import 'package:circle_app/model/api/result.dart';
-import 'package:circle_app/model/api/user.dart';
+import 'package:circle_app/model/api/user/user.dart';
 import 'package:circle_app/service/user_service.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:dio/dio.dart';

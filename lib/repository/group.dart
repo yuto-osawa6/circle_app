@@ -4,7 +4,7 @@ import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/model/api/group/group_create.dart';
 import 'package:circle_app/model/api/group/user_groups.dart';
 import 'package:circle_app/model/api/result.dart';
-import 'package:circle_app/model/api/user.dart';
+import 'package:circle_app/model/api/user/user.dart';
 import 'package:circle_app/service/user_service.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:dio/dio.dart';

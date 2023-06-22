@@ -259,6 +259,8 @@ class CircleHomeWidget extends HookConsumerWidget {
     // print()
     // final token = await _auth.currentUser?.getIdToken();
     print(789);
+    print(_auth);
+    print(_auth.currentUser);
     // print(token == null);
     FirebaseAuth.instance
   .authStateChanges()

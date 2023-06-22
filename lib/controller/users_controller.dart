@@ -1,6 +1,6 @@
 import 'package:circle_app/client/user_api_client.dart';
 import 'package:circle_app/controller/lang_controller.dart';
-import 'package:circle_app/model/api/user.dart';
+import 'package:circle_app/model/api/user/user.dart';
 import 'package:circle_app/model/state/navigate.dart';
 import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/service/auth_service.dart';

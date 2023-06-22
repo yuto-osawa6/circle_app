@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:circle_app/model/api/user.dart';
+import 'package:circle_app/model/api/user/user.dart';
 import 'package:dio/dio.dart';
 import 'package:circle_app/service/dio/dio.dart';
 

@@ -1,3 +1,4 @@
+import 'package:circle_app/model/api/user/related_user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -10,6 +11,7 @@ abstract class Group with _$Group {
     required int id,
     required String name,
     required int level,
+    @Default([]) List<RelatedUserModel> users,
     // List<String> members,
   }) = _Group;
 

@@ -23,6 +23,7 @@ mixin _$Group {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get level => throw _privateConstructorUsedError;
+  List<RelatedUserModel> get users => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $GroupCopyWith<$Res> {
   factory $GroupCopyWith(Group value, $Res Function(Group) then) =
       _$GroupCopyWithImpl<$Res, Group>;
   @useResult
-  $Res call({int id, String name, int level});
+  $Res call({int id, String name, int level, List<RelatedUserModel> users});
 }
 
 /// @nodoc
@@ -53,6 +54,7 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
     Object? id = null,
     Object? name = null,
     Object? level = null,
+    Object? users = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -67,6 +69,10 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as int,
+      users: null == users
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<RelatedUserModel>,
     ) as $Val);
   }
 }
@@ -77,7 +83,7 @@ abstract class _$$_GroupCopyWith<$Res> implements $GroupCopyWith<$Res> {
       __$$_GroupCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, int level});
+  $Res call({int id, String name, int level, List<RelatedUserModel> users});
 }
 
 /// @nodoc
@@ -92,6 +98,7 @@ class __$$_GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res, _$_Group>
     Object? id = null,
     Object? name = null,
     Object? level = null,
+    Object? users = null,
   }) {
     return _then(_$_Group(
       id: null == id
@@ -106,6 +113,10 @@ class __$$_GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res, _$_Group>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as int,
+      users: null == users
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<RelatedUserModel>,
     ));
   }
 }
@@ -113,7 +124,12 @@ class __$$_GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res, _$_Group>
 /// @nodoc
 @JsonSerializable()
 class _$_Group with DiagnosticableTreeMixin implements _Group {
-  const _$_Group({required this.id, required this.name, required this.level});
+  const _$_Group(
+      {required this.id,
+      required this.name,
+      required this.level,
+      final List<RelatedUserModel> users = const []})
+      : _users = users;
 
   factory _$_Group.fromJson(Map<String, dynamic> json) =>
       _$$_GroupFromJson(json);
@@ -124,10 +140,18 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
   final String name;
   @override
   final int level;
+  final List<RelatedUserModel> _users;
+  @override
+  @JsonKey()
+  List<RelatedUserModel> get users {
+    if (_users is EqualUnmodifiableListView) return _users;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Group(id: $id, name: $name, level: $level)';
+    return 'Group(id: $id, name: $name, level: $level, users: $users)';
   }
 
   @override
@@ -137,7 +161,8 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       ..add(DiagnosticsProperty('type', 'Group'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('level', level));
+      ..add(DiagnosticsProperty('level', level))
+      ..add(DiagnosticsProperty('users', users));
   }
 
   @override
@@ -147,12 +172,14 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
             other is _$_Group &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.level, level) || other.level == level));
+            (identical(other.level, level) || other.level == level) &&
+            const DeepCollectionEquality().equals(other._users, _users));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, level);
+  int get hashCode => Object.hash(runtimeType, id, name, level,
+      const DeepCollectionEquality().hash(_users));
 
   @JsonKey(ignore: true)
   @override
@@ -172,7 +199,8 @@ abstract class _Group implements Group {
   const factory _Group(
       {required final int id,
       required final String name,
-      required final int level}) = _$_Group;
+      required final int level,
+      final List<RelatedUserModel> users}) = _$_Group;
 
   factory _Group.fromJson(Map<String, dynamic> json) = _$_Group.fromJson;
 
@@ -182,6 +210,8 @@ abstract class _Group implements Group {
   String get name;
   @override
   int get level;
+  @override
+  List<RelatedUserModel> get users;
   @override
   @JsonKey(ignore: true)
   _$$_GroupCopyWith<_$_Group> get copyWith =>
