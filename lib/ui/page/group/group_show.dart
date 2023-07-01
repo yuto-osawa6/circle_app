@@ -1,3 +1,4 @@
+import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/ui/common/footer/footer.dart';
 import 'package:circle_app/ui/page/group/details/group_chat.dart';
 import 'package:circle_app/ui/page/group/details/summary_page.dart';
@@ -8,10 +9,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GroupShowPage extends HookConsumerWidget {
   final int id;
-  const GroupShowPage({Key? key, required this.id}) : super(key: key);
+  final Group group;
+  const GroupShowPage({Key? key, required this.id, required this.group}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _tabController = useTabController(initialLength: 4);
+    print(group);
+    print("GroupShowDart");
     return Scaffold(
       appBar:AppBar(
         title: Text('My App'),

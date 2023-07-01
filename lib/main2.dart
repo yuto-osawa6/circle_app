@@ -1,4 +1,5 @@
 import 'package:circle_app/main.dart';
+import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/ui/page/group/group_show.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class CircleWidget2 extends HookConsumerWidget {
         '/group/:id': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
           final id = args['id'] as int;
-          return GroupShowPage(id: id);
+          final group = args['group'] as Group;
+          return GroupShowPage(id: id,group: group);
         }
       },
       

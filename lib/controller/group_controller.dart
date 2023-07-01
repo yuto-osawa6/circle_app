@@ -344,7 +344,7 @@ final groupListProvider =
 class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
   static const _pageSize = 20;
 
-  GroupListNotifier(this.ref) : super(PagingController(firstPageKey: 1)) {
+  GroupListNotifier(this.ref) : super(PagingController(firstPageKey: 2)) {
     state.addPageRequestListener((pageKey) {
       print("_fetchPage(pageKey);");
       _fetchPage(pageKey);
@@ -353,32 +353,8 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
   Ref ref;
 
   Future<void> addGroup(Group group) async {
-    // print("呼ばれた");
-    // print(state);
-    // print(state.itemList);
-    // print(state.itemList?.length);
-    // state.itemList?.add(group);
-    // print(state.itemList?.length);
-    // ref.read(groupListProvider.notifier).itemList = state.itemList ?? [];
-
-    // final updatedList = [...state.itemList!, group];
-    // final isLastPage = state.lastItem?.pageKey == state.;
-    // if (isLastPage) {
-    //   state.itemList.add(group);
-    // } 
-    // print(state.nextPageKey!);
-    // final updatedList = [...state.itemList!, group];
-    // final isLastPage = (state.nextPageKey! - 1) * 20 != state.itemList?.length;
-    // if (isLastPage) {
-    //   state.appendLastPage(updatedList);
-    // } else {
-      // state.itemList = updatedList;
-    // }
 
     if (state.nextPageKey != null) {
-      // print(state.nextPageKey);
-      // final updatedList = [...state.itemList!, group];
-      // state.itemList = updatedList;
 
     }
     // final controller = ref.read(groupListProvider.notifier);

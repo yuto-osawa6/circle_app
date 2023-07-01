@@ -3,6 +3,7 @@ import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/controller/websoket_controller.dart';
 import 'package:circle_app/firebase_options.dart';
+import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/repository/user_create.dart';
 import 'package:circle_app/sub.dart';
 import 'package:circle_app/ui/page/group/group_show.dart';
@@ -76,7 +77,8 @@ class CircleWidget extends HookConsumerWidget {
         '/group/:id': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
           final id = args['id'] as int;
-          return GroupShowPage(id: id);
+          final group = args['group'] as Group;
+          return GroupShowPage(id: id, group: group);
         }
       },
       onGenerateRoute: (settings) {
@@ -93,7 +95,8 @@ class CircleWidget extends HookConsumerWidget {
 
             final args = settings.arguments;
             final id = args is int ? args : 0;
-            page = GroupShowPage(id: id);
+            final group = args is Group ? args : null;
+            page = GroupShowPage(id: id, group: group!);
           }
           else {
             page = MainPage();

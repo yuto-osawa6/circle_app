@@ -1,4 +1,5 @@
 import 'package:circle_app/client/user_api_client.dart';
+import 'package:circle_app/controller/group_controller.dart';
 import 'package:circle_app/controller/lang_controller.dart';
 import 'package:circle_app/model/api/user/user.dart';
 import 'package:circle_app/model/state/navigate.dart';
@@ -16,6 +17,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 
 import 'package:circle_app/model/api/result.dart';
@@ -48,6 +50,8 @@ class UserNotifier extends StateNotifier<UserModel> {
     final signState= ref.watch(SignProvider);
     final signStateNotifier= ref.watch(SignProvider.notifier);
 
+    // ページコントローラーの監視
+    final groupListController = ref.read(groupListProvider.notifier);
 
     // final langState = ref.watch(LangProvider);
     print(idtoken);
@@ -66,12 +70,12 @@ class UserNotifier extends StateNotifier<UserModel> {
             signStateNotifier.setSituation(false);
           }
           print(value);
-          // print(value.email);
           print("value----");
-          // setCurrentUserEmail(value.email);
-          // print("signState09");
-          // // print("${signState.situation}");
           state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
+          // pagecontroller
+          // グループリストをPagingControllerに代入
+          groupListController.state.itemList = value!.groups;
+          // groupListController.state.refresh();
           // return value;
         },
       failure: (error) {

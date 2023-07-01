@@ -888,6 +888,7 @@ class UserGroupsList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final PagingController = ref.watch(groupListProvider);
+    print(PagingController);
 
     return Expanded(
         child: PagedListView<int, Group>(
@@ -902,8 +903,9 @@ class UserGroupsList extends HookConsumerWidget {
           subtitle: Text(item.name),
           onTap: () {
             print("groupShow");
+            print(item);
             Navigator.pushNamed(context, '/group/:id',
-                arguments: {'id': item.id});
+                arguments: {'id': item.id,'group': item});
             // Navigator.pushNamed(context, 'email');
             // Navigator.pushNamed(context, '/email');
             // Navigator.of(context).push(_createRoute());
