@@ -261,7 +261,7 @@ class CircleHomeWidget extends HookConsumerWidget {
   Future<void> _initAuth() async {
     // print()
     // final token = await _auth.currentUser?.getIdToken();
-    print(789);
+    // print(789);
     print(_auth);
     print(_auth.currentUser);
     // print(token == null);
