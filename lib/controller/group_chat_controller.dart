@@ -176,6 +176,97 @@ class GroupChatListNotifier extends StateNotifier<PagingController<int, GroupCha
 }
 
 
+// group_chat conroller 2
+
+// final GroupChatProvider2 =
+//     StateNotifierProvider.autoDispose<GroupChatListNotifier2, GroupChat>(
+//   () => GroupChatListNotifier2(),
+// );
+
+final groupChatProvider2 = StateNotifierProvider.family<GroupChatListNotifier2, List<GroupChat>,int>(
+  (ref,groupId) => GroupChatListNotifier2(ref,groupId),
+);
+
+
+
+class GroupChatListNotifier2 extends StateNotifier<List<GroupChat>> {
+  GroupChatListNotifier2(this.ref,this.groupId) : super([]); // GroupChatの初期値を設定
+  Ref ref;
+  final int groupId;
+  final dataList = <String>[]; // リストデータを保持する変数
+  bool isLoading = false; // ローディングフラグ（APIコール中かどうかを示す）
+  int page = 1; // ページ番号
+
+  Future<void> addMessage(GroupChat message) async {
+    final items = state ?? []; // 現在のリストアイテムまたは空リストを取得
+    print("state:${state}");
+    // リストの先頭に新しいアイテムを追加する
+    items.insert(0, message);
+    // state = items; 
+    state = List.from(items); // リストのコピーを作成して状態を更新する
+
+    // リストアイテムを更新してPagingControllerの状態を変更する
+    // state.itemList = items;
+    // state.itemList = List.of(items); // オブジェクトのコピーを渡すことで、stateを変更したことをPagingControllerに通知する
+  }
+
+  Future<void> fetchData() async {
+    final repository = ref.read(GroupChatRepostitoryProvider);
+    if (!isLoading) {
+      isLoading = true;
+      print("fetchdata groupchat22");
+
+      // // データの取得処理（API呼び出しやデータベースクエリなど）
+      // // 例: 仮にダミーデータを追加する場合
+      // await Future.delayed(Duration(seconds: 2)); // ダミーのAPIレスポンスを待機
+      // final newData = List<String>.generate(10, (index) => 'Item ${dataList.length + index + 1}');
+
+      // dataList.addAll(newData);
+        try {
+      // final newItems = await RemoteApi.getGroupList(pageKey, _pageSize);
+      // print(pageKey);
+      // print(groupId);
+      final result = await repository.fetchGroupChats(groupId,page);
+      print(result);
+      result.when(
+        success: (value) {
+          // final isLastPage = value.length < _pageSize;
+          // print(isLastPage);
+          print(value.length);
+          state = [...state, ...value];
+          
+          if(value.length < 10){
+
+          }else{
+            page++;
+            isLoading = false;
+            // isLoading = false;
+          }
+          // if (isLastPage) {
+          //   // state.appendLastPage(value);
+          // } else {
+          //   // final nextPageKey = pageKey + 1;
+          //   // state.appendPage(value, nextPageKey);
+          // }
+        },
+        failure: (error) {
+          print(error);
+          print("error2");
+
+        },
+      );
+    } catch (error) {
+      // error = error;
+      print(error);
+      print("error");
+    }
+      // page++;
+      // isLoading = false;
+    }
+  }
+}
+
+
 
 
 

@@ -1,6 +1,7 @@
 import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/ui/common/footer/footer.dart';
 import 'package:circle_app/ui/page/group/details/group_chat.dart';
+import 'package:circle_app/ui/page/group/details/group_chat2.dart';
 import 'package:circle_app/ui/page/group/details/summary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -75,7 +76,7 @@ class GroupShowPage extends HookConsumerWidget {
         controller: _tabController,
         children: [
           SummaryPage(),
-          GroupChatPage(groupChatId: id),
+          GroupChatPage2(groupChatId: id),
           SummaryPage(),
           SummaryPage(),
           // CommunityPage(),
