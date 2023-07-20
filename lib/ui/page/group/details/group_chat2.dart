@@ -73,17 +73,24 @@ class GroupChatPage2 extends HookConsumerWidget {
     final groupChatState = ref.watch(groupChatProvider2(groupChatId));
     final notifier = ref.watch(groupChatProvider2(groupChatId).notifier);
 
-     // 初回起動時にデータを取得
+    //  // 初回起動時にデータを取得
     useEffect(() {
+       print("fetchdata groupchat1");
       notifier.fetchData();
     }, []);
 
     useEffect(() {
-      print("fetchdata groupchat");
+      // notifier.fetchData();
+      print("fetchdata groupchat11");
+      print(groupChatState.isNotEmpty);
+      // scrollController.jumpTo(0); // 初期スクロール位置を0に設定
+      // print(scrollController.position.maxScrollExtent); // この行を追加
+      // print(scrollController.position);
       //  print(scrollController.position.pixels);
       // print(scrollController.position.maxScrollExtent);
     scrollController.addListener(() {
-      print("fetchdata groupchat");
+      print("fetchdata groupchat33");
+      print(notifier.isLoading);
       print(scrollController.position.pixels);
       print(scrollController.position.maxScrollExtent);
 
@@ -96,21 +103,29 @@ class GroupChatPage2 extends HookConsumerWidget {
         print("fetchdata groupchat2");
       }
     });
+    return () {
+    scrollController.dispose(); // リソースの解放
+  };
   }, [scrollController]);
 
     return Column(
       children: [
       Expanded(
             child: ListView.builder(
-            key: ValueKey(groupChatState.length), // キーを追加
+            // key: ValueKey(groupChatState), // キーを追加
             controller: scrollController,
+            physics: AlwaysScrollableScrollPhysics(),
             reverse: true,
-            // itemCount: groupChatState.value.length + 1,
+            // itemCount: groupChatState.length + 1,
             itemCount: groupChatState.length + (notifier.isLoading ? 0 : 1),
+            // itemCount: groupChatState.length + (notifier.isLoading && groupChatState.isNotEmpty ? 1 : 0),
+
             itemBuilder: (context, index) {
               if (index == groupChatState.length) {
                 // 最後の要素までスクロールした場合
                 if (groupChatState.isEmpty) {
+                  print("noData");
+                  print(notifier);
                   // データがない場合の表示
                   return Center(child: Text('No data available'));
                 } else if(notifier.isLoading == false) {

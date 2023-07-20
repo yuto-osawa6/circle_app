@@ -104,10 +104,12 @@ class GroupChatPage extends HookConsumerWidget {
       Expanded(
         child: PagedListView<int, GroupChat>(
       pagingController: groupChatListState,
+      // keepPage: true,
       builderDelegate: PagedChildBuilderDelegate<GroupChat>(
           // itemBuilder: (context, item, index) => GroupListItem(
           //   group: item,
           // ),
+          
           itemBuilder: (context, item, index) {
         return ListTile(
           title: Text("${item.id}"),

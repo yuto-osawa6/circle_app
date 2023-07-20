@@ -14,6 +14,7 @@ import 'package:circle_app/ui/page/sign/signup.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
+import 'package:circle_app/utils/method/firebaseFcm_controller.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
 import 'package:circle_app/view_model/navigate_view_model.dart';
 import 'package:circle_app/view_model/signup/signup_view_model.dart';
@@ -61,6 +62,16 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final messaging = FirebaseMessaging.instance;
+    await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
   runApp(ProviderScope(child:CircleWidget()));
 }
 
@@ -239,6 +250,15 @@ class CircleHomeWidget extends HookConsumerWidget {
 
   Future<String?> _initMessaging() async {
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
     // デバイストークンの取得
     String? token = await _firebaseMessaging.getToken();
     print('FCM Token: $token');
@@ -298,6 +318,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       print("token2:$dToken");
       if (dToken != null){
         _UserNotifier.setCurrentUser(ref,token,locale.languageCode,dToken);
+        NotificationHandlers.initFirebaseMessaging();
       } else {
         // check-1 tokenがないときにエラー。
       }
@@ -373,6 +394,21 @@ class CircleHomeWidget extends HookConsumerWidget {
     //   }),
     // );
     print("7800${_UserState.email}");
+
+    // バックグランド
+    // final observer = MyWidgetsBindingObserver(context);
+    useEffect(() {
+      // バックグラウンドからフォアグラウンドに切り替わった際の処理
+      final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      // final observer = MyWidgetsBindingObserver();
+      final observer = MyWidgetsBindingObserver(ref);
+      widgetsBinding.addObserver(observer);
+
+      // ウィジェットのアンマウント（削除）時に実行されるクリーンアップ処理を設定
+      return () {
+        widgetsBinding.removeObserver(observer);
+      };
+    }, []);
     return Stack(
       children: [
         Scaffold(
@@ -402,5 +438,32 @@ class CircleHomeWidget extends HookConsumerWidget {
       ]
     );
     
+  }
+}
+
+
+// バックグラウンドからフォアグランドへ
+class MyWidgetsBindingObserver extends WidgetsBindingObserver {
+  final WidgetRef ref;
+
+  MyWidgetsBindingObserver(this.ref);
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // アプリがフォアグラウンドに戻った際の処理
+      print("バックグラウンドからフォアグランドへ");
+      final userState = ref.watch(UserProvider); // UserProviderの状態を取得
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      final User? user = _auth.currentUser;
+      if (user != null) {
+        // ログイン済みの処理
+        print("ユーザーはログインしています。");
+        print(user);
+        print(userState);
+      } else {
+        // 未ログインの処理
+        print("ユーザーは未ログインです。");
+      }
+    }
   }
 }

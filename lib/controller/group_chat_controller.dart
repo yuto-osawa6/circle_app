@@ -233,10 +233,12 @@ class GroupChatListNotifier2 extends StateNotifier<List<GroupChat>> {
           // final isLastPage = value.length < _pageSize;
           // print(isLastPage);
           print(value.length);
-          state = [...state, ...value];
+          // state = [...state, ...value];
+          state = List.from(state)..addAll(value);
+          //  state = [...value, ...state];
           
-          if(value.length < 10){
-
+          if(value.length < 30){
+            print("10以下");
           }else{
             page++;
             isLoading = false;
