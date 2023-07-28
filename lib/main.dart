@@ -50,18 +50,50 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 //   );
 //   runApp(ProviderScope(child:CircleWidget()));
 // }
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // // If you're going to use other Firebase services in the background, such as Firestore,
+  // // make sure you call `initializeApp` before using other Firebase services.
+  // // await Firebase.initializeApp();
+  print("バックグランド状態で発火するハンドラーです。");
+
+  print(message);
+  print("Handling a background message: ${message.messageId}");
+  // try {
+  //   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //   // If you're going to use other Firebase services in the background, such as Firestore,
+  //   // make sure you call `initializeApp` before using other Firebase services.
+  //   // await Firebase.initializeApp();
+  //   print("バックグランド状態で発火するハンドラーです。");
+
+  //   print("Handling a background message: ${message.messageId}");
+  // } catch (e) {
+  //   // エラーが発生した場合の処理
+  //   print("エラーが発生しました: $e");
+  // }
+  // return;
+}
+
 final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
   // Firebase初期化
-  await dotenv.load(fileName: "assets/.env.development");
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  print(dotenv.env["apiKey"]);
+  // await dotenv.load(fileName: "assets/.env.development");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  print("FirebaseMessaging.onBackgroundMessage");
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   final messaging = FirebaseMessaging.instance;
     await messaging.requestPermission(
       alert: true,
@@ -72,7 +104,14 @@ Future<void> main() async {
       provisional: false,
       sound: true,
     );
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // print(dotenv.env["apiKey"]);
   runApp(ProviderScope(child:CircleWidget()));
+  // 
+  //  FirebaseMessaging.onBackgroundMessage(NotificationHandlers.backgroundMessageHandler);
+  //  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
 }
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -187,7 +226,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       try{
           print("ajgiefjaioefj33go1");
           await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
-          String token = await _auth.currentUser!.getIdToken();
+          String? token = await _auth.currentUser!.getIdToken();
           debugPrint(token);
           debugPrint("token-----");
           debugPrint(_auth.currentUser?.uid);
@@ -319,6 +358,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       if (dToken != null){
         _UserNotifier.setCurrentUser(ref,token,locale.languageCode,dToken);
         NotificationHandlers.initFirebaseMessaging();
+        // FirebaseMessaging.onBackgroundMessage(NotificationHandlers.backgroundMessageHandler);
       } else {
         // check-1 tokenがないときにエラー。
       }
@@ -460,6 +500,9 @@ class MyWidgetsBindingObserver extends WidgetsBindingObserver {
         print("ユーザーはログインしています。");
         print(user);
         print(userState);
+        if(user.uid == userState.uid){
+          // 新規メッセージの取得
+        }
       } else {
         // 未ログインの処理
         print("ユーザーは未ログインです。");

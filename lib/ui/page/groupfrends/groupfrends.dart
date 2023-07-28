@@ -58,7 +58,7 @@ class GroupFrends extends HookConsumerWidget {
                 _groupCreateNotifier.setNameforGroup("くくりとう");
                 final token = await AuthService().getCurrentUserToken();
                 final groupCreate = GroupCreate(name:"くくりとう",level:0);
-                _groupCreateNotifier.setCreateGroup(token, groupCreate,context);
+                _groupCreateNotifier.setCreateGroup(token!, groupCreate,context);
                 // _counterNotifier.state = nameController.text;
                 // ref.read(idProvider).state = int.tryParse(idController.text) ?? 0;
                 // ref.read(levelProvider).state = int.tryParse(levelController.text) ?? 0;

@@ -12,7 +12,9 @@ part 'group_api_client.g.dart';
 @RestApi(baseUrl: baseUrl)
 abstract class GroupApiClient {
   factory GroupApiClient(Dio dio, {String baseUrl}) = _GroupApiClient;
-
+  // @Headers({
+  // 'Content-Type': 'application/json', // JSON形式のデータを送信することを指定
+  // })
   @POST("/groups")
   Future<GroupCreate> postCreateGroup(@Header("Authorization") auth_token,@Body() GroupCreate group);
   @GET("/users/{user_id}/groups")

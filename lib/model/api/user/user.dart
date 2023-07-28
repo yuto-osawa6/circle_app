@@ -11,6 +11,7 @@ class UserModel with _$UserModel {
   factory UserModel({
     // required String email,
     int? id,
+    String? uid,
     String? email,
     String? token,
     List<Group>? groups

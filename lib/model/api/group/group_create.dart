@@ -14,4 +14,7 @@ abstract class GroupCreate with _$GroupCreate {
   }) = _GroupCreate;
 
   factory GroupCreate.fromJson(Map<String, dynamic> json) => _$GroupCreateFromJson(json);
+  // toJsonメソッドを追加
+  // @override // ここに @override アノテーションを追加
+  // Map<String, dynamic> toJson() => _$GroupCreateToJson(this);
 }

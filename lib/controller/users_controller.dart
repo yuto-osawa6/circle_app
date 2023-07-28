@@ -71,7 +71,8 @@ class UserNotifier extends StateNotifier<UserModel> {
           }
           print(value);
           print("value----");
-          state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
+          // state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
+          state = value ?? UserModel();
           // pagecontroller
           // グループリストをPagingControllerに代入
           groupListController.state.itemList = value!.groups;

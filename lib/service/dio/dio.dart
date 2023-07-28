@@ -1,5 +1,5 @@
 
-import 'package:dio/adapter.dart';
+// import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 
 var dio = Dio(BaseOptions(

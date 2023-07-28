@@ -26,12 +26,16 @@ class GroupCreateNotifier extends StateNotifier<GroupCreate> {
     await repository.fetchCreateGroup(idtoken, group).then((result) {
       result.when(success: (value) {
         // state = state.copyWith(value);
+        print("value for setgroup");
         print(value);
         state = value;
         if (value.id != null) {
           print(value.id);
           final id = value.id;
+          // check1 groupにuser入れる必要あるかも。現状エラーです。
           Navigator.pushNamed(context, '/group/:id', arguments: {'id': id});
+          // group = Group(id:value.id!,name:value.name,level: value.level!);
+          // Navigator.pushNamed(context, '/group/:id', arguments: {'id': id, 'group': group});
           // 
           final new_group = Group(id:value.id!,name:value.name,level:value.level!);
           print(new_group);
@@ -304,7 +308,7 @@ final characterListProvider = FutureProvider.autoDispose((ref) async {
 
   pagingController.addPageRequestListener((pageKey) async {
     try {
-      final result = await repository.getUserGroups(token, user.id, pageKey);
+      final result = await repository.getUserGroups(token!, user.id, pageKey);
       result.when(
         success: (value) {
           final isLastPage = value.groups.length < _pageSize;
@@ -379,7 +383,7 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
     try {
       // final newItems = await RemoteApi.getGroupList(pageKey, _pageSize);
       print(pageKey);
-      final result = await repository.getUserGroups(token, user.id, pageKey);
+      final result = await repository.getUserGroups(token!, user.id, pageKey);
       print(result);
       result.when(
         success: (value) {

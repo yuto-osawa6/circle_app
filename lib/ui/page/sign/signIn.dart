@@ -52,7 +52,8 @@ class SignInPage extends HookConsumerWidget {
           );
           // print(result.user!.getIdToken());
           // auth.signOut();
-          String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+          // check1 idtokenを再び送る必要ない。
+          String? idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
           print(idToken);
           // print("aaab");
           print(result.user!.emailVerified);
