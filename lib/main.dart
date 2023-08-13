@@ -497,7 +497,7 @@ class MyWidgetsBindingObserver extends WidgetsBindingObserver {
       final User? user = _auth.currentUser;
       if (user != null) {
         // ログイン済みの処理
-        // print("ユーザーはログインしています。");
+        print("ユーザーはログインしています。");
         print(user);
         print(userState);
         if(user.uid == userState.uid){
