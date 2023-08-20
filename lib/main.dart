@@ -491,7 +491,7 @@ class MyWidgetsBindingObserver extends WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       // アプリがフォアグラウンドに戻った際の処理
-      // print("バックグラウンドからフォアグランドへ");
+      print("バックグラウンドからフォアグランドへ");
       final userState = ref.watch(UserProvider); // UserProviderの状態を取得
       final FirebaseAuth _auth = FirebaseAuth.instance;
       final User? user = _auth.currentUser;
