@@ -10,7 +10,7 @@ class NotificationHandlers {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      // print("バックグラウンド＆終了状態");
+      print("バックグラウンド＆終了状態");
       NotificationHandlers.handleAppForeground(message); // クラス名で直接呼び出し
     });
     // Future<void> backgroundMessageHandler(RemoteMessage message) async {
