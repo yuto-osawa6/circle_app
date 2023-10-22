@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 class NotificationHandlers {
   static void initFirebaseMessaging() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("フォアグランド");
+      // print("フォアグランド");
       print(message);
       NotificationHandlers.handleMessage(message); // クラス名で直接呼び出し
     });
