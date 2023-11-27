@@ -19,7 +19,7 @@ class GroupCreateNotifier extends StateNotifier {
   GroupCreateNotifier(this._groupChatRepository) : super(null);
 
   Future<void> createGroupChat(int groupId, GroupChatContentCreate body) async {
-    print("aa");
+    // print("aa");
     print(body);
     // state = GroupChatContentCreate.loading();
     final result = await _groupChatRepository.fetchCreateGroupChatContent(groupId, body);
