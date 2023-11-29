@@ -26,7 +26,7 @@ class GroupChatPage extends HookConsumerWidget {
     }
 
     final _channel = useState(IOWebSocketChannel.connect(
-        'ws://192.168.2.101:8080/ws/${groupChatId}/${_UserState.id}'));
+        'ws://192.168.2.120:8080/ws/${groupChatId}/${_UserState.id}'));
         // 'ws://localhost:8080/ws/${groupChatId}/${_UserState.id}'));
 
 

@@ -26,7 +26,7 @@ class GroupChatPage2 extends HookConsumerWidget {
     }
 
     final _channel = useState(IOWebSocketChannel.connect(
-        'ws://192.168.2.101:8080/ws/${groupChatId}/${_UserState.id}'));
+        'ws://192.168.2.120:8080/ws/${groupChatId}/${_UserState.id}'));
 
 
     useEffect(() {
@@ -103,9 +103,10 @@ class GroupChatPage2 extends HookConsumerWidget {
         print("fetchdata groupchat2");
       }
     });
-    return () {
-    scrollController.dispose(); // リソースの解放
-  };
+    // return () {
+    //   print("disposeされました。");
+    //   scrollController.dispose(); // リソースの解放
+    // };
   }, [scrollController]);
 
     return Column(

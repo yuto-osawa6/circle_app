@@ -13,6 +13,7 @@ class NotificationHandlers {
       print("バックグラウンド＆終了状態");
       NotificationHandlers.handleAppForeground(message); // クラス名で直接呼び出し
     });
+    // FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
     // Future<void> backgroundMessageHandler(RemoteMessage message) async {
     //   // バックグラウンドで新しいメッセージが受信されたときの処理
     //   print('バックグラウンドで新しいメッセージを受信しました: ${message.notification?.title}');

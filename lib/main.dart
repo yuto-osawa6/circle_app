@@ -12,6 +12,7 @@ import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/ui/page/sign/signHomePage.dart';
 import 'package:circle_app/ui/page/sign/signup.dart';
 import 'package:circle_app/utils/method/apierror.dart';
+import 'package:circle_app/utils/method/connectivity.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
 import 'package:circle_app/utils/method/firebaseFcm_controller.dart';
@@ -488,9 +489,12 @@ class MyWidgetsBindingObserver extends WidgetsBindingObserver {
 
   MyWidgetsBindingObserver(this.ref);
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       // アプリがフォアグラウンドに戻った際の処理
+      // isOnline();
+      print("${await isOnline()}");
       print("バックグラウンドからフォアグランドへ");
       final userState = ref.watch(UserProvider); // UserProviderの状態を取得
       final FirebaseAuth _auth = FirebaseAuth.instance;

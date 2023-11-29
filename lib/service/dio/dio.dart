@@ -3,7 +3,8 @@
 import 'package:dio/dio.dart';
 
 var dio = Dio(BaseOptions(
-  baseUrl: "http://192.168.2.101:8080",
+//baseUrl = 'http://192.168.2.101:8080';
+  baseUrl: "http://192.168.2.120:8080",
   // baseUrl: "http://localhost:8080",
   //  connectTimeout: 5000,
   //  receiveTimeout: 5000,
