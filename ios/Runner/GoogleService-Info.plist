@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>655197458944-g4mmmtgjj0tgm7gfv8sbuf7qn1rct931.apps.googleusercontent.com</string>
+	<string>655197458944-lsq25jplu276q38nb43m7n9bopa6e8i8.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.655197458944-g4mmmtgjj0tgm7gfv8sbuf7qn1rct931</string>
+	<string>com.googleusercontent.apps.655197458944-lsq25jplu276q38nb43m7n9bopa6e8i8</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>655197458944-ofvf9ql0tdfh5oeg1hvt7v6qt6ko393q.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.circle.circleApp</string>
+	<string>com.circle.opencircle</string>
 	<key>PROJECT_ID</key>
 	<string>circle-c701a</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:655197458944:ios:0016cc16ba3503bb0c7ee5</string>
+	<string>1:655197458944:ios:784c470292f0df1e0c7ee5</string>
 </dict>
 </plist>

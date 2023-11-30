@@ -13,7 +13,7 @@ class _UserApiClient implements UserApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.2.101:8080';
+    baseUrl ??= 'http://192.168.2.120:8080';
   }
 
   final Dio _dio;
@@ -21,10 +21,16 @@ class _UserApiClient implements UserApiClient {
   String? baseUrl;
 
   @override
-  Future<UserModel> getFlutterUser(auth_token) async {
+  Future<UserModel> getFlutterUser(
+    auth_token,
+    device_token,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': auth_token};
+    final _headers = <String, dynamic>{
+      r'Authorization': auth_token,
+      r'Device-Token': device_token,
+    };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio
@@ -42,6 +48,31 @@ class _UserApiClient implements UserApiClient {
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UserModel.fromJson(_result.data!);
     return value;
+  }
+
+  @override
+  Future<void> updateDeviceToken(
+    user_id,
+    device_token,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Device-Token': device_token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/users/${user_id}/device_token',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    return null;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

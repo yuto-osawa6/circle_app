@@ -3,7 +3,12 @@ import 'package:circle_app/controller/users_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+
 class AuthService {
+  Future<String?> getCurrentUserToken() async {
+    final token = await FirebaseAuth.instance.currentUser!.getIdToken();
+    return token;
+  }
   Future<UserCredential?> signInWithGoogle() async {
     try{
     GoogleSignIn googleSign = GoogleSignIn(

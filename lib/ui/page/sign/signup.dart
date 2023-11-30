@@ -68,6 +68,7 @@ class SignUpPage extends HookConsumerWidget {
       // _UserNotifier.setCurrentUser(ref,idtoken,locale.languageCode);
       }catch (e){
         print(e);
+        print("signup error");
       }finally{
         _SignNotifier.setSituation(true);
         // _LoadingCircleNotifier.setLoaded(true);

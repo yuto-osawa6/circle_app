@@ -1,3 +1,4 @@
+import 'package:circle_app/model/api/group/group.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -9,8 +10,11 @@ part 'user.g.dart';
 class UserModel with _$UserModel {
   factory UserModel({
     // required String email,
+    int? id,
+    String? uid,
     String? email,
-    String? token
+    String? token,
+    List<Group>? groups
     // @Default("") String email,
     //  @Default(0) int page,
     // String? title,

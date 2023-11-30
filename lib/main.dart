@@ -1,15 +1,21 @@
 import 'package:circle_app/controller/lang_controller.dart';
 import 'package:circle_app/controller/loading_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
+import 'package:circle_app/controller/websoket_controller.dart';
 import 'package:circle_app/firebase_options.dart';
+import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/repository/user_create.dart';
+import 'package:circle_app/sub.dart';
+import 'package:circle_app/ui/page/group/group_show.dart';
 import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/ui/page/sign/signHomePage.dart';
 import 'package:circle_app/ui/page/sign/signup.dart';
 import 'package:circle_app/utils/method/apierror.dart';
+import 'package:circle_app/utils/method/connectivity.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
 import 'package:circle_app/utils/method/firebaseAuthError/firebaseAuthError.dart';
+import 'package:circle_app/utils/method/firebaseFcm_controller.dart';
 import 'package:circle_app/utils/method/getLanguage.dart';
 import 'package:circle_app/view_model/navigate_view_model.dart';
 import 'package:circle_app/view_model/signup/signup_view_model.dart';
@@ -33,6 +39,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:circle_app/firebase_options.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 // void main() async {
 //   await dotenv.load(fileName: "assets/.env.development");
 //   // await dotenv.load(fileName: ".env.development");
@@ -44,445 +51,128 @@ import 'package:google_fonts/google_fonts.dart';
 //   );
 //   runApp(ProviderScope(child:CircleWidget()));
 // }
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // // If you're going to use other Firebase services in the background, such as Firestore,
+  // // make sure you call `initializeApp` before using other Firebase services.
+  // // await Firebase.initializeApp();
+  print("バックグランド状態で発火するハンドラーです。");
+
+  print(message);
+  print("Handling a background message: ${message.messageId}");
+  // try {
+  //   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //   // If you're going to use other Firebase services in the background, such as Firestore,
+  //   // make sure you call `initializeApp` before using other Firebase services.
+  //   // await Firebase.initializeApp();
+  //   print("バックグランド状態で発火するハンドラーです。");
+
+  //   print("Handling a background message: ${message.messageId}");
+  // } catch (e) {
+  //   // エラーが発生した場合の処理
+  //   print("エラーが発生しました: $e");
+  // }
+  // return;
+}
+
 final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
   // Firebase初期化
-  // await Firebase.initializeApp();
+  // check1 環境ごとに変数を切り替える実装がまだ。
   await dotenv.load(fileName: "assets/.env.development");
-
-  // flutter_native_splash
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // await dotenv.load(fileName: ".env.development");
-  // assets/.env.development
-  print(dotenv.env["apiKey"]);
+  // print(dotenv.env["domain"]);
+  // await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
-  // print("afeafjie");
-  // print(initialLink);
-  // print("afeafjie2");
+  // final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  print("FirebaseMessaging.onBackgroundMessage");
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  final messaging = FirebaseMessaging.instance;
+    await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // print(dotenv.env["apiKey"]);
   runApp(ProviderScope(child:CircleWidget()));
+  // 
+  //  FirebaseMessaging.onBackgroundMessage(NotificationHandlers.backgroundMessageHandler);
+  //  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
 }
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-// class CircleWidget extends StatelessWidget {
 class CircleWidget extends HookConsumerWidget {
-  
   @override
-  // void initState() {
-  //   _initAsync();
-  //   super.initState();
-  // }
-
-  // Future<void> _initAsync() async {
-  //   // await _initAuth();
-  //   // await _initEmail();
-  //   await _initDynamicLink();
-  // }
-  // Future<void> _initAsync() async {
-  //   // await _initAuth();
-  //   // await _initEmail();
-  //   print("abcd00");
-  //   await _initDynamicLink();
-  // }
-  // Future<void> _initDynamicLink() async {
-  //   print("abcd");
-  //   // リンクからアプリへ遷移するとき、アプリが開いていると発動
-  //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-  //     // Navigator.pushNamed(context, dynamicLinkData.link.path);
-  //     print("abcd2");
-  //     print(dynamicLinkData);
-  //     print("abcd23");
-  //     _verifyDynamicLink(dynamicLinkData);
-  //   }).onError((error) {
-  // // Handle errors
-  //   print("abcd3");
-  //   });
-  //   // FirebaseDynamicLinks.instance.onLink(
-  //   //     onSuccess: _verifyDynamicLink,
-  //   //     onError: (OnLinkErrorException e) async {
-  //   //       // ScaffoldSnackBar.of(context)
-  //   //       //     .show('Error signing in with email link $e');
-  //   //     });
-
-  //   // リンクからアプリへ遷移するとき、アプリが開いていないと発動
-  //   FirebaseDynamicLinks.instance.getInitialLink().then(
-  //         _verifyDynamicLink,
-  //       );
-  // }
-  /// メールリンクの検証にのみ利用
-  // Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
-  //   print("abcd5");
-  //   print(_data); 
-  //   print("abcd56");
-  //      // // すでにSigninしている場合はスキップ
-  //   // if (user != null) return;
-  //   // // メールアドレスの入力がない場合はスキップ
-  //   // if (email == null) return;
-
-  //   final String? _deepLink = _data?.link.toString();
-  //   if (_deepLink == null) return;
-
-  //   // // リンク（＝URL）が、メールリンクかどうか検証
-  //   if (_auth.isSignInWithEmailLink(_deepLink)) {
-  //     // メールリンクに含まれる認証情報でサインイン
-  //     // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）
-  //     _auth.signInWithEmailLink(email: email!, emailLink: _deepLink).then(
-  //       (value) {
-  //         ScaffoldSnackBar.of(context)
-  //             .show('Successfully signed in! by: ${value.user!.email!}');
-  //       },
-  //     ).catchError(
-  //       (onError) {
-  //         ScaffoldSnackBar.of(context)
-  //             .show('Error signing in with email link $onError');
-  //       },
-  //     );
-  //   }
-  // }
   Widget build(BuildContext context, WidgetRef ref) {
-    //  Locale locale = Localizations.localeOf(context);
-
-  // print(locale); 
-    // state（状態）
-  //   final _SignUpState = ref.watch(SignProvider);
-  //   final _SignUpNotifier = ref.watch(SignProvider.notifier);
-
-  //   final _UserState = ref.watch(UserProvider);
-  //   final _UserNotifier = ref.watch(UserProvider.notifier);
-
-  //   final _NavigateActionState = ref.watch(NavigateActionProvider);
-  //   final _NavigateActionNotifier = ref.watch(NavigateActionProvider.notifier);
-
-
-  //   Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
-  //     // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
-  //     try{
-  //   print("abcd5");
-  //   print(_data?.link.queryParameters["continueUrl"].toString()); 
-  //   print("abcd568");
-  //   print(_data?.link.queryParametersAll.values); 
-  //   print("abcd568");
-  //   print(_data?.link); 
-
-  //   final url = _data?.link.queryParameters["continueUrl"].toString();
-  //   // check-1 (あとでerrorをthrowさせるかどうか) 
-  //   if(url == null) return;
-  //   final uri = Uri.parse(url);
-  //   String? email = uri.queryParameters['email'];
-  //   String? lang = uri.queryParameters['lang'];
-  //   print(url);
-  //   print(uri);
-  //   print(email);
-  //   print("abcd56");
-  //      // // すでにSigninしている場合はスキップ
-  //   // if (user != null) return;
-  //   // // メールアドレスの入力がない場合はスキップ
-  //   // check-1 (あとでerrorをthrowさせるかどうか) 
-  //   if (email == null) return;
-    
-
-  //   final String? _deepLink = _data?.link.toString();
-  //   print(_deepLink);
-  //   if (_deepLink == null) return;
-
-  //   // // リンク（＝URL）が、メールリンクかどうか検証
-  //   if (_auth.isSignInWithEmailLink(_deepLink)) {
-  //     var emailAuth = _SignUpState.newUserEmail;
-  //     print("ajgiefjaioefj");
-  //     print(emailAuth);
-  //     print(_SignUpState);
-  //     print("ajgiefjaioefj33");
-  //     // メールリンクに含まれる認証情報でサインイン
-  //     // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）yy
-  //     try{
-  //         print("ajgiefjaioefj33go1");
-  //         await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
-  //       // .then(
-  //       // // print("");
-  //       // (value) {
-  //         // ScaffoldSnackBar.of(context)
-  //         //     .show('Successfully signed in! by: ${value.user!.email!}');
-  //         print("ajgiefjaioefj33go");
-  //         messageHandleSnack2(lang);
-  //         print("aaaa");
-  //         // print("koko:${value}");
-  //       // },
-  //       // );
-  //     }on FirebaseAuthException catch (e){
-  //         // Locale locale = Localizations.localeOf(context);
-  //         // // 言語コード取得
-  //         // String languageCode = locale.languageCode;
-  //         // print(locale.languageCode);
-  //         print("ajgiefjaioefj3");
-  //         print(e);
-  //         // print(onError.hashCode);
-  //         FirebaseAuthError2(e.code,context,lang);
-  //         // ScaffoldMessenger.of(context).show(SnackBar(content: Text("afefefefefe")));
-  //         // try{
-  //         // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("afefefefefe")));
-  //         // _scaffoldMessangerState.showSnackBar(const SnackBar(content: Text("afefefefefe")));
-  //         // }catch (e){
-  //         //   print("ajgiefjaioefj357");
-  //         //   print(e);
-  //         //   print("ajgiefjaioefj357");
-  //         // }
-
-  //         print("ajgiefjaioefj3");
-  //     }
-  //     // _auth.signInWithEmailLink(email: email, emailLink: _deepLink).then(
-  //     //   // print("");
-  //     //   (value) {
-  //     //     // ScaffoldSnackBar.of(context)
-  //     //     //     .show('Successfully signed in! by: ${value.user!.email!}');
-  //     //     messageHandleSnack(context,AppLocalizations.of(context)!.successloggedIn);
-  //     //     print("aaaa");
-  //     //     print("koko:${value}");
-  //     //   },
-  //     // ).catchError(
-  //       // (onError) {
-  //         //  print("ajgiefjaioefj3");
-  //         // print(onError);
-  //         // print(onError.hashCode);
-  //         // // FirebaseAuthError(onError,context);
-  //         //  print("ajgiefjaioefj3");
-  //         // ScaffoldSnackBar.of(context)
-  //         //     .show('Error signing in with email link $onError');
-  //       // },
-  //     // );
-  //   }
-  //   }catch(e){
-
-  //   }
-  // }
-  //    Future<void> _initDynamicLink() async {
-  //     // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
-  //   print("abcd");
-  //   // リンクからアプリへ遷移するとき、アプリが開いていると発動
-  //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-  //     // Navigator.pushNamed(context, dynamicLinkData.link.path);
-  //     print("abcd2");
-  //     print(dynamicLinkData);
-  //     print("abcd23");
-  //     _NavigateActionNotifier.onTapItem(0);
-  //     // Navigator.popUntil(context, (route) => route.isFirst);
-  //     Navigator.popUntil(context, ModalRoute.withName('/'));
-  //     _verifyDynamicLink(dynamicLinkData);
-  //   }).onError((error) {
-  // // Handle errors
-  //   print("abcd3");
-  //   print(error);
-  //   print("abcd3");
-  //   });
-  //   // FirebaseDynamicLinks.instance.onLink(
-  //   //     onSuccess: _verifyDynamicLink,
-  //   //     onError: (OnLinkErrorException e) async {
-  //   //       // ScaffoldSnackBar.of(context)
-  //   //       //     .show('Error signing in with email link $e');
-  //   //     });
-
-  //   // リンクからアプリへ遷移するとき、アプリが開いていないと発動
-  //   FirebaseDynamicLinks.instance.getInitialLink().then(
-  //         _verifyDynamicLink,
-  //       );
-  // }
-  //  Future<void> _initAuth() async {
-  //   // _auth.userChanges().listen(
-  //   //       (event) => setState(() => user = event),
-  //   //     );
-  //   FirebaseAuth.instance
-  // .authStateChanges()
-  // .listen((User? user) {
-  //   if (user != null) {
-  //     print("eiajfeioajioejfaoiejfakldjfiea");
-  //     print(user.uid);
-  //     print("eiajfeioajioejfaoiejfakldjfiea");
-  //     print(user);
-  //     print("eiajfeioajioejfaoiejfakldjfiea");
-  //     // check -1 user email!のところ、エラー回避するかどうか
-  //     _UserNotifier.setCurrentUserEmail(user.email!); 
-
-  //   }
-  // });
-  // }
-  
-  // Future<void> _initAsync() async {
-  //   // await _initAuth();
-  //   // await _initEmail();
-  //   print("abcd00");
-  //   await _initAuth();
-  //   await _initDynamicLink();
-  // }
-  // useEffect((){
-  //   _initAsync();
-  // },[]);
-  // print("abcd001");
-  // // Locale locale = Localizations.localeOf(context);
-
-  // // print(locale); 
-  // // print(getLanguage(context));
-  // print(_SignUpState);
     return MaterialApp(
       scaffoldMessengerKey: scaffoldKey,
       initialRoute: '/',
-      // routes: <String, WidgetBuilder>{
-      //   '/': (context) => MainPage(),
-      //   '/email': (context) => EmailVerificationPage(),
-      // },
       routes: <String, WidgetBuilder>{
         '/': (context) => CircleHomeWidget(),
         '/email': (context) => EmailVerificationPage(),
+        '/group/:id': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final id = args['id'] as int;
+          final group = args['group'] as Group;
+          return GroupShowPage(id: id, group: group);
+        }
       },
+      onGenerateRoute: (settings) {
+          Widget page;
+          if (settings.name == '/') {
+            page = Scaffold(
+              appBar: AppBar(),
+              body: SubPage(),
+              bottomNavigationBar: Footer(),
+            );
+          }
+          if (settings.name == '/user_group_show') {
+            print("aaass");
+
+            final args = settings.arguments;
+            final id = args is int ? args : 0;
+            final group = args is Group ? args : null;
+            page = GroupShowPage(id: id, group: group!);
+          }
+          else {
+            page = MainPage();
+          }
+          return MaterialPageRoute(builder: (_) => page);
+        },
+      
       localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
       supportedLocales: AppLocalizations.supportedLocales,   
       title: "",
       theme: ThemeData(
         primaryColor:Colors.blue,
-        // fontFamily:getLanguage(context)=="en"?"NotoSansJP":"NotoSansJP",
-        // textTheme: const TextTheme(
-        //   bodyText2: TextStyle(fontSize: 16)
-        // ),
-        // textTheme: GoogleFonts.sawarabiMinchoTextTheme(
-        //   Theme.of(context).textTheme,
-        // ),
       ),
-      // home:  HomePage(title:"FlutterApp2"),
-      
-      // home:  MainPage(),
-      // locale: Locale('en')
     );
   }
 }
-
-// import 'package:circle_app/firebase_options.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
-
-// Future<void> main() async {
-//   // Firebase初期化
-//   // await Firebase.initializeApp();
-//   await dotenv.load(fileName: "assets/.env.development");
-//   // await dotenv.load(fileName: ".env.development");
-//   // assets/.env.development
-//   print(dotenv.env["apiKey"]);
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(
-//    options: DefaultFirebaseOptions.currentPlatform,
-//   );
-//   runApp(MyApp());
-// }
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: MyAuthPage(),
-//     );
-//   }
-// }
-
-// class MyAuthPage extends StatefulWidget {
-//   @override
-//   _MyAuthPageState createState() => _MyAuthPageState();
-// }
-
-// class _MyAuthPageState extends State<MyAuthPage> {
-//   // 入力されたメールアドレス
-//   String newUserEmail = "";
-//   // 入力されたパスワード
-//   String newUserPassword = "";
-//   // 登録・ログインに関する情報を表示
-//   String infoText = "";
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Container(
-//           padding: EdgeInsets.all(32),
-//           child: Column(
-//             children: <Widget>[
-//               TextFormField(
-//                 // テキスト入力のラベルを設定
-//                 decoration: InputDecoration(labelText: "メールアドレス"),
-//                 onChanged: (String value) {
-//                   setState(() {
-//                     newUserEmail = value;
-//                   });
-//                 },
-//               ),
-//               const SizedBox(height: 8),
-//               TextFormField(
-//                 decoration: InputDecoration(labelText: "パスワード（６文字以上）"),
-//                 // パスワードが見えないようにする
-//                 obscureText: true,
-//                 onChanged: (String value) {
-//                   setState(() {
-//                     newUserPassword = value;
-//                   });
-//                 },
-//               ),
-//               const SizedBox(height: 8),
-//               ElevatedButton(
-//                 onPressed: () async {
-//                   try {
-//                     // メール/パスワードでユーザー登録
-//                     final FirebaseAuth auth = FirebaseAuth.instance;
-//                     final UserCredential result =
-//                         await auth.createUserWithEmailAndPassword(
-//                       email: newUserEmail,
-//                       password: newUserPassword,
-//                     );
-
-//                     // 登録したユーザー情報
-//                     final User user = result.user!;
-//                     print(result);
-//                     setState(() {
-//                       infoText = "登録OK：${user.email}";
-//                     });
-//                   } catch (e) {
-//                     // 登録に失敗した場合
-//                     setState(() {
-//                       infoText = "登録NG：${e.toString()}";
-//                     });
-//                   }
-//                 },
-//                 child: Text("ユーザー登録"),
-//               ),
-//               const SizedBox(height: 8),
-//               Text(infoText)
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 
 // check -1 別クラスを定義したので、locateやcontextが使える可能性あり。
 class CircleHomeWidget extends HookConsumerWidget {
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //  Locale locale = Localizations.localeOf(context);
-
-  // print(locale); 
-    // state（状態）
     final _SignUpState = ref.watch(SignProvider);
     final _SignUpNotifier = ref.watch(SignProvider.notifier);
 
@@ -498,27 +188,7 @@ class CircleHomeWidget extends HookConsumerWidget {
     final _LoadingState = ref.watch(LoadingCircleProvider);
     final _LoadingNotifier = ref.watch(LoadingCircleProvider.notifier);
 
-    // String token = await _auth.currentUser!.getIdToken();
-    //       // CreateUserRepository repository = CreateUserRepository();
-    //       // repository.fetchUsers(token);
-    //       _UserNotifier.setCurrentUserToken(token);
-    //       final asyncValue = ref.watch(userDataProvider);
-    //       print(asyncValue);
-
-    // final asyncValue = ref.watch(userDataProvider);
-    // print("asyncValue----");
-    // // print(asyncValue);
-    // print("----");
-
-    // final client = RestClient(dio);
-
-    // client.getTasks().then((it) => logger.i(it));
-
-    print(_LoadingState);
-    print("_LoadingState");
-
     Future<dynamic> _verifyDynamicLink(PendingDynamicLinkData? _data) async {
-      // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
       try{
     print("abcd5");
     print(_data?.link.queryParameters["continueUrl"].toString()); 
@@ -560,7 +230,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       try{
           print("ajgiefjaioefj33go1");
           await _auth.signInWithEmailLink(email: email, emailLink: _deepLink);
-          String token = await _auth.currentUser!.getIdToken();
+          String? token = await _auth.currentUser!.getIdToken();
           debugPrint(token);
           debugPrint("token-----");
           debugPrint(_auth.currentUser?.uid);
@@ -570,7 +240,8 @@ class CircleHomeWidget extends HookConsumerWidget {
           _UserNotifier.setCurrentUserToken("Bearer ${token}");
           // check したいらない 試しコード
           _UserNotifier.setCurrentUserEmail(email);
-          final asyncValue = ref.watch(userDataProvider2);
+          // check-1 した消したので動作しない。
+          // final asyncValue = ref.watch(userDataProvider2);
           _LangNotifier.setCurrentLang(lang);
           // print(asyncValue);
           // print(asyncValue.error);
@@ -592,11 +263,12 @@ class CircleHomeWidget extends HookConsumerWidget {
 
     }
   }
-     Future<void> _initDynamicLink() async {
+
+    Future<void> _initDynamicLink() async {
       // ScaffoldMessengerState _scaffoldMessangerState = scaffoldKey.currentState!;
-    print("abcd");
-    // リンクからアプリへ遷移するとき、アプリが開いていると発動
-    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+      print("abcd");
+      // リンクからアプリへ遷移するとき、アプリが開いていると発動
+      FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
       // Navigator.pushNamed(context, dynamicLinkData.link.path);
       print("abcd2");
       print(dynamicLinkData);
@@ -606,7 +278,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       _verifyDynamicLink(dynamicLinkData);
     }).onError((error) {
-  // Handle errors
+    // Handle errors
     print("abcd3");
     print(error);
     print("abcd3");
@@ -617,18 +289,55 @@ class CircleHomeWidget extends HookConsumerWidget {
           _verifyDynamicLink,
         );
   }
-   Locale locale = Localizations.localeOf(context);
-   Future<void> _initAuth() async {
+  Locale locale = Localizations.localeOf(context);
+
+  Future<String?> _initMessaging() async {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    // デバイストークンの取得
+    String? token = await _firebaseMessaging.getToken();
+    print('FCM Token: $token');
+    // await _firebaseMessaging.deleteToken();
+    // print('FCM Token: $token');
+    print('FCM Token:');
+
+
+    // // デバイストークンの更新をリッスン
+    _firebaseMessaging.onTokenRefresh.listen((newToken) {
+      print('Updated token: $newToken');
+      // 新しいデバイストークンをサーバーサイドに送信して保存する処理を実行する
+      // check1 確認してない
+      _UserNotifier.update_device_token(ref,newToken);
+      // ここで、新しいデバイストークンをサーバーサイドに送信して保存する処理を実装してください
+    });
+    // await _firebaseMessaging.deleteToken();
+    return token;
+  }
+  Future<void> _initAuth() async {
     // print()
-   
     // final token = await _auth.currentUser?.getIdToken();
-    print(789);
+    // print(789);
+    // print(_auth);
+    print(_auth.currentUser);
     // print(token == null);
     FirebaseAuth.instance
   .authStateChanges()
   .listen((User? user) async{
     final token = await _auth.currentUser?.getIdToken();
+
+    final token_details =  await _auth.currentUser?.getIdTokenResult();
+    
+    // print(_auth.currentUser);
     print("78:${_auth.currentUser == user}");
+    print("90:${token_details}");
     print("user78");
     print("782:${token == null}");
     print("7892:${_UserState}");
@@ -648,12 +357,23 @@ class CircleHomeWidget extends HookConsumerWidget {
       // _UserNotifier.setCurrentUserToken("Bearer ${token}");
       print(_UserState);
       // final asyncValue = ref.watch(userDataProvider);
-      _UserNotifier.setCurrentUser(ref,token,locale.languageCode);
+      String? dToken = await _initMessaging();
+      print("token2:$dToken");
+      if (dToken != null){
+        _UserNotifier.setCurrentUser(ref,token,locale.languageCode,dToken);
+        NotificationHandlers.initFirebaseMessaging();
+        print("NotificationHandlers.initFirebaseMessaging()の起動確認");
+        // FirebaseMessaging.onBackgroundMessage(NotificationHandlers.backgroundMessageHandler);
+      } else {
+        // check-1 tokenがないときにエラー。
+      }
+      // _UserNotifier.setCurrentUser(ref,token,locale.languageCode);
       print("asyncValue");
       // print(asyncValue.error);
       print("asyncValue");
       // FlutterNativeSplash.remove();
-
+      // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+      // await _firebaseMessaging.deleteToken();
     }else{
       FlutterNativeSplash.remove();
     }
@@ -670,11 +390,26 @@ class CircleHomeWidget extends HookConsumerWidget {
   Future<void> _initAsync() async {
     print("abcd00");
     await _initAuth();
-    await _initDynamicLink();
+
+    // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    //   await _firebaseMessaging.deleteToken();
+    // check -1 メールリンクログインを消しました。
+    // await _initDynamicLink(); 
+    //  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    // await _firebaseMessaging.deleteToken();
+    // String? newToken = await _firebaseMessaging.getToken();
+    //  await _firebaseMessaging.deleteToken();
+    // String? newToken2 = await _firebaseMessaging.getToken();
+    //  print('FCM Token: $newToken');
+    //  print('FCM Token: $newToken2');
+
   }
   useEffect((){
     // check1 あとでなおす
     _initAsync();
+    //  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    // await _firebaseMessaging.deleteToken();
+    // String? newToken = await _firebaseMessaging.getToken();
   },[]);
   print("abcd001");
   print(_SignUpState);
@@ -704,10 +439,30 @@ class CircleHomeWidget extends HookConsumerWidget {
     //   }),
     // );
     print("7800${_UserState.email}");
+
+    // バックグランド
+    // final observer = MyWidgetsBindingObserver(context);
+    useEffect(() {
+      // バックグラウンドからフォアグラウンドに切り替わった際の処理
+      final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      // final observer = MyWidgetsBindingObserver();
+      final observer = MyWidgetsBindingObserver(ref);
+      widgetsBinding.addObserver(observer);
+
+      // ウィジェットのアンマウント（削除）時に実行されるクリーンアップ処理を設定
+      return () {
+        widgetsBinding.removeObserver(observer);
+      };
+    }, []);
     return Stack(
       children: [
         Scaffold(
-          body: _UserNotifier.judgeSigned() == true ? MainPage() : SignUpPage(),
+          bottomNavigationBar: Footer(),
+          body: _UserNotifier.judgeSigned() == true ? 
+          // MainPage() 
+          SubPage()
+          : 
+          SignUpPage(),
         ),
         if (_LoadingState.loaded == false)
           Opacity(
@@ -728,5 +483,38 @@ class CircleHomeWidget extends HookConsumerWidget {
       ]
     );
     
+  }
+}
+
+
+// バックグラウンドからフォアグランドへ
+class MyWidgetsBindingObserver extends WidgetsBindingObserver {
+  final WidgetRef ref;
+
+  MyWidgetsBindingObserver(this.ref);
+  @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      // アプリがフォアグラウンドに戻った際の処理
+      // isOnline();
+      print("${await isOnline()}");
+      print("バックグラウンドからフォアグランドへ");
+      final userState = ref.watch(UserProvider); // UserProviderの状態を取得
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      final User? user = _auth.currentUser;
+      if (user != null) {
+        // ログイン済みの処理
+        print("ユーザーはログインしています。");
+        print(user);
+        print(userState);
+        if(user.uid == userState.uid){
+          // 新規メッセージの取得
+        }
+      } else {
+        // 未ログインの処理
+        print("ユーザーは未ログインです。");
+      }
+    }
   }
 }

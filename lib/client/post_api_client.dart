@@ -5,7 +5,6 @@
  
 // part 'user_client.g.dart';
  
-// @RestApi(baseUrl: "http://192.168.2.101:8080")
 // abstract class UserClient {
 //   factory UserClient(Dio dio, {String baseUrl}) = _UserClient;
  
@@ -30,7 +29,7 @@
 //     @Part() File image,
 //   );
 // }
-import 'package:circle_app/model/api/user.dart';
+import 'package:circle_app/model/api/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';

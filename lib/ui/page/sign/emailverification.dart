@@ -1,4 +1,5 @@
 
+import 'package:circle_app/ui/common/footer/footer.dart';
 import 'package:circle_app/utils/style/fontstyle.dart';
 import 'package:circle_app/view_model/signup/signup_view_model.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,9 @@ class EmailVerificationPage extends HookConsumerWidget {
         Scaffold(
           appBar: AppBar(
           // title:const Text("Talk"),
+        
         ),
+        // bottomNavigationBar: Footer(),
           backgroundColor:Colors.grey[200],
           body: DefaultTextStyle.merge(
           style: descTextStyle,
