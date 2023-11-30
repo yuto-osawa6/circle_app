@@ -11,4 +11,4 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // const baseUrl = 'http://localhost:8080';
 const baseUrl = 'http://192.168.2.101:8080';
-// const String baseUrl = dotenv.env['BASE_URL'] ?? '';
+// const String baseUrl = dotenv.env['BASE_URL'] ?? '';a
