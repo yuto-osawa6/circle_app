@@ -50,6 +50,6 @@ app.*.map.json
 # /lib/
 /memo
 # lib
-lib/client/dio
+lib/client/di
 # /test
 /lib/client/*.g.dart
