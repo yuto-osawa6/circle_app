@@ -47,3 +47,9 @@ app.*.map.json
 /android/app/release
 
 .env*
+# /lib/
+/memo
+# lib
+lib/client/dio
+# /test
+/lib/client/*.g.dart

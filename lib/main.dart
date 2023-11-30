@@ -80,7 +80,10 @@ final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
   // Firebase初期化
-  // await dotenv.load(fileName: "assets/.env.development");
+  // check1 環境ごとに変数を切り替える実装がまだ。
+  await dotenv.load(fileName: "assets/.env.development");
+  // print(dotenv.env["domain"]);
+  // await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -359,6 +362,7 @@ class CircleHomeWidget extends HookConsumerWidget {
       if (dToken != null){
         _UserNotifier.setCurrentUser(ref,token,locale.languageCode,dToken);
         NotificationHandlers.initFirebaseMessaging();
+        print("NotificationHandlers.initFirebaseMessaging()の起動確認");
         // FirebaseMessaging.onBackgroundMessage(NotificationHandlers.backgroundMessageHandler);
       } else {
         // check-1 tokenがないときにエラー。

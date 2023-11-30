@@ -28,10 +28,15 @@ class NotificationHandlers {
   static void handleMessage(RemoteMessage message) {
     // 通知メッセージの処理
     // 例：特定の条件に応じてイベント関数を発火させる
-    if (message.notification?.title == 'Important Notification') {
+    // if (message.notification?.title == 'Important Notification') {
+    //   handleImportantNotification(message.notification!.body);
+    // } else {
+    //   handleRegularNotification(message.notification!.body);
+    // }
+    if (message.notification != null && message.notification!.title == 'Important Notification') {
       handleImportantNotification(message.notification!.body);
     } else {
-      handleRegularNotification(message.notification!.body);
+      handleRegularNotification(message.notification?.body);
     }
   }
 
