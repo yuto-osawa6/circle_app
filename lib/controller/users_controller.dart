@@ -25,6 +25,9 @@ import 'package:circle_app/model/api/result.dart';
 import 'package:circle_app/model/state/lang.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
+
 
 // import 'package:yochan/repository/task_repo.dart';
 
@@ -52,6 +55,10 @@ class UserNotifier extends StateNotifier<UserModel> {
 
     // ページコントローラーの監視
     final groupListController = ref.read(groupListProvider.notifier);
+    // userをチャンネル化させる。
+    // check1 chanelのurlを変える必要ある　本番環境なら。
+    final webSocketController = ref.read(UserWebSocketControllerProvider.notifier);
+    // final chanel = webSocketController.connectWebSocket("ws://192.168.2.120:8080/ws/users/${}/")
 
     // final langState = ref.watch(LangProvider);
     print(idtoken);
@@ -71,6 +78,16 @@ class UserNotifier extends StateNotifier<UserModel> {
           }
           print(value);
           print("value----");
+          // check2　注意エラ〜起きる可能性 valueのnullチェックしてない。
+          // check1 ログアウト時にチャンネル接続削除をやってない id？の判別をしてない。
+          if(value?.id != null){
+            print("チャンネル接続しました");
+            final url = 'ws://192.168.2.120:8080/ws/users/${value!.id!}';
+            print(url);
+            print(value?.id.runtimeType);
+            final chanel = webSocketController.connectWebSocket(url);
+            // webSocketController?.state?.sink.add("Hello, WebSocket!");
+          }
           // state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
           state = value ?? UserModel();
           // pagecontroller
@@ -263,3 +280,24 @@ final userRepostitoryProvider = Provider((ref) => UserRepository());
 //     });
 //   });
 // });
+
+
+// user チャンネル
+class UserWebSocketController extends StateNotifier<WebSocketChannel?> {
+  UserWebSocketController() : super(null);
+
+  void connectWebSocket(String url) {
+    state = IOWebSocketChannel.connect(url);
+    // webSocketController?.state?.sink.add("Hello, WebSocket!");
+  }
+
+  void disconnectWebSocket() {
+    state?.sink.close();
+    state = null;
+  }
+}
+
+final UserWebSocketControllerProvider =
+    StateNotifierProvider<UserWebSocketController, WebSocketChannel?>((ref) {
+  return UserWebSocketController();
+});

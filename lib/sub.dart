@@ -68,15 +68,15 @@ class SubPage extends HookConsumerWidget {
       //   },
       // ),
       body: MainPage(),
-      // bottomNavigationBar: Footer(),
+      bottomNavigationBar: Footer(),
       // bottomNavigationBar: currentRoute == "/emai"? Footer():null,
 
       // bottomNavigationBar:  getFooter(),
-     bottomNavigationBar:currentRoute == null
-      ? null // nullの場合は何も表示しない
-      : currentRoute == "/email"
-        ? Footer()
-        : SizedBox.shrink(),
+    //  bottomNavigationBar:currentRoute == null
+    //   ? null // nullの場合は何も表示しない
+    //   : currentRoute == "/email"
+    //     ? Footer()
+    //     : SizedBox.shrink(),
     );
   }
 }
