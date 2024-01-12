@@ -10,7 +10,7 @@ class Talk extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Taljks"),
+        title: const Text("Taljksg"),
       ),
     );
   }
