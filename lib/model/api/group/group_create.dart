@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:circle_app/model/api/tag/tag.dart';
 
 part 'group_create.freezed.dart';
 part 'group_create.g.dart';
@@ -10,6 +11,8 @@ abstract class GroupCreate with _$GroupCreate {
     int? id,
     required String name,
     int? level,
+    List<Tag>? tags,
+    String? description, // 追加したフィールド
     // List<String> members,
   }) = _GroupCreate;
 

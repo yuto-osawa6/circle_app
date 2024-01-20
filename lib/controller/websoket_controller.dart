@@ -7,7 +7,7 @@ class WebSocketManager extends StateNotifier<List<WebSocketChannel>> {
   WebSocketManager() : super([]);
 
   void connectWebSocket(List<Group> groups, String userId) {
-    final url = 'ws://192.168.2.101:8080/ws'; // WebSocketサーバーのURLを適切に設定する
+    final url = 'ws://127.0.0.1:8080/ws'; // WebSocketサーバーのURLを適切に設定する
     // final channel = IOWebSocketChannel.connect('$url/$groupChatId/$userId');
     final channels = groups.map((group) {
       final channels = IOWebSocketChannel.connect('$url/${group.id}/$userId');

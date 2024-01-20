@@ -23,6 +23,8 @@ mixin _$GroupCreate {
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int? get level => throw _privateConstructorUsedError;
+  List<Tag>? get tags => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +38,8 @@ abstract class $GroupCreateCopyWith<$Res> {
           GroupCreate value, $Res Function(GroupCreate) then) =
       _$GroupCreateCopyWithImpl<$Res, GroupCreate>;
   @useResult
-  $Res call({int? id, String name, int? level});
+  $Res call(
+      {int? id, String name, int? level, List<Tag>? tags, String? description});
 }
 
 /// @nodoc
@@ -55,6 +58,8 @@ class _$GroupCreateCopyWithImpl<$Res, $Val extends GroupCreate>
     Object? id = freezed,
     Object? name = null,
     Object? level = freezed,
+    Object? tags = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -69,6 +74,14 @@ class _$GroupCreateCopyWithImpl<$Res, $Val extends GroupCreate>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as int?,
+      tags: freezed == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<Tag>?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -81,7 +94,8 @@ abstract class _$$_GroupCreateCopyWith<$Res>
       __$$_GroupCreateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id, String name, int? level});
+  $Res call(
+      {int? id, String name, int? level, List<Tag>? tags, String? description});
 }
 
 /// @nodoc
@@ -98,6 +112,8 @@ class __$$_GroupCreateCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = null,
     Object? level = freezed,
+    Object? tags = freezed,
+    Object? description = freezed,
   }) {
     return _then(_$_GroupCreate(
       id: freezed == id
@@ -112,6 +128,14 @@ class __$$_GroupCreateCopyWithImpl<$Res>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as int?,
+      tags: freezed == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<Tag>?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -119,7 +143,13 @@ class __$$_GroupCreateCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
-  const _$_GroupCreate({this.id, required this.name, this.level});
+  const _$_GroupCreate(
+      {this.id,
+      required this.name,
+      this.level,
+      final List<Tag>? tags,
+      this.description})
+      : _tags = tags;
 
   factory _$_GroupCreate.fromJson(Map<String, dynamic> json) =>
       _$$_GroupCreateFromJson(json);
@@ -130,10 +160,22 @@ class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
   final String name;
   @override
   final int? level;
+  final List<Tag>? _tags;
+  @override
+  List<Tag>? get tags {
+    final value = _tags;
+    if (value == null) return null;
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final String? description;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GroupCreate(id: $id, name: $name, level: $level)';
+    return 'GroupCreate(id: $id, name: $name, level: $level, tags: $tags, description: $description)';
   }
 
   @override
@@ -143,7 +185,9 @@ class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
       ..add(DiagnosticsProperty('type', 'GroupCreate'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('level', level));
+      ..add(DiagnosticsProperty('level', level))
+      ..add(DiagnosticsProperty('tags', tags))
+      ..add(DiagnosticsProperty('description', description));
   }
 
   @override
@@ -153,12 +197,16 @@ class _$_GroupCreate with DiagnosticableTreeMixin implements _GroupCreate {
             other is _$_GroupCreate &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.level, level) || other.level == level));
+            (identical(other.level, level) || other.level == level) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, level);
+  int get hashCode => Object.hash(runtimeType, id, name, level,
+      const DeepCollectionEquality().hash(_tags), description);
 
   @JsonKey(ignore: true)
   @override
@@ -178,7 +226,9 @@ abstract class _GroupCreate implements GroupCreate {
   const factory _GroupCreate(
       {final int? id,
       required final String name,
-      final int? level}) = _$_GroupCreate;
+      final int? level,
+      final List<Tag>? tags,
+      final String? description}) = _$_GroupCreate;
 
   factory _GroupCreate.fromJson(Map<String, dynamic> json) =
       _$_GroupCreate.fromJson;
@@ -189,6 +239,10 @@ abstract class _GroupCreate implements GroupCreate {
   String get name;
   @override
   int? get level;
+  @override
+  List<Tag>? get tags;
+  @override
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$$_GroupCreateCopyWith<_$_GroupCreate> get copyWith =>

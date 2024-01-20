@@ -11,6 +11,7 @@ import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/ui/page/sign/signHomePage.dart';
 import 'package:circle_app/ui/page/sign/signup.dart';
+import 'package:circle_app/ui/page/v1/group/group_new.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/connectivity.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
@@ -133,7 +134,9 @@ class CircleWidget extends HookConsumerWidget {
           final id = args['id'] as int;
           final group = args['group'] as Group;
           return GroupShowPage(id: id, group: group);
-        }
+        },
+        '/group_new': (context) => GroupNewWidget(), // 新しいルートを追加
+
       },
       // onGenerateRoute: (settings) {
       //     Widget page;

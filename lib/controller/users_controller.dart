@@ -81,18 +81,20 @@ class UserNotifier extends StateNotifier<UserModel> {
           // check2　注意エラ〜起きる可能性 valueのnullチェックしてない。
           // check1 ログアウト時にチャンネル接続削除をやってない id？の判別をしてない。
           if(value?.id != null){
-            print("チャンネル接続しました");
-            final url = 'ws://192.168.2.120:8080/ws/users/${value!.id!}';
-            print(url);
-            print(value?.id.runtimeType);
-            final chanel = webSocketController.connectWebSocket(url);
-            // webSocketController?.state?.sink.add("Hello, WebSocket!");
+            // check1,circle!!!! 一旦消した websoket
+            // print("チャンネル接続しました");
+            // final url = 'ws://192.168.2.124:8080/ws/users/${value!.id!}';
+            // print(url);
+            // print(value?.id.runtimeType);
+            // final chanel = webSocketController.connectWebSocket(url);
           }
           // state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
+          // check1 valueがなかったら、usermodelいれてるので、エラー起きそう。注意
           state = value ?? UserModel();
           // pagecontroller
-          // グループリストをPagingControllerに代入
-          groupListController.state.itemList = value!.groups;
+          // check1 groupListController.state.itemList = value!.groups;これ消しました。だからむだにapiでデーター引っ張ってきてます。やっぱ消さなかった。やっぱ消した。
+          // グループリストをPagingControllerに代入 
+          // groupListController.state.itemList = value!.groups;
           // groupListController.state.refresh();
           // return value;
         },

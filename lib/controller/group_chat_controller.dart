@@ -1,3 +1,4 @@
+import 'package:circle_app/controller/group_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/model/api/group/group_create.dart';
@@ -16,9 +17,11 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class GroupCreateNotifier extends StateNotifier {
   final GroupChatRepository _groupChatRepository;
 
-  GroupCreateNotifier(this._groupChatRepository) : super(null);
-
+  GroupCreateNotifier(this._groupChatRepository,this.ref) : super(null);
+  Ref ref;
   Future<void> createGroupChat(int groupId, GroupChatContentCreate body) async {
+    final getGroupsLatestChatNotifier = ref.read(GetGroupsLatestChatProvider.notifier);
+
     // print("aa");
     print(body);
     // state = GroupChatContentCreate.loading();
@@ -28,6 +31,8 @@ class GroupCreateNotifier extends StateNotifier {
     result.when(success: (data) {
       print("aa23");
       print(data);
+      getGroupsLatestChatNotifier.addNewMessageToState(data);
+      // addNewMessageToState(data);
       // state = data;
     }, failure: (error) {
       print(error);
@@ -38,7 +43,7 @@ class GroupCreateNotifier extends StateNotifier {
 }
 
 final groupCreateProvider = StateNotifierProvider(
-  (ref) => GroupCreateNotifier(ref.read(GroupChatRepostitoryProvider)),
+  (ref) => GroupCreateNotifier(ref.read(GroupChatRepostitoryProvider),ref),
 );
 
 // repository

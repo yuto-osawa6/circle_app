@@ -13,7 +13,7 @@ class _GroupChatApiClient implements GroupChatApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.2.120:8080';
+    baseUrl ??= 'http://127.0.0.1:8080';
   }
 
   final Dio _dio;
@@ -21,7 +21,7 @@ class _GroupChatApiClient implements GroupChatApiClient {
   String? baseUrl;
 
   @override
-  Future<String> createGroupChat(
+  Future<GroupChatApi> createGroupChat(
     groupId,
     groupChatContentCreate,
   ) async {
@@ -30,19 +30,20 @@ class _GroupChatApiClient implements GroupChatApiClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(groupChatContentCreate.toJson());
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<GroupChatApi>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/groups/${groupId}/group_chats',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+            .compose(
+              _dio.options,
+              '/groups/${groupId}/group_chats',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GroupChatApi.fromJson(_result.data!);
     return value;
   }
 
