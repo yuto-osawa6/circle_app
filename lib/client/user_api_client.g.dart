@@ -13,7 +13,7 @@ class _UserApiClient implements UserApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.2.120:8080';
+    baseUrl ??= 'http://127.0.0.1:8080';
   }
 
   final Dio _dio;
@@ -21,7 +21,7 @@ class _UserApiClient implements UserApiClient {
   String? baseUrl;
 
   @override
-  Future<UserModel> getFlutterUser(
+  Future<GetUserApi> getFlutterUser(
     auth_token,
     device_token,
   ) async {
@@ -34,7 +34,7 @@ class _UserApiClient implements UserApiClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<GetUserApi>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -46,7 +46,7 @@ class _UserApiClient implements UserApiClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UserModel.fromJson(_result.data!);
+    final value = GetUserApi.fromJson(_result.data!);
     return value;
   }
 

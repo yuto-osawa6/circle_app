@@ -26,7 +26,7 @@ class GroupChatPage2 extends HookConsumerWidget {
     }
 
     final _channel = useState(IOWebSocketChannel.connect(
-        'ws://192.168.2.120:8080/ws/${groupChatId}/${_UserState.id}'));
+        'ws://127.0.0.1:8080/ws/groups/${groupChatId}/${_UserState.id}'));
 
 
     useEffect(() {

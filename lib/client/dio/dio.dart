@@ -10,5 +10,5 @@
 //   ));
 
 // const baseUrl = 'http://localhost:8080';
-const baseUrl = 'http://192.168.2.101:8080';
+const baseUrl = 'http://127.0.0.1:8080';
 // const String baseUrl = dotenv.env['BASE_URL'] ?? '';a

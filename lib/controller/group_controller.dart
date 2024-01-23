@@ -1,8 +1,12 @@
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/model/api/group/group_create.dart';
+import 'package:circle_app/model/api/group_chat/group_chat.dart';
+import 'package:circle_app/model/api/group_chat/backend/group_chat_api.dart';
 import 'package:circle_app/repository/group.dart';
 import 'package:circle_app/service/auth_service.dart';
+// import 'package:circle_app/ui/page/talk/talk.dart';
+import 'package:circle_app/model/api/talk/talk.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,11 +37,12 @@ class GroupCreateNotifier extends StateNotifier<GroupCreate> {
           print(value.id);
           final id = value.id;
           // check1 groupにuser入れる必要あるかも。現状エラーです。
-          Navigator.pushNamed(context, '/group/:id', arguments: {'id': id});
+          final new_group = Group(id:value.id!,name:value.name,level:value.level!);
+          Navigator.pushNamed(context, '/group/:id', arguments: {'id': id,'group':new_group});
           // group = Group(id:value.id!,name:value.name,level: value.level!);
           // Navigator.pushNamed(context, '/group/:id', arguments: {'id': id, 'group': group});
           // 
-          final new_group = Group(id:value.id!,name:value.name,level:value.level!);
+          // final new_group = Group(id:value.id!,name:value.name,level:value.level!);
           print(new_group);
           ref.read(groupListProvider.notifier).addGroup(new_group);
           print("new_group");
@@ -348,7 +353,7 @@ final groupListProvider =
 class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
   static const _pageSize = 20;
 
-  GroupListNotifier(this.ref) : super(PagingController(firstPageKey: 2)) {
+  GroupListNotifier(this.ref) : super(PagingController(firstPageKey: 1)) {
     state.addPageRequestListener((pageKey) {
       print("_fetchPage(pageKey);");
       _fetchPage(pageKey);
@@ -357,26 +362,27 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
   Ref ref;
 
   Future<void> addGroup(Group group) async {
+   // 一時的にリスナーを解除
+  // state.removePageRequestListener(_fetchPage);
 
-    if (state.nextPageKey != null) {
+  // 既存のデータを全て削除
+  state.itemList?.clear();
 
-    }
-    // final controller = ref.read(groupListProvider.notifier);
+  // 新しいデータが追加された場合、1ページ目を再読み込み
+  // await _fetchPage(1);
 
-    // リストに新しいグループを追加する処理
-    state.itemList?.add(group);
+  // ページネーションのコントローラーをリフレッシュ
+  final controller = ref.read(groupListProvider.notifier);
+  controller.state.refresh();
 
-    // 状態を更新して、リストに新しいグループを反映
-    final controller = ref.read(groupListProvider.notifier);
-    // controller.state = PagingController(firstPageKey: 1);
-
-    // リストが更新されたら、PagingControllerをrefreshしてリストを更新
-    controller.state.refresh();
+  // リスナーを再追加
+  // state.addPageRequestListener(_fetchPage);
   }
 
 
   Future<void> _fetchPage(int pageKey) async {
     print("_fetchPage(pageKey)2;");
+    print("_fetchPage(pageKey)2;${pageKey}");
     final token = await AuthService().getCurrentUserToken();
     final user = ref.read(UserProvider);
     final repository = ref.read(GetUserGroupsRepositoryProvider);
@@ -390,6 +396,8 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
           final isLastPage = value.groups.length < _pageSize;
           print(isLastPage);
           print(value.groups.length);
+          print("getUserGroups");
+          print("getUserGroups:${value}");
           if (isLastPage) {
             state.appendLastPage(value.groups);
           } else {
@@ -415,4 +423,98 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
     state.dispose();
     super.dispose();
   }
+}
+
+
+
+// 後で帰る可能性 check1
+// グループのチャット一覧を新着順表示
+// repository
+// get
+final GetGroupsLatestChatRepositoryProvider =
+    Provider((ref) => GetGroupsLatestChatRepository ());
+
+// final GetGroupsLatestChatProvider =
+//     StateNotifierProvider.autoDispose<GroupCreateNotifier, GroupCreate>(
+//   (ref) => GroupCreateNotifier(ref),
+// );
+
+final  GetGroupsLatestChatProvider =
+    StateNotifierProvider<GetGroupsLatestChatNotifier, Talk?>(
+  (ref) => GetGroupsLatestChatNotifier(ref),
+);
+
+
+class GetGroupsLatestChatNotifier extends StateNotifier<Talk?> {
+  GetGroupsLatestChatNotifier(this.ref) : super(Talk());
+  Ref ref;
+  bool loading = false;
+
+  Future<void> getGroupsLatestChat(int userId) async {
+    // loading = true; // ローディング開始
+    final repository = ref.read(GetGroupsLatestChatRepositoryProvider);
+    // final repository = _read(GetGroupsLatestChatRepositoryProvider);
+    print("getGroupsLatestChat");
+    try {
+      final result = await repository.getGroupsLatestChat(userId);
+      result.when(
+        success: (latestChatGroups) {
+          print("getGroupsLatestChat:${latestChatGroups}");
+          state = latestChatGroups;
+        },
+        failure: (error) {
+          // エラー処理
+          print("Error(getGroupsLatestChat): $error");
+        },
+      );
+    } catch (e) {
+      // 予期せぬエラーが発生した場合の処理
+      print("Unexpected Error(getGroupsLatestChat): $e");
+    } finally {
+      loading = true; // ローディング終了
+    }
+  }
+
+   // 新しいメッセージを state に追加する関数
+  void addNewMessageToState(GroupChatApi latestChatData) {
+    print("addNewMessageToState");
+    print("addNewMessageToState${latestChatData}");
+    final List<Group> currentGroups = state?.groups ?? [];
+    final List<GroupChat> currentGroupChats = state?.group_chats ?? [];
+
+    // 新しいデータを先頭に追加
+    final Group newGroups = latestChatData.groups;
+    final List<Group> updatedGroups = List.from(currentGroups)..removeWhere((group) => group.id == latestChatData.groups.id);
+    updatedGroups.insertAll(0, [newGroups]);
+
+    print(latestChatData.group_chats);
+    print(latestChatData.groups);
+
+    final GroupChat newGroupChat = latestChatData.group_chats;
+    final List<GroupChat> updatedGroupChats = List.from(currentGroupChats);
+    updatedGroupChats.insertAll(0, [newGroupChat]);
+
+    print("aaaa");
+    print(currentGroups);
+    print(updatedGroupChats);
+
+
+    // state を更新
+    state = Talk(
+      groups: updatedGroups,
+      group_chats: updatedGroupChats,
+    );
+  }
+
+   // 初期のデータをセットする関数
+  void setInitialData(List<Group> groups, List<GroupChat> group_chats) {
+    state = Talk(
+      groups: groups,
+      group_chats: group_chats,
+    );
+  }
+
+
+
+
 }

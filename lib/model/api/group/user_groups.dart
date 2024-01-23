@@ -1,4 +1,5 @@
 import 'package:circle_app/model/api/group/group.dart';
+import 'package:circle_app/model/api/group_chat/group_chat.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,6 +13,7 @@ abstract class UserGroup with _$UserGroup {
     // required String name,
     // int? level,
     @Default([]) List<Group> groups,
+    @Default([]) List<GroupChat> group_chats,
     // List<String> members,
   }) = _UserGroup;
 

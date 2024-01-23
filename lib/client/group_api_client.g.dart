@@ -13,7 +13,7 @@ class _GroupApiClient implements GroupApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.2.120:8080';
+    baseUrl ??= 'http://127.0.0.1:8080';
   }
 
   final Dio _dio;
@@ -74,6 +74,29 @@ class _GroupApiClient implements GroupApiClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UserGroup.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Talk?> getGroupsLatestChat(userId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'user_id': userId};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>?>(_setStreamType<Talk>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/latest_chat_lists',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data == null ? null : Talk.fromJson(_result.data!);
     return value;
   }
 

@@ -13,11 +13,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:circle_app/ui/page/v1/group/group.dart';
+import 'package:circle_app/ui/page/v1/talk/tark.dart';
+
+
 class MainPage extends HookConsumerWidget {
   MainPage({Key? key}) : super(key: key);
   final _pages = <Widget>[
-    Home(),
-    GroupFrends(),
+    // Home(),
+    GroupV1(),
+    TalkPage(),
     Talk(),
     TimeLine(),
     Calendar(),

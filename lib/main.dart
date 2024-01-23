@@ -11,6 +11,7 @@ import 'package:circle_app/ui/page/main.dart';
 import 'package:circle_app/ui/page/sign/emailverification.dart';
 import 'package:circle_app/ui/page/sign/signHomePage.dart';
 import 'package:circle_app/ui/page/sign/signup.dart';
+import 'package:circle_app/ui/page/v1/group/group_new.dart';
 import 'package:circle_app/utils/method/apierror.dart';
 import 'package:circle_app/utils/method/connectivity.dart';
 import 'package:circle_app/utils/method/errorHandleSnack.dart';
@@ -133,30 +134,32 @@ class CircleWidget extends HookConsumerWidget {
           final id = args['id'] as int;
           final group = args['group'] as Group;
           return GroupShowPage(id: id, group: group);
-        }
-      },
-      onGenerateRoute: (settings) {
-          Widget page;
-          if (settings.name == '/') {
-            page = Scaffold(
-              appBar: AppBar(),
-              body: SubPage(),
-              bottomNavigationBar: Footer(),
-            );
-          }
-          if (settings.name == '/user_group_show') {
-            print("aaass");
-
-            final args = settings.arguments;
-            final id = args is int ? args : 0;
-            final group = args is Group ? args : null;
-            page = GroupShowPage(id: id, group: group!);
-          }
-          else {
-            page = MainPage();
-          }
-          return MaterialPageRoute(builder: (_) => page);
         },
+        '/group_new': (context) => GroupNewWidget(), // 新しいルートを追加
+
+      },
+      // onGenerateRoute: (settings) {
+      //     Widget page;
+      //     if (settings.name == '/') {
+      //       page = Scaffold(
+      //         appBar: AppBar(),
+      //         body: SubPage(),
+      //         bottomNavigationBar: Footer(),
+      //       );
+      //     }
+      //     if (settings.name == '/user_group_show') {
+      //       print("aaass");
+
+      //       final args = settings.arguments;
+      //       final id = args is int ? args : 0;
+      //       final group = args is Group ? args : null;
+      //       page = GroupShowPage(id: id, group: group!);
+      //     }
+      //     else {
+      //       page = MainPage();
+      //     }
+      //     return MaterialPageRoute(builder: (_) => page);
+      //   },
       
       localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
       supportedLocales: AppLocalizations.supportedLocales,   
@@ -363,7 +366,11 @@ class CircleHomeWidget extends HookConsumerWidget {
         _UserNotifier.setCurrentUser(ref,token,locale.languageCode,dToken);
         NotificationHandlers.initFirebaseMessaging();
         print("NotificationHandlers.initFirebaseMessaging()の起動確認");
-        // FirebaseMessaging.onBackgroundMessage(NotificationHandlers.backgroundMessageHandler);
+        // userをチャンネル化させる。
+        // check1 chanelのurlを変える必要ある　本番環境なら。
+        // final webSocketController = ref.read(UserWebSocketControllerProvider.notifier);
+        // final chanel = webSocketController.connectWebSocket("ws://192.168.2.120:8080/ws/users/${}/");
+        
       } else {
         // check-1 tokenがないときにエラー。
       }
@@ -454,10 +461,29 @@ class CircleHomeWidget extends HookConsumerWidget {
         widgetsBinding.removeObserver(observer);
       };
     }, []);
+
+    // check1 mainでメッセージうけとるもの　websoket 個人チャンネル
+    // useEffect(() {
+    //   final channel = _channel.value;
+    //   channel.sink.add("最初のメッセージ");
+
+    //    // WebSocketから新しいメッセージを受信したら、リストに追加する
+    //   channel.stream.listen((message) {
+    //     print("個人チャンネルへのメッセージdata:${message}");
+    //     // final newMessage = GroupChat.fromJson(json.decode(message));
+    //     // print(newMessage);
+    //     // ref.read(groupChatListProvider(groupChatId).notifier).addMessage(newMessage);
+    //   });
+
+    //   return () {
+    //     channel.sink.close();
+    //     // channel.stream.drain();
+    //   };
+    // }, []);
     return Stack(
       children: [
         Scaffold(
-          bottomNavigationBar: Footer(),
+          // bottomNavigationBar: Footer(),
           body: _UserNotifier.judgeSigned() == true ? 
           // MainPage() 
           SubPage()
@@ -498,7 +524,7 @@ class MyWidgetsBindingObserver extends WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       // アプリがフォアグラウンドに戻った際の処理
       // isOnline();
-      print("${await isOnline()}");
+      // print("${await isOnline()}");
       print("バックグラウンドからフォアグランドへ");
       final userState = ref.watch(UserProvider); // UserProviderの状態を取得
       final FirebaseAuth _auth = FirebaseAuth.instance;

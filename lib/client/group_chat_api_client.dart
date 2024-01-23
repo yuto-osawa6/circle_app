@@ -1,6 +1,7 @@
 import 'package:circle_app/client/dio/dio.dart';
 import 'package:circle_app/model/api/group_chat/group_chat.dart';
 import 'package:circle_app/model/api/group_chat/group_chat_content_create.dart';
+import 'package:circle_app/model/api/group_chat/backend/group_chat_api.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -11,7 +12,7 @@ abstract class GroupChatApiClient {
   factory GroupChatApiClient(Dio dio, {String baseUrl}) = _GroupChatApiClient;
 
   @POST("/groups/{group_id}/group_chats")
-  Future<String> createGroupChat(
+  Future<GroupChatApi> createGroupChat(
     @Path("group_id") int groupId,
     @Body() GroupChatContentCreate groupChatContentCreate,
   );

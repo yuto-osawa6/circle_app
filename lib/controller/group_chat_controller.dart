@@ -1,3 +1,4 @@
+import 'package:circle_app/controller/group_controller.dart';
 import 'package:circle_app/controller/users_controller.dart';
 import 'package:circle_app/model/api/group/group.dart';
 import 'package:circle_app/model/api/group/group_create.dart';
@@ -16,9 +17,11 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class GroupCreateNotifier extends StateNotifier {
   final GroupChatRepository _groupChatRepository;
 
-  GroupCreateNotifier(this._groupChatRepository) : super(null);
-
+  GroupCreateNotifier(this._groupChatRepository,this.ref) : super(null);
+  Ref ref;
   Future<void> createGroupChat(int groupId, GroupChatContentCreate body) async {
+    final getGroupsLatestChatNotifier = ref.read(GetGroupsLatestChatProvider.notifier);
+
     // print("aa");
     print(body);
     // state = GroupChatContentCreate.loading();
@@ -28,6 +31,8 @@ class GroupCreateNotifier extends StateNotifier {
     result.when(success: (data) {
       print("aa23");
       print(data);
+      getGroupsLatestChatNotifier.addNewMessageToState(data);
+      // addNewMessageToState(data);
       // state = data;
     }, failure: (error) {
       print(error);
@@ -38,7 +43,7 @@ class GroupCreateNotifier extends StateNotifier {
 }
 
 final groupCreateProvider = StateNotifierProvider(
-  (ref) => GroupCreateNotifier(ref.read(GroupChatRepostitoryProvider)),
+  (ref) => GroupCreateNotifier(ref.read(GroupChatRepostitoryProvider),ref),
 );
 
 // repository
@@ -104,7 +109,7 @@ class GroupChatListNotifier extends StateNotifier<PagingController<int, GroupCha
   //     : super(controller ?? PagingController(firstPageKey: 1)) {
   //   state.addPageRequestListener((pageKey) {
   //     print("_fetchPage(pageKey);");
-  //     _fetchPage(pageKey);
+  //    ¥(pageKey);
   //   });
   // }
   Ref ref;
@@ -270,5 +275,68 @@ class GroupChatListNotifier2 extends StateNotifier<List<GroupChat>> {
 
 
 
+// final totalGroupChatContentCountProvider = Provider<int>((ref) {
+//   // 初期値はここで指定
+//   return 0;
+// });
 
+final groupChatNewListProvider = StateNotifierProvider<GroupChatNewListStateNotifier, Map<int, List<GroupChat>>>(
+  (ref) => GroupChatNewListStateNotifier(),
+);
 
+// 新規メッセージをリスト保存
+class GroupChatNewListStateNotifier extends StateNotifier<Map<int, List<GroupChat>>> {
+  GroupChatNewListStateNotifier() : super({});
+
+  // totalGroupChatContentCount() の変更通知用のNotifier
+  // final Notifier<int> _totalGroupChatContentCountNotifier;
+  // final _totalGroupChatContentCountNotifier= Notifier<int>(0); 
+
+  // リストに新しいグループチャットを追加する
+  void addGroupChat(GroupChat groupChat) {
+    // check1 nullが返されたらエラーが起きる。
+    final groupId = groupChat.group_id!;
+    final groupChatId = groupChat.content?.id;
+
+    // groupChat.content.group_chat_id が既存のデータに存在する場合は追加しない
+    if (state[groupId]?.any((chat) => chat.content?.id == groupChatId) ?? false) {
+      return;
+    }
+    state = {
+      ...state,
+      groupId: [...(state[groupId] ?? []), groupChat],
+    };
+
+    print(totalGroupChatContentCount());
+  }
+
+  // groupChat.contentの総数を計算する
+  int totalGroupChatContentCount() {
+    print("totalGroupChatContentCount()");
+    if (state.isEmpty) {
+    return 0;
+  }
+    return state.values
+        .expand((groupChats) => groupChats.map((chat) => chat.content))
+        .length;
+  }
+
+  // グループチャットのリストを取得する 変更不可
+  // List<GroupChat> getGroupChats() {
+  //   // return List.unmodifiable(state);
+  // }
+
+  // 特定のグループチャットを更新する（例: メッセージを追加する）
+  // void updateGroupChat(String groupId, String newMessage) {
+  //   state = state.map((chat) {
+  //     if (chat.id == groupId) {
+  //       return GroupChat(
+  //         id: chat.id,
+  //         name: chat.name,
+  //         messages: [...chat.messages, newMessage],
+  //       );
+  //     }
+  //     return chat;
+  //   }).toList();
+  // }
+}

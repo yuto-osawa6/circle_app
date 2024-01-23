@@ -1,21 +1,16 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Talk extends StatefulWidget {
+class Talk extends HookConsumerWidget {
   const Talk({Key? key}) : super(key: key);
 
   @override
-  State<Talk> createState() => _TalkState();
-}
-
-class _TalkState extends State<Talk> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title:const Text("Talk"),
+        title: const Text("Taljksg"),
       ),
     );
   }

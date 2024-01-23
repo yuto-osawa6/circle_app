@@ -25,6 +25,9 @@ import 'package:circle_app/model/api/result.dart';
 import 'package:circle_app/model/state/lang.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
+
 
 // import 'package:yochan/repository/task_repo.dart';
 
@@ -51,7 +54,11 @@ class UserNotifier extends StateNotifier<UserModel> {
     final signStateNotifier= ref.watch(SignProvider.notifier);
 
     // ページコントローラーの監視
-    final groupListController = ref.read(groupListProvider.notifier);
+    // final groupListController = ref.read(groupListProvider.notifier);
+    // userをチャンネル化させる。
+    // check1 chanelのurlを変える必要ある　本番環境なら。
+    final webSocketController = ref.read(UserWebSocketControllerProvider.notifier);
+    // final chanel = webSocketController.connectWebSocket("ws://192.168.2.120:8080/ws/users/${}/")
 
     // final langState = ref.watch(LangProvider);
     print(idtoken);
@@ -71,13 +78,27 @@ class UserNotifier extends StateNotifier<UserModel> {
           }
           print(value);
           print("value----");
+          // check2　注意エラ〜起きる可能性 valueのnullチェックしてない。
+          // check1 ログアウト時にチャンネル接続削除をやってない id？の判別をしてない。
+          if(value!.user!.id != null){
+            // check1,circle!!!! 一旦消した websoket
+            // print("チャンネル接続しました");
+            // final url = 'ws://192.168.2.124:8080/ws/users/${value!.id!}';
+            // print(url);
+            // print(value?.id.runtimeType);
+            // final chanel = webSocketController.connectWebSocket(url);
+          }
           // state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
-          state = value ?? UserModel();
-          // pagecontroller
-          // グループリストをPagingControllerに代入
-          groupListController.state.itemList = value!.groups;
-          // groupListController.state.refresh();
-          // return value;
+          // check1 valueがなかったら、usermodelいれてるので、エラー起きそう。注意
+          state = value.user ?? UserModel();
+          
+          print("value");
+          print(value);
+          print("value");
+
+          // ログインの時点で、トーク一覧画面の初期値をいれちゃう。
+          final getGroupsLatestChatNotifier = ref.read(GetGroupsLatestChatProvider.notifier);
+          getGroupsLatestChatNotifier.setInitialData(value.user!.groups!, value.group_chats);
         },
       failure: (error) {
          // check1 situation エラー通常でも表示させるかどうか。
@@ -263,3 +284,24 @@ final userRepostitoryProvider = Provider((ref) => UserRepository());
 //     });
 //   });
 // });
+
+
+// user チャンネル
+class UserWebSocketController extends StateNotifier<WebSocketChannel?> {
+  UserWebSocketController() : super(null);
+
+  void connectWebSocket(String url) {
+    state = IOWebSocketChannel.connect(url);
+    // webSocketController?.state?.sink.add("Hello, WebSocket!");
+  }
+
+  void disconnectWebSocket() {
+    state?.sink.close();
+    state = null;
+  }
+}
+
+final UserWebSocketControllerProvider =
+    StateNotifierProvider<UserWebSocketController, WebSocketChannel?>((ref) {
+  return UserWebSocketController();
+});
