@@ -396,6 +396,8 @@ class GroupListNotifier extends StateNotifier<PagingController<int, Group>> {
           final isLastPage = value.groups.length < _pageSize;
           print(isLastPage);
           print(value.groups.length);
+          print("getUserGroups");
+          print("getUserGroups:${value}");
           if (isLastPage) {
             state.appendLastPage(value.groups);
           } else {
@@ -503,6 +505,16 @@ class GetGroupsLatestChatNotifier extends StateNotifier<Talk?> {
       group_chats: updatedGroupChats,
     );
   }
+
+   // 初期のデータをセットする関数
+  void setInitialData(List<Group> groups, List<GroupChat> group_chats) {
+    state = Talk(
+      groups: groups,
+      group_chats: group_chats,
+    );
+  }
+
+
 
 
 }

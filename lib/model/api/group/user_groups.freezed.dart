@@ -24,6 +24,7 @@ mixin _$UserGroup {
 // required String name,
 // int? level,
   List<Group> get groups => throw _privateConstructorUsedError;
+  List<GroupChat> get group_chats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,7 @@ abstract class $UserGroupCopyWith<$Res> {
   factory $UserGroupCopyWith(UserGroup value, $Res Function(UserGroup) then) =
       _$UserGroupCopyWithImpl<$Res, UserGroup>;
   @useResult
-  $Res call({List<Group> groups});
+  $Res call({List<Group> groups, List<GroupChat> group_chats});
 }
 
 /// @nodoc
@@ -53,12 +54,17 @@ class _$UserGroupCopyWithImpl<$Res, $Val extends UserGroup>
   @override
   $Res call({
     Object? groups = null,
+    Object? group_chats = null,
   }) {
     return _then(_value.copyWith(
       groups: null == groups
           ? _value.groups
           : groups // ignore: cast_nullable_to_non_nullable
               as List<Group>,
+      group_chats: null == group_chats
+          ? _value.group_chats
+          : group_chats // ignore: cast_nullable_to_non_nullable
+              as List<GroupChat>,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$_UserGroupCopyWith<$Res> implements $UserGroupCopyWith<$Res> {
       __$$_UserGroupCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Group> groups});
+  $Res call({List<Group> groups, List<GroupChat> group_chats});
 }
 
 /// @nodoc
@@ -85,12 +91,17 @@ class __$$_UserGroupCopyWithImpl<$Res>
   @override
   $Res call({
     Object? groups = null,
+    Object? group_chats = null,
   }) {
     return _then(_$_UserGroup(
       groups: null == groups
           ? _value._groups
           : groups // ignore: cast_nullable_to_non_nullable
               as List<Group>,
+      group_chats: null == group_chats
+          ? _value._group_chats
+          : group_chats // ignore: cast_nullable_to_non_nullable
+              as List<GroupChat>,
     ));
   }
 }
@@ -98,7 +109,11 @@ class __$$_UserGroupCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_UserGroup with DiagnosticableTreeMixin implements _UserGroup {
-  const _$_UserGroup({final List<Group> groups = const []}) : _groups = groups;
+  const _$_UserGroup(
+      {final List<Group> groups = const [],
+      final List<GroupChat> group_chats = const []})
+      : _groups = groups,
+        _group_chats = group_chats;
 
   factory _$_UserGroup.fromJson(Map<String, dynamic> json) =>
       _$$_UserGroupFromJson(json);
@@ -118,9 +133,18 @@ class _$_UserGroup with DiagnosticableTreeMixin implements _UserGroup {
     return EqualUnmodifiableListView(_groups);
   }
 
+  final List<GroupChat> _group_chats;
+  @override
+  @JsonKey()
+  List<GroupChat> get group_chats {
+    if (_group_chats is EqualUnmodifiableListView) return _group_chats;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_group_chats);
+  }
+
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserGroup(groups: $groups)';
+    return 'UserGroup(groups: $groups, group_chats: $group_chats)';
   }
 
   @override
@@ -128,7 +152,8 @@ class _$_UserGroup with DiagnosticableTreeMixin implements _UserGroup {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'UserGroup'))
-      ..add(DiagnosticsProperty('groups', groups));
+      ..add(DiagnosticsProperty('groups', groups))
+      ..add(DiagnosticsProperty('group_chats', group_chats));
   }
 
   @override
@@ -136,13 +161,17 @@ class _$_UserGroup with DiagnosticableTreeMixin implements _UserGroup {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserGroup &&
-            const DeepCollectionEquality().equals(other._groups, _groups));
+            const DeepCollectionEquality().equals(other._groups, _groups) &&
+            const DeepCollectionEquality()
+                .equals(other._group_chats, _group_chats));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_groups));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_groups),
+      const DeepCollectionEquality().hash(_group_chats));
 
   @JsonKey(ignore: true)
   @override
@@ -159,7 +188,9 @@ class _$_UserGroup with DiagnosticableTreeMixin implements _UserGroup {
 }
 
 abstract class _UserGroup implements UserGroup {
-  const factory _UserGroup({final List<Group> groups}) = _$_UserGroup;
+  const factory _UserGroup(
+      {final List<Group> groups,
+      final List<GroupChat> group_chats}) = _$_UserGroup;
 
   factory _UserGroup.fromJson(Map<String, dynamic> json) =
       _$_UserGroup.fromJson;
@@ -168,6 +199,8 @@ abstract class _UserGroup implements UserGroup {
 // required String name,
 // int? level,
   List<Group> get groups;
+  @override
+  List<GroupChat> get group_chats;
   @override
   @JsonKey(ignore: true)
   _$$_UserGroupCopyWith<_$_UserGroup> get copyWith =>

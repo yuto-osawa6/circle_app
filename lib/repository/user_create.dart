@@ -1,5 +1,6 @@
 import 'package:circle_app/client/user_api_client.dart';
 import 'package:circle_app/model/api/result.dart';
+import 'package:circle_app/model/api/user/get_user_api.dart';
 import 'package:circle_app/model/api/user/user.dart';
 import 'package:circle_app/service/user_service.dart';
 import 'package:circle_app/utils/method/apierror.dart';
@@ -17,7 +18,7 @@ import 'package:logger/logger.dart';
 // }
 
 class CreateUserRepository {
-  Future<Result<UserModel?>> fetchUsers(token,dToken) async {
+  Future<Result<GetUserApi?>> fetchUsers(token,dToken) async {
     print("token35");
     print(token);
     print("token3");
@@ -33,14 +34,14 @@ class CreateUserRepository {
           print("afe2");
           print(articles);
           print("afe");
-          return Result<UserModel>.success(articles);
+          return Result<GetUserApi>.success(articles);
         })
         .catchError((error) {
           print(error);
           print("afe");
     if (error is DioError) {
       print("error:${error}");
-      return Result<UserModel>.failure(error);
+      return Result<GetUserApi>.failure(error);
     } else {
       print(error);
       print("errorが起きました");

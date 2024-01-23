@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_groups.dart';
+part of 'get_user_api.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UserGroup _$$_UserGroupFromJson(Map<String, dynamic> json) => _$_UserGroup(
-      groups: (json['groups'] as List<dynamic>?)
-              ?.map((e) => Group.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+_$_GetUserApi _$$_GetUserApiFromJson(Map<String, dynamic> json) =>
+    _$_GetUserApi(
+      user: json['user'] == null
+          ? null
+          : UserModel.fromJson(json['user'] as Map<String, dynamic>),
       group_chats: (json['group_chats'] as List<dynamic>?)
               ?.map((e) => GroupChat.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$$_UserGroupToJson(_$_UserGroup instance) =>
+Map<String, dynamic> _$$_GetUserApiToJson(_$_GetUserApi instance) =>
     <String, dynamic>{
-      'groups': instance.groups,
+      'user': instance.user,
       'group_chats': instance.group_chats,
     };

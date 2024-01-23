@@ -2,6 +2,8 @@ import 'dart:io';
 // import 'package:circle_app/client/dio/dio.dart';
 import 'package:circle_app/client/dio/dio.dart';
 import 'package:circle_app/model/api/user/user.dart';
+import 'package:circle_app/model/api/user/get_user_api.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 // import 'package:retrofit/http.dart';
@@ -23,7 +25,7 @@ abstract class UserApiClient {
   //   @Part() File image,
   // );
   @GET("/api/me")
-  Future<UserModel> getFlutterUser(
+  Future<GetUserApi> getFlutterUser(
     @Header("Authorization") auth_token,
     @Header("Device-Token") String device_token
   );

@@ -54,7 +54,7 @@ class UserNotifier extends StateNotifier<UserModel> {
     final signStateNotifier= ref.watch(SignProvider.notifier);
 
     // ページコントローラーの監視
-    final groupListController = ref.read(groupListProvider.notifier);
+    // final groupListController = ref.read(groupListProvider.notifier);
     // userをチャンネル化させる。
     // check1 chanelのurlを変える必要ある　本番環境なら。
     final webSocketController = ref.read(UserWebSocketControllerProvider.notifier);
@@ -80,7 +80,7 @@ class UserNotifier extends StateNotifier<UserModel> {
           print("value----");
           // check2　注意エラ〜起きる可能性 valueのnullチェックしてない。
           // check1 ログアウト時にチャンネル接続削除をやってない id？の判別をしてない。
-          if(value?.id != null){
+          if(value!.user!.id != null){
             // check1,circle!!!! 一旦消した websoket
             // print("チャンネル接続しました");
             // final url = 'ws://192.168.2.124:8080/ws/users/${value!.id!}';
@@ -90,13 +90,15 @@ class UserNotifier extends StateNotifier<UserModel> {
           }
           // state = UserModel(id:value?.id,email: value?.email,groups: value?.groups);
           // check1 valueがなかったら、usermodelいれてるので、エラー起きそう。注意
-          state = value ?? UserModel();
-          // pagecontroller
-          // check1 groupListController.state.itemList = value!.groups;これ消しました。だからむだにapiでデーター引っ張ってきてます。やっぱ消さなかった。やっぱ消した。
-          // グループリストをPagingControllerに代入 
-          // groupListController.state.itemList = value!.groups;
-          // groupListController.state.refresh();
-          // return value;
+          state = value.user ?? UserModel();
+          
+          print("value");
+          print(value);
+          print("value");
+
+          // ログインの時点で、トーク一覧画面の初期値をいれちゃう。
+          final getGroupsLatestChatNotifier = ref.read(GetGroupsLatestChatProvider.notifier);
+          getGroupsLatestChatNotifier.setInitialData(value.user!.groups!, value.group_chats);
         },
       failure: (error) {
          // check1 situation エラー通常でも表示させるかどうか。
